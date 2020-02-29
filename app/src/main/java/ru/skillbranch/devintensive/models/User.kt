@@ -29,7 +29,7 @@ data class User (
     init {
 
         println("It's Alive!!! \n" +
-                "${if(lastName==="Doe") "His name id $firstName  $lastName" else "And his name is $firstName $lastName!!!" }\n")
+                "${if(lastName==="Doe") "His name id $firstName  $lastName" else "And his name is $firstName $lastName" }\n")
     }
 
 
