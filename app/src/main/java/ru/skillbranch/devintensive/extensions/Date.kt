@@ -74,7 +74,7 @@ enum class TimeUnits{
         var times: Array<String> =
             when(true) {
                 this == SECOND -> arrayOf("секунду", "секунды", "секунд")
-                this == MINUTE -> arrayOf("минута", "минуты", "минут")
+                this == MINUTE -> arrayOf("минуту", "минуты", "минут")
                 this == HOUR -> arrayOf("час", "часа", "часов")
                 this == DAY -> arrayOf("день", "дня", "дней")
                 else -> arrayOf("null", "null", "null")
