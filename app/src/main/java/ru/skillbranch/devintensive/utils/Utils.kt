@@ -3,17 +3,16 @@ package ru.skillbranch.devintensive.utils
 object Utils {
     fun parseFullName(fullName:String?) : Pair<String?, String?> {
         if(fullName == null){
-            return "null" to "null"
+            return null to null
         }
-        else if(fullName == " " || fullName == "  " || fullName == "" ){
-            return "null" to "null"
-        }
-        var parts : List<String>? = fullName.split(" ")
+        var parts : List<String>? = fullName!!.split(" ")
 
-        var firsName = parts?.getOrNull(0)
+
+        var firstName = parts?.getOrNull(0)
         var lastName = parts?.getOrNull(1)
 
-        return firsName to lastName
+
+        return firstName to lastName
     }
 
 
