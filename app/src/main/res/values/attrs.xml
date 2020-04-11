@@ -16,4 +16,12 @@
     <attr name="colorDivider" format="reference"/>
     <attr name="colorIcon" format="reference"/>
 
+
+
+    <declare-styleable name="AvatarImageView">
+        <attr name="aiv_borderColor" format="color"/>
+        <attr name="aiv_borderWidth" format="dimension"/>
+        <attr name="aiv_initials" format="string"/>
+    </declare-styleable>m
+
 </resources>

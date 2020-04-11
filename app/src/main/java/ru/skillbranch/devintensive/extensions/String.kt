@@ -6,10 +6,16 @@ fun String.truncate(i: Int = 16): String{
         return this
     }
 
-    var res = this.substring(0, i)
+    val res = this.substring(0, i)
 
-    return res + "..."
+    return "$res..."
 }
+
+
+fun String.replaceGarbage(): String {
+    return this.replace("[", "").replace("]", "")
+}
+
 
 fun String.stripHtml(): String{
     var pos = this.split(">")

@@ -1,4 +1,13 @@
+<?xml version="1.0"?>
+
 <resources>
+
+    <style name="ActivityTransitions" parent="android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/bottom_up</item>
+        <item name="android:activityOpenExitAnimation">@anim/idle</item>
+        <item name="android:activityCloseEnterAnimation">@anim/idle</item>
+        <item name="android:activityCloseExitAnimation">@anim/bottom_down</item>
+    </style>
 
     <style name="Profile">
 
@@ -6,7 +15,7 @@
 
     <style name="Profile.EditText" parent="Profile">
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingTop">6dp</item>
         <item name="android:enabled">false</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:focusable">false</item>

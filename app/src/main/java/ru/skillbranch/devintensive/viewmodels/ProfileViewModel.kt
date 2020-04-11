@@ -20,7 +20,6 @@ class ProfileViewModel : ViewModel(){
 
     override fun onCleared() {
         super.onCleared()
-        Log.d("M_ProfileViewModel", "cleared view model")
     }
 
     fun getProfileData(): LiveData<Profile> = profileData

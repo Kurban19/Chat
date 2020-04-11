@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import ru.skillbranch.devintensive.App.Companion.applicationContext
 import ru.skillbranch.devintensive.models.Profile
 
+
 object PreferencesRepository {
 
     private const val FIRST_NAME = "FIRST_NAME"
@@ -63,7 +64,6 @@ object PreferencesRepository {
             is Int -> putInt(key, value)
             else -> error("Only primitives can be stored in Shared Preferences")
         }
+
     }
-
-
 }

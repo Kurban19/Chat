@@ -16,8 +16,6 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
-import ru.skillbranch.devintensive.utils.ColorGenerator.MATERIAL
-import ru.skillbranch.devintensive.utils.TextDrawable
 import ru.skillbranch.devintensive.utils.Utils.toInitials
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
@@ -30,14 +28,12 @@ class ProfileActivity : AppCompatActivity(){
 
     private lateinit var viewModel: ProfileViewModel
     private var isEditMode = false
-    lateinit var imageView: ImageView
     lateinit var viewFields : Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        imageView = iv_avatar
         initViews(savedInstanceState)
         initViewModel()
     }
@@ -138,16 +134,6 @@ class ProfileActivity : AppCompatActivity(){
         ).apply {
             viewModel.saveProfileData(this)
         }
-        if(et_first_name.text.isNotEmpty()) {
-            val drawable = TextDrawable.builder()
-                .beginConfig()
-                .width(1000)
-                .height(1000)
-                .endConfig()
-                .buildRound(toInitials(et_first_name.text.toString(), et_last_name.text.toString()), Color.BLACK)
-            imageView.setImageDrawable(drawable)
-        }
-
     }
 
 }

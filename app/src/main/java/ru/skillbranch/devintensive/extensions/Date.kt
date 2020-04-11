@@ -30,6 +30,18 @@ fun Date.add(value:Int, units: TimeUnits = TimeUnits.SECOND):Date{
     return this
 }
 
+fun Date.shortFormat(): String{
+    val pattern = if(this.isSameDay(Date())) "HH:mm" else "dd:MM:yy"
+    val dateFormat = SimpleDateFormat(pattern , Locale("ru"))
+    return dateFormat.format(this)
+}
+
+fun Date.isSameDay(date:Date): Boolean{
+    val day1 = this.time/ DAY
+    val day2 = date.time/ DAY
+    return day1 == day2
+}
+
 
 fun Date.humanizeDiff(date: Date = Date()): String{
     var res: String = ""
@@ -39,7 +51,6 @@ fun Date.humanizeDiff(date: Date = Date()): String{
 
     println(this.format())
 
-    //val diffInMillies = Math.abs(current!!.getTime() - past!!.getTime())
     val diffInMillies = current!!.getTime() - past!!.getTime()
     val days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS)
     val hours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS)
@@ -83,8 +94,6 @@ enum class TimeUnits{
 
         var str = java.lang.Long.toString(number) + " "
         number = Math.abs(number)
-
-
 
         if (number % 10 == 1L && number % 100 != 11L) {
             str += times[0]
