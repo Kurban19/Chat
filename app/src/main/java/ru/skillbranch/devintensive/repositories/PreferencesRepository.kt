@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import ru.skillbranch.devintensive.App.Companion.applicationContext
 import ru.skillbranch.devintensive.models.Profile
 
-
 object PreferencesRepository {
 
     private const val FIRST_NAME = "FIRST_NAME"
@@ -22,6 +21,7 @@ object PreferencesRepository {
         val ctx = applicationContext()
         PreferenceManager.getDefaultSharedPreferences(ctx)
     }
+
 
     fun saveAppTheme(theme: Int) {
         putValue(APP_THEME to theme)

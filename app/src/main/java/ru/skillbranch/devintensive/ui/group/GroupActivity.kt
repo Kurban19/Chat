@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.ui.group
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -8,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.lifecycle.Observer
@@ -40,6 +38,10 @@ class GroupActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
+        searchView.isIconifiedByDefault = true;
+        searchView.isFocusable = true;
+        searchView.isIconified = false;
+        searchView.requestFocusFromTouch();
         searchView.queryHint ="Введите имя пользователя"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {

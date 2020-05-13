@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:inputType="textPersonName"
+    android:focusable="true"
     android:maxWidth="9999dp">
 
 </android.widget.SearchView>

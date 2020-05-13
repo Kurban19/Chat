@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity(){
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
+        searchView.isIconifiedByDefault = true;
+        searchView.isFocusable = true;
+        searchView.isIconified = false;
+        searchView.requestFocusFromTouch();
         searchView.queryHint ="Введите имя пользователя"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -72,7 +76,7 @@ class MainActivity : AppCompatActivity(){
         setSupportActionBar(toolbar)
     }
 
-    private fun initViews(){
+    private fun initViews(){c
 
         chatAdapter = ChatAdapter{
             Snackbar.make(rv_chat_list,"Click on ${it.title}", Snackbar.LENGTH_LONG).show()
