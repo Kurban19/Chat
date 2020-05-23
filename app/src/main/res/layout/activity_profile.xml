@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ru.skillbranch.devintensive.ui.custom.AspectRationImageView
+        <ru.skillbranch.chat.ui.custom.AspectRationImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/profile_bg"
@@ -33,7 +33,7 @@
                 android:layout_marginEnd="@dimen/spacing_huge_32"
                 android:layout_marginTop="36dp"/>
 
-            <ru.skillbranch.devintensive.ui.custom.CircleImageView
+            <ru.skillbranch.chat.ui.custom.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="112dp"
                 android:layout_height="112dp"
