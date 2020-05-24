@@ -17,8 +17,11 @@ import ru.skillbranch.chat.R
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
+import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.group.GroupActivity
+import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
+
 
 class MainActivity : AppCompatActivity(){
 
@@ -78,7 +81,10 @@ class MainActivity : AppCompatActivity(){
     private fun initViews(){
 
         chatAdapter = ChatAdapter{
-            Snackbar.make(rv_chat_list,"Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra(AppConstants.CHAT_NAME, it.title)
+            startActivity(intent)
+            //Snackbar.make(rv_chat_list,"Click on ${it.title}", Snackbar.LENGTH_LONG).show()
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
