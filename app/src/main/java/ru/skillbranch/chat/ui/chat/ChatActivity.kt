@@ -1,21 +1,22 @@
 package ru.skillbranch.chat.ui.chat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.repositories.ChatRepository
+import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.ChatViewModel
-import ru.skillbranch.chat.viewmodels.ProfileViewModel
 
 
 class ChatActivity : AppCompatActivity() {
 
+    private lateinit var messagesAdapter: MessagesAdapter
     private lateinit var viewModel: ChatViewModel
 
 
@@ -31,25 +32,18 @@ class ChatActivity : AppCompatActivity() {
 
 
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean{
-//        menuInflater.inflate(R.menu.menu_switch, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        return if(item?.itemId == R.id.action_switch){
-//            Toast.makeText(this, "Pressed", Toast.LENGTH_LONG).show()
-//            viewModel.switchTheme()
-//            true
-//        }
-//        else {
-//            return super.onOptionsItemSelected(item)
-//        }
-//    }
-
     private fun initViews(){
-        //val chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)
-        //chat ?: return
+        val chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)
+        chat ?: return
+
+        messagesAdapter = MessagesAdapter()
+
+        messagesAdapter.updateData(chat.messages)
+
+        with(rv_messages){
+            adapter = messagesAdapter
+            layoutManager = LinearLayoutManager(this@ChatActivity)
+        }
 
 
     }
