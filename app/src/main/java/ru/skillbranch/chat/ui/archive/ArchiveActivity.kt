@@ -33,6 +33,7 @@ class ArchiveActivity : AppCompatActivity() {
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Archive"
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

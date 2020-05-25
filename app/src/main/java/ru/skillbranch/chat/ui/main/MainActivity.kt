@@ -82,9 +82,9 @@ class MainActivity : AppCompatActivity(){
 
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra(AppConstants.CHAT_ID, it.id)
             intent.putExtra(AppConstants.CHAT_NAME, it.title)
             startActivity(intent)
-            //Snackbar.make(rv_chat_list,"Click on ${it.title}", Snackbar.LENGTH_LONG).show()
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){

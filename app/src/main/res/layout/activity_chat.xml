@@ -68,7 +68,7 @@
             android:background="@drawable/rect_oval_white"
             android:elevation="2dp"
             android:hint="Type your message"
-            android:padding="8dp" />
+            android:padding="10dp" />
 
         <ImageView
             android:id="@+id/imageView_send"
@@ -77,7 +77,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="24dp"
-            android:elevation="2dp"
+            android:elevation="16dp"
             app:srcCompat="@drawable/ic_send_black_24dp" />
     </RelativeLayout>
 
