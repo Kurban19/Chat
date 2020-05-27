@@ -13,7 +13,7 @@
         android:id="@+id/message_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:layout_gravity="end"
         android:background="@drawable/rect_round_primary_color">
 
         <TextView

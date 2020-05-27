@@ -1,12 +1,15 @@
 package ru.skillbranch.chat.ui.adapters
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_text_message.*
+import ru.skillbranch.chat.App
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.extensions.format
 import ru.skillbranch.chat.extensions.shortFormat
@@ -29,7 +32,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHol
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: MessagesItemViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], holder)
     }
 
     fun updateData(data: List<BaseMessage>){
@@ -59,7 +62,23 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHol
             get() = itemView
 
 
-       fun bind(item: BaseMessage){
+       fun bind(item: BaseMessage, holder: MessagesItemViewHolder){
+
+           if(item.from == App.user){
+               holder.message_root.apply {
+                   setBackgroundResource(R.drawable.rect_round_blue)
+                   val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.END)
+                   this!!.layoutParams = lParams
+               }
+           }
+           else {
+               holder.message_root.apply {
+                   setBackgroundResource(R.drawable.rect_round_primary_color)
+                   val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.START)
+                   this!!.layoutParams = lParams
+               }
+           }
+
            if(item is TextMessage){
                tv_message_text.text = item.text
            }
@@ -67,5 +86,4 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHol
            tv_message_time.text = item.date.shortFormat()
        }
    }
-
 }
