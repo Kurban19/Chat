@@ -111,13 +111,6 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-//        initViews()
-        //viewModel.getChatData().observe(this, Observer { chatAdapter.updateData(it) })
-    }
-
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getChatData().observe(this, Observer { chatAdapter.updateData(it) })

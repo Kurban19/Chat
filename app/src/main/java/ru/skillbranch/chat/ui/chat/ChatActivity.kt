@@ -2,6 +2,7 @@ package ru.skillbranch.chat.ui.chat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.App
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.models.BaseMessage
+import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
@@ -21,7 +23,7 @@ import java.util.*
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var messagesAdapter: MessagesAdapter
-    private lateinit var viewModel: ChatViewModel
+    private lateinit var chat: Chat
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +39,8 @@ class ChatActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initViews(){
-        val chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)
-        val chatItem = chat!!.toChatItem()
+        chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)!!
+        val chatItem = chat.toChatItem()
 
         for(baseMessage in chat.messages){
             baseMessage.isRead = true
@@ -67,7 +69,6 @@ class ChatActivity : AppCompatActivity() {
             scrollToPosition(messagesAdapter.itemCount - 1)
         }
 
-
         iv_send.setOnClickListener{
             val message = BaseMessage.makeMessage(App.user, chat, Date(), "text", et_message.text.toString(), false, isRead = true)
             et_message.setText("")
@@ -75,11 +76,9 @@ class ChatActivity : AppCompatActivity() {
             rv_messages.scrollToPosition(messagesAdapter.itemCount - 1)
             ChatRepository.update(chat)
         }
-
         ChatRepository.update(chat)
 
     }
-
 
     private fun initToolbar() {
         setSupportActionBar(toolbar_chat)
