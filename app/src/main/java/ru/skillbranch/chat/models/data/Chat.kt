@@ -15,7 +15,7 @@ data class Chat(
     var messages: MutableList<BaseMessage> = mutableListOf(),
     var isArchived: Boolean = false) {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun unreadableMessageCount(): Int = messages.size
+    fun unreadableMessageCount(): Int = messages.filter { !it.isRead }.size
 
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

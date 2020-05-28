@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity(){
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(AppConstants.CHAT_ID, it.id)
-            intent.putExtra(AppConstants.CHAT_NAME, it.title)
             startActivity(intent)
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
@@ -110,6 +109,13 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+//        initViews()
+        //viewModel.getChatData().observe(this, Observer { chatAdapter.updateData(it) })
     }
 
     private fun initViewModel() {

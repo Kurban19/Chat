@@ -31,7 +31,6 @@ class ChatActivity : AppCompatActivity() {
 
         initToolbar()
         initViews()
-        initViewModel()
     }
 
 
@@ -40,6 +39,11 @@ class ChatActivity : AppCompatActivity() {
     private fun initViews(){
         val chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)
         val chatItem = chat!!.toChatItem()
+
+        for(baseMessage in chat.messages){
+            baseMessage.isRead = true
+        }
+
         with(chatItem) {
             tv_title_chat.text = " $title"
             if(avatar == null){
@@ -60,23 +64,20 @@ class ChatActivity : AppCompatActivity() {
         with(rv_messages){
             adapter = messagesAdapter
             layoutManager = LinearLayoutManager(this@ChatActivity)
+            scrollToPosition(messagesAdapter.itemCount - 1)
         }
-
 
 
         iv_send.setOnClickListener{
-            val message = BaseMessage.makeMessage(App.user, chat, Date(), "text", et_message.text.toString(), false)
+            val message = BaseMessage.makeMessage(App.user, chat, Date(), "text", et_message.text.toString(), false, isRead = true)
             et_message.setText("")
             chat.messages.add(message)
-            messagesAdapter.notifyDataSetChanged()
             rv_messages.scrollToPosition(messagesAdapter.itemCount - 1)
+            ChatRepository.update(chat)
         }
 
+        ChatRepository.update(chat)
 
-    }
-
-    private fun initViewModel(){
-        viewModel = ViewModelProviders.of(this).get(ChatViewModel::class.java)
     }
 
 

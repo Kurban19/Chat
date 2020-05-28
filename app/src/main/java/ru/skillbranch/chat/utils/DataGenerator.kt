@@ -7,8 +7,6 @@ import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.User
-//import ru.skillbranch.devintensive.models.data.Chat
-//import ru.skillbranch.devintensive.models.data.User
 import java.util.*
 import kotlin.random.Random
 
@@ -446,9 +444,11 @@ object DataGenerator {
                     "$i",
                     user,
                     chat,
-                    true,
-                    user.lastVisit ?: Date(),
-                    randomTextPayload()
+                        isRead = false,
+                        isIncoming = true,
+                        date = user.lastVisit ?: Date(),
+                        text = randomTextPayload()
+
                 )
             )
         }

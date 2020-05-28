@@ -57,7 +57,6 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
             override fun getNewListSize(): Int = data.size
 
             override fun areContentsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].hashCode() == data[newPos].hashCode()
-
         }
 
         val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -89,6 +88,7 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
             }
 
             sv_indicator.visibility = if(item.isOnline) View.VISIBLE else View.GONE
+
             with(tv_date_single){
                 visibility = if(item.lastMessageDate != null) View.VISIBLE else View.GONE
                 text = item.lastMessageDate
