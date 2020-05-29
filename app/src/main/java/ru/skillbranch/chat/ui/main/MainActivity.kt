@@ -19,6 +19,7 @@ import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
 import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.group.GroupActivity
+import ru.skillbranch.chat.ui.profile.ProfileActivity
 import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
 
@@ -39,12 +40,14 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
         menuInflater.inflate(R.menu.menu_search, menu)
+        menuInflater.inflate(R.menu.menu_archive, menu)
+        menuInflater.inflate(R.menu.menu_profile, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.isIconifiedByDefault = true;
-        searchView.isFocusable = true;
-        searchView.isIconified = false;
-        searchView.requestFocusFromTouch();
+        searchView.isIconifiedByDefault = true
+        searchView.isFocusable = true
+        searchView.isIconified = false
+        searchView.requestFocusFromTouch()
         searchView.queryHint ="Введите имя пользователя"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -58,19 +61,25 @@ class MainActivity : AppCompatActivity(){
             }
 
         })
-        menuInflater.inflate(R.menu.menu_archive, menu)
 
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if(item?.itemId == R.id.action_archive){
-            val intent = Intent(this, ArchiveActivity::class.java)
-            startActivity(intent)
-            true
-        }
-        else {
-            return super.onOptionsItemSelected(item)
+        return when (item?.itemId) {
+            R.id.action_archive -> {
+                val intent = Intent(this, ArchiveActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_profile -> {
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
         }
     }
 
