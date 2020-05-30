@@ -13,6 +13,21 @@
 
     </style>
 
+    <style name="SignUp"/>
+
+    <style name="SignUp.EditText" parent="SignUp">
+        <item name="android:layout_marginLeft">@dimen/spacing_normal_16</item>
+        <item name="android:layout_marginRight">@dimen/spacing_normal_16</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_normal_16</item>
+        <item name="android:paddingLeft">@dimen/spacing_normal_16</item>
+        <item name="android:background">@drawable/rounded_edit_text</item>
+
+    </style>
+
+    <style name="SignUp.Button" parent="SignUp.EditText">
+        <item name="android:background">@drawable/rounded_button</item>
+    </style>
+
     <style name="Profile.EditText" parent="Profile">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:enabled">false</item>
