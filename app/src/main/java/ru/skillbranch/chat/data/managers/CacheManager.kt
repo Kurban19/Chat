@@ -4,14 +4,28 @@ import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
+import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.utils.DataGenerator
 
 object CacheManager {
-    private val chats = mutableLiveData(DataGenerator.stabChats)
-    private val users = mutableLiveData(DataGenerator.stabUsers)
+    private val chats = mutableLiveData(listOf<Chat>())
+    private var users = mutableLiveData(listOf<User>())
 
     fun loadChats(): MutableLiveData<List<Chat>>{
         return chats
+    }
+
+    init {
+        FireBaseUtil.getUsers { this::setUsers }
+        users.value!!.forEach {
+            ChatRepository.createChat(it)
+        }
+
+
+    }
+
+    fun setUsers(list: List<User>){
+        users = mutableLiveData(list)
     }
 
     fun findUsersById(ids: List<String>): List<User> {

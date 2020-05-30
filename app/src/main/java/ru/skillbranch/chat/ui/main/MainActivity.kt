@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
@@ -113,10 +114,11 @@ class MainActivity : AppCompatActivity(){
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(divider)
         }
-
         fab.setOnClickListener{
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
+            FirebaseAuth.getInstance().signOut()
+
         }
     }
 
