@@ -40,7 +40,8 @@ object FireBaseUtil {
                 "uid" to user.id,
                 "firstName" to user.firstName,
                 "lastName" to user.lastName,
-                "lastVisit" to user.lastVisit
+                "lastVisit" to user.lastVisit,
+                "email" to user.email
 
         )
         fireStoreInstance.collection("users")
@@ -68,7 +69,8 @@ object FireBaseUtil {
                 .get()
                 .addOnSuccessListener { result ->
                     for (document in result) {
-                        items.add(document.toObject(User::class.java))
+                        if (document.id != FirebaseAuth.getInstance().currentUser?.uid)
+                            items.add(document.toObject(User::class.java)!!)
                     }
                 }
         return items

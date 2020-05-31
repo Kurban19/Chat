@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.models.data.UserItem
+import ru.skillbranch.chat.repositories.ChatRepository
+import ru.skillbranch.chat.repositories.GroupRepository
 import ru.skillbranch.chat.ui.adapters.UserAdapter
 import ru.skillbranch.chat.viewmodels.GroupViewModel
 
@@ -76,7 +79,12 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        usersAdapter = UserAdapter { viewModel.handleSelectedItem(it.id) }
+        usersAdapter = UserAdapter {
+            val user = CacheManager.findUser(it.id)
+            //viewModel.handleSelectedItem(it.id)
+            ChatRepository.createChat(user)
+            finish()
+        }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         with(rv_user_list){
             adapter = usersAdapter
