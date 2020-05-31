@@ -9,23 +9,14 @@ import ru.skillbranch.chat.utils.DataGenerator
 
 object CacheManager {
     private val chats = mutableLiveData(listOf<Chat>())
-    private var users = mutableLiveData(listOf<User>())
+    private var users = mutableLiveData(FireBaseUtil.getUsers())
 
     fun loadChats(): MutableLiveData<List<Chat>>{
         return chats
     }
 
-    init {
-        FireBaseUtil.getUsers { this::setUsers }
-        users.value!!.forEach {
-            ChatRepository.createChat(it)
-        }
-
-
-    }
-
-    fun setUsers(list: List<User>){
-        users = mutableLiveData(list)
+    fun loadUsers(): MutableList<User>? {
+        return users.value
     }
 
     fun findUsersById(ids: List<String>): List<User> {

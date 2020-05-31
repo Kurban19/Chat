@@ -3,6 +3,7 @@ package ru.skillbranch.chat.extensions
 
 
 
+import ru.skillbranch.chat.models.Profile
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.models.UserView
 import ru.skillbranch.chat.utils.Utils
@@ -24,6 +25,9 @@ fun User.toUserView(): UserView {
         status = status
     )
 
+}
 
-} 
+fun User.toProfile(): Profile {
+    return Profile(this.firstName, this.lastName, "", "", this.rating, this.respect)
+}
 

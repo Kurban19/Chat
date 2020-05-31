@@ -3,17 +3,17 @@ package ru.skillbranch.chat.models
 import ru.skillbranch.chat.utils.Utils
 
 data class Profile (
-    val firstName: String,
-    val lastName: String,
-    val about: String,
-    val repository: String,
+    val firstName: String?,
+    val lastName: String?,
+    val about: String?,
+    val repository: String?,
     val rating: Int = 0,
     val respect: Int = 0
     ){
     val rank: String = "Android Junior Developer"
     val nickName: String = Utils.transliteration("$firstName $lastName","_")
 
-    fun toMap():Map<String, Any> = mapOf(
+    fun toMap(): Map<String, Any?> = mapOf(
         "nickName" to nickName,
         "rank" to rank,
         "firstName" to firstName,

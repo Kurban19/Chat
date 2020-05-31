@@ -52,7 +52,7 @@ object PreferencesRepository {
     )
 
 
-    private fun putValue(pair: Pair<String, Any>) = with(prefs.edit()){
+    private fun putValue(pair: Pair<String, Any?>) = with(prefs.edit()){
         val key = pair.first
         val value = pair.second
 

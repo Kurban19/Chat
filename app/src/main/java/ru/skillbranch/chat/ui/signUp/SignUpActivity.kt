@@ -7,8 +7,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.models.data.User
-import ru.skillbranch.chat.repositories.UserRepository
 import ru.skillbranch.chat.ui.main.MainActivity
 
 class SignUpActivity : AppCompatActivity() {
@@ -43,8 +43,8 @@ class SignUpActivity : AppCompatActivity() {
                 .addOnCompleteListener{
                     if(!it.isSuccessful) return@addOnCompleteListener
 
-                    val user = User(it.result!!.user!!.uid, name, "")
-                    UserRepository.addUser(user)
+                    val user = User(it.result!!.user!!.uid, name, "", email)
+                    FireBaseUtil.addUser(user)
 
                     val intent = Intent(this@SignUpActivity, MainActivity::class.java)
                     startActivity(intent)

@@ -13,8 +13,11 @@ data class User (
     var rating:Int =  0,
     var respect:Int = 0,
     var lastVisit: Date? = null,
-    var isOnline:Boolean = false
+    var isOnline:Boolean = false,
+    var email: String?
 ) {
+
+
     fun toUserItem(): UserItem {
         val lastActivity = when{
             lastVisit == null -> "Еще ниразу не заходил"
@@ -34,15 +37,19 @@ data class User (
     }
 
 
-    constructor(id: String, firstName: String?, lastName: String?) : this(
+    constructor(id: String, firstName: String, lastName: String, email: String) : this(
         id = id,
         firstName = firstName,
         lastName = lastName,
+        email = email,
         avatar = null
     )
 
+    constructor(): this("42332253fd", "John", "Doe", "")
 
-    constructor(id: String) : this(id, "John", "Doe")
+
+    constructor(id: String) : this(id, "John", "Doe", "")
+
 
     companion object Factory {
         private var lastid : Int = -1
@@ -53,54 +60,11 @@ data class User (
 
             return User(
                 id = "$lastid",
-                firstName = firsName,
-                lastName = lastName
+                firstName = firsName ?: "John",
+                lastName = lastName ?: "Doe",
+                email = ""
             )
         }
     }
 
-
-    class Builder{
-        private var newUser: User = User("2", "John", "Cena")
-
-        constructor()
-
-        fun id(id: String): Builder {
-            newUser.id = id
-            return this
-        }
-
-        fun firstName(name: String): Builder {
-            newUser.firstName = name
-            return this
-        }
-        fun lastName(lastName: String): Builder {
-            newUser.lastName = lastName
-            return this
-        }
-        fun avatar(avatar: String): Builder {
-            newUser.avatar = avatar
-            return this
-        }
-        fun rating(rating: Int): Builder {
-            newUser.rating = rating
-            return this
-        }
-        fun respect(respect: Int): Builder {
-            newUser.respect = respect
-            return this
-        }
-        fun lastVisit(date: Date): Builder {
-            newUser.lastVisit = date
-            return this
-        }
-        fun isOnline(b: Boolean): Builder {
-            newUser.isOnline = b
-            return this
-        }
-        fun build(): User {
-            return newUser
-        }
-
-    }
 }

@@ -8,7 +8,7 @@ import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.utils.DataGenerator
 
 object GroupRepository {
-    fun loadUsers(): List<User> = DataGenerator.stabUsers
+    fun loadUsers(): List<User> = CacheManager.loadUsers()!!
 
     fun createChat(items: List<UserItem>){
         val ids = items.map{it.id}

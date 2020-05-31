@@ -359,7 +359,8 @@ object DataGenerator {
                     (0..Short.MAX_VALUE).random(),
                     (0..Short.MAX_VALUE).random(),
                     lastVisit,
-                    isOnline
+                    isOnline,
+                    ""
                 )
             )
         }
