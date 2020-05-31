@@ -39,7 +39,9 @@ object FireBaseUtil {
         val map = hashMapOf(
                 "uid" to user.id,
                 "firstName" to user.firstName,
-                "lastName" to user.lastName
+                "lastName" to user.lastName,
+                "lastVisit" to user.lastVisit
+
         )
         fireStoreInstance.collection("users")
                 .add(map)

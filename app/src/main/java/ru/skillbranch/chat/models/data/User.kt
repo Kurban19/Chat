@@ -14,7 +14,7 @@ data class User (
     var respect:Int = 0,
     var lastVisit: Date? = null,
     var isOnline:Boolean = false,
-    var email: String?
+    var email: String
 ) {
 
 
