@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(){
         fab.setOnClickListener{
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
-            //FirebaseAuth.getInstance().signOut()
+            FirebaseAuth.getInstance().signOut()
         }
     }
 

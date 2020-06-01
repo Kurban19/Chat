@@ -1,8 +1,13 @@
 package ru.skillbranch.chat.data.managers
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import ru.skillbranch.chat.extensions.toUser
+import ru.skillbranch.chat.models.BaseMessage
+import ru.skillbranch.chat.models.ChatChannel
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.User
 import java.lang.NullPointerException
@@ -34,6 +39,38 @@ object FireBaseUtil {
                 onComplete()
         }
     }
+
+
+    fun getOrCreateChatChannel(
+            otherUserId: String,
+            onComplete: (channelId: String) -> Unit
+    ) {
+        currentUserDocRef.collection("engagedChatChannels")
+                .document(otherUserId).get().addOnSuccessListener {
+                    if (it.exists()) {
+                        onComplete(it["channelId"] as String)
+                        return@addOnSuccessListener
+                    }
+
+                    val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+
+                    val newChannel = chatChannelsCollectionRef.document()
+                    newChannel.set(ChatChannel(mutableListOf(currentUserId, otherUserId)))
+
+                    currentUserDocRef
+                            .collection("engagedChatChannels")
+                            .document(otherUserId)
+                            .set(mapOf("channelId" to newChannel.id))
+
+                    fireStoreInstance.collection("users").document(otherUserId)
+                            .collection("engagedChatChannels")
+                            .document(currentUserId)
+                            .set(mapOf("channelId" to newChannel.id))
+
+                    onComplete(newChannel.id)
+                }
+    }
+
 
     fun addUser(user: User){
         val map = hashMapOf(
@@ -69,37 +106,56 @@ object FireBaseUtil {
                 .get()
                 .addOnSuccessListener { result ->
                     for (document in result) {
-                        if (document.id != FirebaseAuth.getInstance().currentUser?.uid)
-                            items.add(document.toObject(User::class.java)!!)
+                        if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
+                            items.add(document.toObject(User::class.java))
                     }
                 }
         return items
     }
 
 
-//    fun getUsers(onListen: (List<User>) -> Unit): ListenerRegistration {
-//        return fireStoreInstance.collection("users")
+    fun getMessages(channelId: String): List<BaseMessage>{
+        val items = mutableListOf<BaseMessage>()
+        fireStoreInstance.document(channelId).collection("messages")
+                .orderBy("time")
+                .get()
+                .addOnSuccessListener {
+                    it.documents.forEach{
+                        items.add(it.toObject(BaseMessage::class.java)!!)
+                    }
+                }
+        return items
+    }
+
+//    fun addChatMessagesListener(
+//            channelId: String, context: Context,
+//            onListen: (List<Item>) -> Unit
+//    ): ListenerRegistration {
+//        return chatChannelsCollectionRef.document(channelId).collection("messages")
+//                .orderBy("time")
 //                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 //                    if (firebaseFirestoreException != null) {
 //                        return@addSnapshotListener
 //                    }
 //
-//                    val items = mutableListOf<User>()
+//                    val items = mutableListOf<Item>()
 //                    querySnapshot!!.documents.forEach {
-//                        if (it.id != FirebaseAuth.getInstance().currentUser?.uid)
-//                            items.add(it.toObject(User::class.java)!!)
+//                        if (it["type"] == MessageType.TEXT)
+//                            items.add(TextMessageItem(it.toObject(TextMessage::class.java)!!, context))
+//                        else
+//                            items.add(ImageMessageItem(it.toObject(ImageMessage::class.java)!!, context))
+//                        return@forEach
 //                    }
 //                    onListen(items)
 //                }
 //    }
+
+
 
     fun sendMessage(message: TextMessage, channelId: String) {
         chatChannelsCollectionRef.document(channelId)
                 .collection("messages")
                 .add(message)
     }
-
-
-
 
 }

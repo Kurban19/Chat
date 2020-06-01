@@ -16,9 +16,10 @@ object ChatRepository {
     fun createChat(user: User){
         val title = "${user.firstName} ${user.lastName}"
         val chat = Chat(CacheManager.nextChatId(), title, listOf(user))
-        val copy = chats.value!!.toMutableList()
-        copy.add(chat)
-        chats.value = copy
+        //val copy = chats.value!!.toMutableList()
+        //copy.add(chat)
+        //chats.value = copy
+        CacheManager.insertChat(chat)
     }
 
     fun update(chat: Chat) {

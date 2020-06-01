@@ -1,27 +1,30 @@
 package ru.skillbranch.chat.ui.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.App
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.FireBaseUtil
+import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.BaseMessage
+import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
-import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.utils.AppConstants
-import ru.skillbranch.chat.viewmodels.ChatViewModel
 import java.util.*
 
 
 class ChatActivity : AppCompatActivity() {
 
+    private lateinit var currentChannelId: String
     private lateinit var messagesAdapter: MessagesAdapter
     private lateinit var chat: Chat
 
@@ -60,7 +63,42 @@ class ChatActivity : AppCompatActivity() {
 
             }
         }
+
         messagesAdapter = MessagesAdapter()
+
+        FireBaseUtil.getOrCreateChatChannel(chat.members.first().id){ channelId ->
+            currentChannelId = channelId
+
+
+
+//            messagesListenerRegistration =
+//                    FireStoreUtil.addChatMessagesListener(channelId, this, this::updateRecyclerView)
+//
+//            imageView_send.setOnClickListener {
+//                val messageToSend = TextMessage(editText_message.text.toString(), Calendar.getInstance().time,
+//                        FirebaseAuth.getInstance().currentUser!!.uid, MessageType.TEXT)
+//                editText_message.setText("")
+//                FireStoreUtil.sendMessage(messageToSend, channelId)
+//
+//            }
+
+            messagesAdapter.updateData(FireBaseUtil.getMessages(currentChannelId))
+
+            iv_send.setOnClickListener{
+                val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), chat, Date(), "text", et_message.text.toString(), false, isRead = true)
+                et_message.setText("")
+                chat.messages.add(message)
+                FireBaseUtil.sendMessage(message as TextMessage, channelId)
+                //rv_messages.scrollToPosition(messagesAdapter.itemCount - 1)
+                ChatRepository.update(chat)
+            }
+
+
+        }
+
+
+
+
         messagesAdapter.updateData(chat.messages)
 
         with(rv_messages){
@@ -69,13 +107,6 @@ class ChatActivity : AppCompatActivity() {
             scrollToPosition(messagesAdapter.itemCount - 1)
         }
 
-        iv_send.setOnClickListener{
-            val message = BaseMessage.makeMessage(App.user, chat, Date(), "text", et_message.text.toString(), false, isRead = true)
-            et_message.setText("")
-            chat.messages.add(message)
-            rv_messages.scrollToPosition(messagesAdapter.itemCount - 1)
-            ChatRepository.update(chat)
-        }
         ChatRepository.update(chat)
 
     }
