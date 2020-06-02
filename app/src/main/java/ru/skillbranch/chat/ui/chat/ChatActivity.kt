@@ -20,6 +20,7 @@ import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
+import java.util.prefs.BackingStoreException
 
 
 class ChatActivity : AppCompatActivity() {
@@ -69,37 +70,22 @@ class ChatActivity : AppCompatActivity() {
         FireBaseUtil.getOrCreateChatChannel(chat.members.first().id){ channelId ->
             currentChannelId = channelId
 
-
-
 //            messagesListenerRegistration =
-//                    FireStoreUtil.addChatMessagesListener(channelId, this, this::updateRecyclerView)
-//
-//            imageView_send.setOnClickListener {
-//                val messageToSend = TextMessage(editText_message.text.toString(), Calendar.getInstance().time,
-//                        FirebaseAuth.getInstance().currentUser!!.uid, MessageType.TEXT)
-//                editText_message.setText("")
-//                FireStoreUtil.sendMessage(messageToSend, channelId)
-//
-//            }
+            FireBaseUtil.addChatMessagesListener(channelId, this, this::updateRecycleView)
 
-            messagesAdapter.updateData(FireBaseUtil.getMessages(currentChannelId))
 
             iv_send.setOnClickListener{
+
                 val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), chat, Date(), "text", et_message.text.toString(), false, isRead = true)
                 et_message.setText("")
                 chat.messages.add(message)
-                FireBaseUtil.sendMessage(message as TextMessage, channelId)
+                FireBaseUtil.sendMessage(message, channelId)
                 //rv_messages.scrollToPosition(messagesAdapter.itemCount - 1)
                 ChatRepository.update(chat)
             }
-
-
         }
 
-
-
-
-        messagesAdapter.updateData(chat.messages)
+        //messagesAdapter.updateData(chat.messages)
 
         with(rv_messages){
             adapter = messagesAdapter
@@ -109,6 +95,10 @@ class ChatActivity : AppCompatActivity() {
 
         ChatRepository.update(chat)
 
+    }
+
+    private fun updateRecycleView(items: List<BaseMessage>){
+        messagesAdapter.updateData(items)
     }
 
     private fun initToolbar() {

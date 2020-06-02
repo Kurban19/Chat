@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity(){
             R.id.action_profile -> {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
+                FirebaseAuth.getInstance().signOut()
                 true
             }
             else -> {
@@ -117,7 +119,6 @@ class MainActivity : AppCompatActivity(){
         fab.setOnClickListener{
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
-            FirebaseAuth.getInstance().signOut()
         }
     }
 

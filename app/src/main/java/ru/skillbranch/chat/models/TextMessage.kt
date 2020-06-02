@@ -15,6 +15,7 @@ class TextMessage(
     isRead: Boolean = false,
     isIncoming: Boolean = false,
     date: Date = Date(),
+    val type: String = "text",
     var text: String?
 ) : BaseMessage(id, from, chat, isIncoming, isRead, date){
 

@@ -12,6 +12,7 @@ class ImageMessage(
     isIncoming: Boolean = false,
     isRead: Boolean = false,
     date: Date = Date(),
+    val type: String = "image",
     var image: String?
 
 ) : BaseMessage(id, from, chat, isIncoming, isRead, date){

@@ -18,8 +18,8 @@ abstract class BaseMessage(
         fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false, isRead: Boolean = false) : BaseMessage{
             lastId++
             return when(type){
-                "image" -> ImageMessage("$lastId", from, chat, isIncoming = isIncoming, isRead = isRead, date = date, image = payload as String)
-                else -> TextMessage("$lastId", from, chat, isIncoming = isIncoming, date = date, isRead = isRead, text = payload as String)
+                "image" -> ImageMessage("$lastId", from, chat, isIncoming = isIncoming, isRead = isRead, date = date, image = payload as String, type = "image")
+                else -> TextMessage("$lastId", from, chat, isIncoming = isIncoming, date = date, isRead = isRead, text = payload as String, type = type)
             }
         }
     }

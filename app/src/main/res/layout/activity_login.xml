@@ -30,36 +30,36 @@
         android:orientation="vertical">
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_name"
-            style="@style/SignUp.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/hint_sign_up_name"
-            />
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/et_name"-->
+<!--            style="@style/SignUp.EditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:hint="@string/hint_sign_up_name"-->
+<!--            />-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_email"
-            style="@style/SignUp.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/hint_sign_up_email"
-            />
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/et_email"-->
+<!--            style="@style/SignUp.EditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:hint="@string/hint_sign_up_email"-->
+<!--            />-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_password"
-            style="@style/SignUp.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/hint_sign_up_password"
-            />
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/et_password"-->
+<!--            style="@style/SignUp.EditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:hint="@string/hint_sign_up_password"-->
+<!--            />-->
 
-        <TextView
-            android:id="@+id/tv_has_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_sign_up_btn"
-            android:layout_gravity="center"/>
+<!--        <TextView-->
+<!--            android:id="@+id/tv_has_account"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/text_sign_up_btn"-->
+<!--            android:layout_gravity="center"/>-->
 
 
         <Button

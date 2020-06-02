@@ -45,10 +45,17 @@ data class User (
         avatar = null
     )
 
+    constructor(id: String, firstName: String, lastName: String, email: String, date: Date) : this(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
+            email = email,
+            avatar = null,
+            lastVisit = date)
+
     constructor(): this("42332253fd", "John", "Doe", "")
 
     constructor(id: String, firstName: String, email: String):this(id, firstName, "", email)
-
 
     constructor(id: String) : this(id, "John", "Doe", "")
 
