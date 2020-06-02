@@ -10,6 +10,7 @@ import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.ChatChannel
 import ru.skillbranch.chat.models.ImageMessage
 import ru.skillbranch.chat.models.TextMessage
+import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import java.lang.NullPointerException
 import java.util.*

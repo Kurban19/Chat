@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(){
             R.id.action_profile -> {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
-                FirebaseAuth.getInstance().signOut()
+                //FirebaseAuth.getInstance().signOut()
                 true
             }
             else -> {
