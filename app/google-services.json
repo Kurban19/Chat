@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "925083672367-prl0nlt14ml3edsjmflro6ocnd6rbst6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.skillbranch.devintensive",
+            "certificate_hash": "e173594f80f5c02f8f6b01d4c4aedecd9347d262"
+          }
+        },
+        {
           "client_id": "925083672367-72gv33ip4b2jad9k04ci17gsl9vqqo9a.apps.googleusercontent.com",
           "client_type": 3
         }

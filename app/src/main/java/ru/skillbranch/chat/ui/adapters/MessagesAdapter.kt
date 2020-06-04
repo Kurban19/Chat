@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_text_message.*
 import ru.skillbranch.chat.App
@@ -64,7 +65,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHol
 
        fun bind(item: BaseMessage, holder: MessagesItemViewHolder){
 
-           if(item.from == App.user){
+           if(item.from!!.id == FirebaseAuth.getInstance().currentUser!!.uid){
                holder.message_root.apply {
                    setBackgroundResource(R.drawable.rect_round_blue)
                    val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.END)

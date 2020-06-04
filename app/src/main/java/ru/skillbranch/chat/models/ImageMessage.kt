@@ -8,7 +8,7 @@ import java.util.*
 class ImageMessage(
     id: String,
     from: User?,
-    chat: Chat,
+    chat: Chat?,
     isIncoming: Boolean = false,
     isRead: Boolean = false,
     date: Date = Date(),

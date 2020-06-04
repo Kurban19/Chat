@@ -62,8 +62,8 @@ object FireBaseUtil {
 
     fun getOrCreateChatChannel(
             otherUserId: String,
-            onComplete: (channelId: String) -> Unit
-    ) {
+            onComplete: (channelId: String) -> Unit){
+
         currentUserDocRef.collection("engagedChatChannels")
                 .document(otherUserId).get().addOnSuccessListener {
                     if (it.exists()) {
@@ -90,6 +90,22 @@ object FireBaseUtil {
     }
 
 
+    fun getMessages(channelId: String): MutableList<BaseMessage>{
+        val items = mutableListOf<BaseMessage>()
+        chatChannelsCollectionRef.document(channelId).collection("messages")
+                .orderBy("time")
+                .get()
+                .addOnSuccessListener { it ->
+                    for(document in it) {
+                        if (document["type"] == "text") {
+                            items.add(document.toObject(TextMessage::class.java))
+                        }
+                        else
+                            items.add(document.toObject(ImageMessage::class.java))
+                    }
+                }
+        return items
+    }
 
 
     fun getUsers(): MutableList<User> {
@@ -105,22 +121,8 @@ object FireBaseUtil {
         return items
     }
 
-
-    fun getMessages(channelId: String): List<BaseMessage>{
-        val items = mutableListOf<BaseMessage>()
-        fireStoreInstance.document(channelId).collection("messages")
-                .orderBy("time")
-                .get()
-                .addOnSuccessListener {
-                    it.documents.forEach{
-                        items.add(it.toObject(BaseMessage::class.java)!!)
-                    }
-                }
-        return items
-    }
-
     fun addChatMessagesListener(
-            channelId: String, context: Context,
+            channelId: String,
             onListen: (List<BaseMessage>) -> Unit
     ): ListenerRegistration {
         return chatChannelsCollectionRef.document(channelId).collection("messages")

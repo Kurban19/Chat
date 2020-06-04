@@ -11,13 +11,15 @@ import java.util.*
 class TextMessage(
     id: String,
     from: User?,
-    chat: Chat,
+    chat: Chat?,
     isRead: Boolean = false,
     isIncoming: Boolean = false,
     date: Date = Date(),
     override val type: String = "text",
     var text: String?
 ) : BaseMessage(id, from, chat, isIncoming, isRead, date, type){
+
+    constructor():this("hjkjhkjh89y", null, null, false, false, Date(), "text", "test")
 
 
     override fun formatMessage(): String = "id $id ${from?.firstName} " +

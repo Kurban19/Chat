@@ -7,7 +7,7 @@ import java.util.*
 abstract class BaseMessage(
         val id: String,
         val from: User?,
-        val chat: Chat,
+        val chat: Chat?,
         val isIncoming: Boolean = false,
         var isRead: Boolean = false,
         val date: Date = Date(),
