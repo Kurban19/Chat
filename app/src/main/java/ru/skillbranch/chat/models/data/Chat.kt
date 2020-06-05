@@ -13,7 +13,8 @@ data class Chat(
     val title: String,
     val members: List<User> = listOf(),
     var messages: MutableList<BaseMessage> = mutableListOf(),
-    var isArchived: Boolean = false) {
+    var isArchived: Boolean = false){
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun unreadableMessageCount(): Int = messages.filter { !it.isRead }.size
 
@@ -23,6 +24,13 @@ data class Chat(
         val message = messages.lastOrNull() ?: return Date()
         return message.date
     }
+
+    constructor(): this(
+            "lf32d3kf3nfl3234",
+            "default",
+            mutableListOf<User>(),
+            mutableListOf<BaseMessage>(),
+            false)
 
 
 

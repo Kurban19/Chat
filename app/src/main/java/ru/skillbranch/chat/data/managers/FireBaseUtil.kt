@@ -1,6 +1,5 @@
 package ru.skillbranch.chat.data.managers
 
-import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,7 +11,6 @@ import ru.skillbranch.chat.models.ImageMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
-import java.lang.NullPointerException
 import java.util.*
 
 
@@ -28,6 +26,9 @@ object FireBaseUtil {
 
 
     private val chatChannelsCollectionRef = fireStoreInstance.collection("chatChannels")
+    private val chatsCollectionRefB = fireStoreInstance.collection("chats")
+
+
 
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
@@ -86,6 +87,30 @@ object FireBaseUtil {
                             .set(mapOf("channelId" to newChannel.id))
 
                     onComplete(newChannel.id)
+                }
+    }
+
+    fun getOrCreateChat(otherUser: User){
+
+        currentUserDocRef.collection("engagedChats")
+                .document(otherUser.id).get().addOnSuccessListener {
+                    if (it.exists()){
+                        //onComplete(it["channelId"] as String)
+                        return@addOnSuccessListener
+                    }
+                    val currentUser = FirebaseAuth.getInstance().currentUser!!
+
+                    val newChat = chatsCollectionRefB.document()
+                    newChat.set(Chat(newChat.id, otherUser.firstName!!, mutableListOf(currentUser.toUser(), otherUser), mutableListOf(), false))
+
+                    currentUserDocRef.collection("engagedChats")
+                            .document(otherUser.id)
+                            .set(mapOf("channelId" to newChat.id))
+
+                    fireStoreInstance.collection("users").document(otherUser.id)
+                            .collection("engagedChats")
+                            .document(currentUser.uid)
+                            .set(mapOf("channelId" to newChat.id))
                 }
     }
 

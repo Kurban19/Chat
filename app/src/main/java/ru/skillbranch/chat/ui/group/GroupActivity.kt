@@ -85,6 +85,7 @@ class GroupActivity : AppCompatActivity() {
             val user = CacheManager.findUser(it.id)
             //viewModel.handleSelectedItem(it.id)
             ChatRepository.createChat(user)
+            FireBaseUtil.getOrCreateChat(CacheManager.findUser(it.id))
             finish()
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
