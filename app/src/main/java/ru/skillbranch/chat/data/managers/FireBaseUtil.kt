@@ -1,6 +1,10 @@
 package ru.skillbranch.chat.data.managers
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -24,11 +28,42 @@ object FireBaseUtil {
                         ?: throw NullPointerException("UID is null.")}"
         )
 
-
     private val chatChannelsCollectionRef = fireStoreInstance.collection("chatChannels")
-    private val chatsCollectionRefB = fireStoreInstance.collection("chats")
+    private val chatsCollectionRef = fireStoreInstance.collection("chats")
 
 
+
+    fun getUsers(): MutableList<User> {
+        val items = mutableListOf<User>()
+        fireStoreInstance.collection("users")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
+                            items.add(document.toObject(User::class.java))
+                    }
+                }
+        return items
+    }
+
+    fun getChats(): MutableList<Chat> {
+        val items = mutableListOf<Chat>()
+
+        fireStoreInstance.collection("chats")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        items.add(document.toObject(Chat::class.java))
+
+//                        CacheManager.insertChat()
+                        Log.d(TAG, document.toObject(Chat::class.java).title)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
+        return items
+    }
 
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
@@ -61,6 +96,7 @@ object FireBaseUtil {
                 }
     }
 
+
     fun getOrCreateChatChannel(
             otherUserId: String,
             onComplete: (channelId: String) -> Unit){
@@ -90,6 +126,7 @@ object FireBaseUtil {
                 }
     }
 
+
     fun getOrCreateChat(otherUser: User){
 
         currentUserDocRef.collection("engagedChats")
@@ -100,7 +137,7 @@ object FireBaseUtil {
                     }
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
-                    val newChat = chatsCollectionRefB.document()
+                    val newChat = chatsCollectionRef.document()
                     newChat.set(Chat(newChat.id, otherUser.firstName!!, mutableListOf(currentUser.toUser(), otherUser), mutableListOf(), false))
 
                     currentUserDocRef.collection("engagedChats")
@@ -127,20 +164,6 @@ object FireBaseUtil {
                         }
                         else
                             items.add(document.toObject(ImageMessage::class.java))
-                    }
-                }
-        return items
-    }
-
-
-    fun getUsers(): MutableList<User> {
-        val items = mutableListOf<User>()
-        fireStoreInstance.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
-                            items.add(document.toObject(User::class.java))
                     }
                 }
         return items

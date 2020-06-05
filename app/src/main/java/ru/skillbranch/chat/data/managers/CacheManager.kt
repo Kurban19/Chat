@@ -8,12 +8,13 @@ import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.utils.DataGenerator
 
 object CacheManager {
-    private val chats = mutableLiveData(listOf<Chat>())
+    //private val chats = mutableLiveData(listOf<Chat>())
+    private val chats = mutableLiveData(FireBaseUtil.getChats())
     private var users = mutableLiveData(FireBaseUtil.getUsers())
 
 
 
-    fun loadChats(): MutableLiveData<List<Chat>>{
+    fun loadChats(): MutableLiveData<MutableList<Chat>> {
         return chats
     }
 
