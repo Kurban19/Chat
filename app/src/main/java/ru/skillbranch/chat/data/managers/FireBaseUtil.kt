@@ -53,10 +53,12 @@ object FireBaseUtil {
                 .get()
                 .addOnSuccessListener { result ->
                     for (document in result) {
-                        items.add(document.toObject(Chat::class.java))
-
-//                        CacheManager.insertChat()
-                        Log.d(TAG, document.toObject(Chat::class.java).title)
+                        //items.add(document.toObject(Chat::class.java))
+                        val chat = document.toObject(Chat::class.java)
+                        if(FirebaseAuth.getInstance().currentUser!!.uid == chat.members[0].id) {
+                            CacheManager.insertChat(chat)
+                        }
+                        Log.d(TAG, document.toObject(Chat::class.java).members[0].email)
                     }
                 }
                 .addOnFailureListener { exception ->
