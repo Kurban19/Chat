@@ -20,11 +20,9 @@ import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.models.data.UserItem
-import ru.skillbranch.chat.repositories.ChatRepository
-import ru.skillbranch.chat.repositories.GroupRepository
+
 import ru.skillbranch.chat.ui.adapters.UserAdapter
 import ru.skillbranch.chat.viewmodels.GroupViewModel
-
 
 class GroupActivity : AppCompatActivity() {
 

@@ -9,7 +9,7 @@ object ChatRepository {
     private val chats = CacheManager.loadChats()
     //private val chats = MutableLiveData<List<Chat>>()
 
-    fun loadChats() : MutableLiveData<MutableList<Chat>> {
+    fun loadChats() : MutableLiveData<List<Chat>> {
         return chats
     }
 

@@ -1,9 +1,12 @@
 package ru.skillbranch.chat.viewmodels
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.repositories.GroupRepository

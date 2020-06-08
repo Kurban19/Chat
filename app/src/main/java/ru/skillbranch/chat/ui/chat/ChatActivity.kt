@@ -56,6 +56,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         messagesAdapter = MessagesAdapter()
+        messagesAdapter.updateData(chat.messages)
 
         with(rv_messages){
             adapter = messagesAdapter
@@ -63,28 +64,23 @@ class ChatActivity : AppCompatActivity() {
             scrollToPosition(messagesAdapter.itemCount - 1)
         }
 
-        FireBaseUtil.getOrCreateChatChannel(chat.members.first().id){ channelId ->
-            currentChannelId = channelId
+        iv_send.setOnClickListener{
+            //val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), Date(), "text", et_message.text.toString(), false, isRead = false)
+            et_message.setText("")
+            //chat.messages.add(message)
 
-            FireBaseUtil.addChatMessagesListener(channelId, this::updateRecycleView)
+            //FireBaseUtil.sendMessage(message, channelId)
+            //FireBaseUtil.sendMessageChat(chat)
+            ChatRepository.update(chat)
 
-            messagesAdapter.updateData(FireBaseUtil.getMessages(currentChannelId))
+            messagesAdapter.updateData(chat.messages)
 
-            iv_send.setOnClickListener{
-                val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), chat, Date(), "text", et_message.text.toString(), false, isRead = true)
-                et_message.setText("")
-                //chat.messages.add(message)
-                FireBaseUtil.sendMessage(message, channelId)
-                ChatRepository.update(chat)
-            }
         }
 
-        //ChatRepository.update(chat)
+        //FireBaseUtil.sendMessageChat(chat)
+        ChatRepository.update(chat)
     }
 
-    private fun updateRecycleView(items: List<BaseMessage>){
-        messagesAdapter.updateData(items)
-    }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar_chat)

@@ -1,8 +1,10 @@
 package ru.skillbranch.chat.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -15,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
@@ -28,6 +31,10 @@ import ru.skillbranch.chat.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity(){
 
+    companion object{
+        private const val TAG = "MainActivity"
+
+    }
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var viewModel: MainViewModel
 
@@ -38,6 +45,7 @@ class MainActivity : AppCompatActivity(){
         initToolbar()
         initViews()
         initViewModel()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
@@ -77,7 +85,6 @@ class MainActivity : AppCompatActivity(){
             R.id.action_profile -> {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
-                //FirebaseAuth.getInstance().signOut()
                 true
             }
             else -> {
@@ -91,7 +98,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initViews(){
-
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(AppConstants.CHAT_ID, it.id)
@@ -107,6 +113,9 @@ class MainActivity : AppCompatActivity(){
             }
             snackBar.show()
         }
+
+        val users = CacheManager.loadUsers()
+        Log.d(TAG, users!!.size.toString())
 
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_chat_list)

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_primary_light"
     tools:context="ru.skillbranch.chat.ui.signUp.SignUpActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,8 +19,6 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,8 +66,6 @@
             android:layout_height="wrap_content"
             android:text="@string/sign_up_btn"
             />
-
-
 
     </LinearLayout>
 

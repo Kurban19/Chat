@@ -8,14 +8,13 @@ import java.util.*
 class ImageMessage(
     id: String,
     from: User?,
-    chat: Chat?,
     isIncoming: Boolean = false,
     isRead: Boolean = false,
     date: Date = Date(),
     override val type: String = "image",
     var image: String?
 
-) : BaseMessage(id, from, chat, isIncoming, isRead, date, type){
+) : BaseMessage(id, from, isIncoming, isRead, date, type){
 
     override fun formatMessage(): String = "id $id ${from?.firstName} " +
             "${if(isIncoming) "получил" else " отправил"} сообщение \"$image\" ${date.humanizeDiff()}"

@@ -53,6 +53,7 @@ class SignUpActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
 
                 FireBaseUtil.initCurrentUserIfFirstTime {
+                    FireBaseUtil.getChats1()
                     startActivity(Intent(this, MainActivity::class.java))
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
