@@ -11,6 +11,7 @@ import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.BaseMessage
+import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
@@ -65,19 +66,20 @@ class ChatActivity : AppCompatActivity() {
         }
 
         iv_send.setOnClickListener{
+            val message = TextMessage("3klejsf23", FirebaseAuth.getInstance().currentUser!!.toUser(), false, false, Date(), "text", et_message.text.toString())
             //val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), Date(), "text", et_message.text.toString(), false, isRead = false)
             et_message.setText("")
-            //chat.messages.add(message)
+            chat.messages.add(message)
 
             //FireBaseUtil.sendMessage(message, channelId)
-            //FireBaseUtil.sendMessageChat(chat)
+            FireBaseUtil.sendMessageChat(chat)
             ChatRepository.update(chat)
 
             messagesAdapter.updateData(chat.messages)
 
         }
 
-        //FireBaseUtil.sendMessageChat(chat)
+        FireBaseUtil.sendMessageChat(chat)
         ChatRepository.update(chat)
     }
 
