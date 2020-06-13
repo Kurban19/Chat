@@ -4,22 +4,19 @@ import androidx.annotation.VisibleForTesting
 import com.google.firebase.auth.FirebaseAuth
 import ru.skillbranch.chat.extensions.shortFormat
 import ru.skillbranch.chat.extensions.toUser
-import ru.skillbranch.chat.models.BaseMessage
-import ru.skillbranch.chat.models.ImageMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.utils.Utils
 import java.util.*
 
 data class Chat(
     val id: String,
-    val title: String,
+    var title: String,
     val members: List<User> = listOf(),
     var messages: MutableList<TextMessage> = mutableListOf(),
     var isArchived: Boolean = false){
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun unreadableMessageCount(): Int = messages.filter { !it.isRead ; it.from!!.id != FirebaseAuth.getInstance().currentUser!!.toUser().id }.size
-//    fun unreadableMessageCount(): Int = messages.filter { !it.isRead; it.from!!.id != FirebaseAuth.getInstance().currentUser!!.toUser().id }.filter { it.from!!.id != FirebaseAuth.getInstance().currentUser!!.toUser().id }.size
 
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

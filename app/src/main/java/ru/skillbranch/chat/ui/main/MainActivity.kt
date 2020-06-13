@@ -1,20 +1,18 @@
 package ru.skillbranch.chat.ui.main
 
-import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
@@ -27,7 +25,6 @@ import ru.skillbranch.chat.ui.group.GroupActivity
 import ru.skillbranch.chat.ui.profile.ProfileActivity
 import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
-
 
 class MainActivity : AppCompatActivity(){
 
@@ -98,6 +95,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initViews(){
+        FireBaseUtil.getChats1()
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(AppConstants.CHAT_ID, it.id)
@@ -114,8 +112,6 @@ class MainActivity : AppCompatActivity(){
             snackBar.show()
         }
 
-        val users = CacheManager.loadUsers()
-        Log.d(TAG, users!!.size.toString())
 
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_chat_list)

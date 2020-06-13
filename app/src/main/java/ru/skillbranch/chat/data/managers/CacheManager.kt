@@ -1,25 +1,17 @@
 package ru.skillbranch.chat.data.managers
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
-import ru.skillbranch.chat.repositories.ChatRepository
-import ru.skillbranch.chat.ui.main.MainActivity
-
-//import ru.skillbranch.chat.utils.DataGenerator
 
 object CacheManager {
     private val chats = mutableLiveData(listOf<Chat>())
-    //private val chats = mutableLiveData(FireBaseUtil.getChats())
     private var users = mutableLiveData(FireBaseUtil.getUsers())
-    //private var users = mutableLiveData(mutableListOf<User>())
 
     const val TAG = "CacheManager"
 
     fun loadChats(): MutableLiveData<List<Chat>> {
-        Log.d(TAG, users.value!!.size.toString())
         return chats
     }
 

@@ -3,6 +3,7 @@ package ru.skillbranch.chat.ui.group
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,11 +21,14 @@ import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.models.data.UserItem
-
 import ru.skillbranch.chat.ui.adapters.UserAdapter
 import ru.skillbranch.chat.viewmodels.GroupViewModel
 
 class GroupActivity : AppCompatActivity() {
+
+    companion object{
+        const val TAG = "GroupActivity"
+    }
 
     private lateinit var usersAdapter: UserAdapter
     private lateinit var viewModel:GroupViewModel
@@ -82,7 +86,6 @@ class GroupActivity : AppCompatActivity() {
         usersAdapter = UserAdapter {
             val user = CacheManager.findUser(it.id)
             //viewModel.handleSelectedItem(it.id)
-            //ChatRepository.createChat(user)
             FireBaseUtil.getOrCreateChat(CacheManager.findUser(it.id))
             finish()
         }
@@ -96,8 +99,11 @@ class GroupActivity : AppCompatActivity() {
         fab.setOnClickListener{
             viewModel.handleCreatedGroup()
             finish()
-            FirebaseAuth.getInstance().signOut()
         }
+
+        val users = FireBaseUtil.getUsers()
+        Log.d(TAG, users.size.toString())
+
 
     }
 
