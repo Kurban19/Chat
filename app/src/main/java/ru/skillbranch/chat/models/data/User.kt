@@ -45,7 +45,7 @@ data class User (
         avatar = null
     )
 
-    constructor(id: String, firstName: String, lastName: String, email: String, date: Date) : this(
+    ;constructor(id: String, firstName: String, lastName: String, email: String, date: Date) : this(
             id = id,
             firstName = firstName,
             lastName = lastName,

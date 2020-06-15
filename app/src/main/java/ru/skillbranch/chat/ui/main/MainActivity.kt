@@ -25,6 +25,7 @@ import ru.skillbranch.chat.ui.group.GroupActivity
 import ru.skillbranch.chat.ui.profile.ProfileActivity
 import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity(){
 
@@ -125,6 +126,16 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, GroupActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FireBaseUtil.updateCurrentUser(Date(), false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        FireBaseUtil.updateCurrentUser(Date(), true)
     }
 
     private fun initViewModel() {

@@ -8,9 +8,9 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.extensions.toUser
-import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
@@ -20,7 +20,6 @@ import java.util.*
 
 class ChatActivity : AppCompatActivity() {
 
-    private lateinit var currentChannelId: String
     private lateinit var messagesAdapter: MessagesAdapter
     private lateinit var chat: Chat
 
@@ -56,6 +55,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+
         messagesAdapter = MessagesAdapter()
         messagesAdapter.updateData(chat.messages)
 
@@ -66,21 +66,20 @@ class ChatActivity : AppCompatActivity() {
         }
 
         iv_send.setOnClickListener{
-            val message = TextMessage("3klejsf23", FirebaseAuth.getInstance().currentUser!!.toUser(), false, false, Date(), "text", et_message.text.toString())
+            val message = TextMessage("3kl2ej32sf23", FirebaseAuth.getInstance().currentUser!!.toUser(), false, false, Date(), "text", et_message.text.toString())
             //val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), Date(), "text", et_message.text.toString(), false, isRead = false)
             et_message.setText("")
             chat.messages.add(message)
 
-            //FireBaseUtil.sendMessage(message, channelId)
             FireBaseUtil.sendMessageChat(chat)
-            ChatRepository.update(chat)
+            CacheManager.update(chat)
 
             messagesAdapter.updateData(chat.messages)
 
         }
 
         FireBaseUtil.sendMessageChat(chat)
-        ChatRepository.update(chat)
+        CacheManager.update(chat)
     }
 
 

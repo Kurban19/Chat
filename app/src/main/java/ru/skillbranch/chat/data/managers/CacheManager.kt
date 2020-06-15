@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
+import ru.skillbranch.chat.repositories.ChatRepository
 
 object CacheManager {
     private val chats = mutableLiveData(listOf<Chat>())
@@ -18,6 +19,15 @@ object CacheManager {
     fun loadUsers(): MutableList<User>? {
         return users.value
     }
+
+    fun update(chat: Chat) {
+        val copy = chats.value!!.toMutableList()
+        val ind = chats.value!!.indexOfFirst { it.id == chat.id }
+        if(ind == -1) return
+        copy[ind] = chat
+        chats.value = copy
+    }
+
 
     fun findUser(userId: String): User{
         users.value!!.forEach {
