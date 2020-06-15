@@ -28,6 +28,6 @@ fun User.toUserView(): UserView {
 }
 
 fun User.toProfile(): Profile {
-    return Profile(this.firstName, this.lastName, "", "", this.rating, this.respect)
+    return Profile(this.firstName, this.lastName, "", "")
 }
 

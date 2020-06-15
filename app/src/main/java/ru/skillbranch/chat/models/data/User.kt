@@ -10,8 +10,6 @@ data class User (
     var firstName:String?,
     var lastName:String?,
     var avatar:String?,
-    var rating:Int =  0,
-    var respect:Int = 0,
     var lastVisit: Date? = null,
     var isOnline:Boolean = false,
     var email: String

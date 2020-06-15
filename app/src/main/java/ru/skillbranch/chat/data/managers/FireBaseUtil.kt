@@ -50,7 +50,7 @@ object FireBaseUtil {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 with(FirebaseAuth.getInstance().currentUser){
-                    val newUser = User(this!!.uid, displayName, "", null, 0, 0, Date(), true, email ?: "")
+                    val newUser = User(this!!.uid, displayName ?: "unknown", "", email ?: "", Date())
 
                 currentUserDocRef.set(newUser).addOnSuccessListener {
                     onComplete()
@@ -61,10 +61,10 @@ object FireBaseUtil {
         }
     }
 
-    fun updateCurrentUser(date: Date = Date(), isOnline: Boolean) {
+    fun updateCurrentUser(date: Date = Date(), online: Boolean) {
         val userFieldMap = mutableMapOf<String, Any>()
         userFieldMap["Date"] = date
-        userFieldMap["isOnline"] = isOnline
+        userFieldMap["online"] = online
         currentUserDocRef.update(userFieldMap)
     }
 
@@ -99,7 +99,7 @@ object FireBaseUtil {
 
                 }
     }
-    fun getChat(id: String) {
+    private fun getChat(id: String) {
         currentUserDocRef.collection("engagedChats")
                 .document(id).get().addOnSuccessListener { it ->
                     if (it.exists()) {
