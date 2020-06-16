@@ -7,7 +7,6 @@ import ru.skillbranch.chat.models.data.User
 
 object ChatRepository {
     private val chats = CacheManager.loadChats()
-    //private val chats = MutableLiveData<List<Chat>>()
 
     fun loadChats() : MutableLiveData<List<Chat>> {
         return chats

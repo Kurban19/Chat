@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
-import ru.skillbranch.chat.repositories.ChatRepository
 
 object CacheManager {
     private val chats = mutableLiveData(listOf<Chat>())

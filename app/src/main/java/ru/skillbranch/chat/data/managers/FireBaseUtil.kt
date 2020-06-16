@@ -63,7 +63,7 @@ object FireBaseUtil {
 
     fun updateCurrentUser(date: Date = Date(), online: Boolean) {
         val userFieldMap = mutableMapOf<String, Any>()
-        userFieldMap["Date"] = date
+        userFieldMap["lastVisit"] = date
         userFieldMap["online"] = online
         currentUserDocRef.update(userFieldMap)
     }
