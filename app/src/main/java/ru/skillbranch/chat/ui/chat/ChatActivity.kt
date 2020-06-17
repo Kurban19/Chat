@@ -67,7 +67,6 @@ class ChatActivity : AppCompatActivity() {
 
         iv_send.setOnClickListener{
             val message = TextMessage("3kl2ej32sf23", FirebaseAuth.getInstance().currentUser!!.toUser(), false, false, Date(), "text", et_message.text.toString())
-            //val message = BaseMessage.makeMessage(FirebaseAuth.getInstance().currentUser!!.toUser(), Date(), "text", et_message.text.toString(), false, isRead = false)
             et_message.setText("")
             chat.messages.add(message)
 

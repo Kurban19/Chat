@@ -114,7 +114,12 @@ object FireBaseUtil {
                                             }
                                         }
                                     }
-                                    CacheManager.insertChat(chat)
+                                    if(CacheManager.haveChat(chat.id)){
+                                        CacheManager.update(chat)
+                                    }
+                                    else{
+                                        CacheManager.insertChat(chat)
+                                    }
                                 }
                                 .addOnFailureListener { exception ->
                                     Log.d(TAG, "Error getting documents: ", exception)

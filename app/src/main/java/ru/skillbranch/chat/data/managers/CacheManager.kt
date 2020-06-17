@@ -50,4 +50,13 @@ object CacheManager {
         copy.add(chat)
         chats.value = copy
     }
+
+    fun haveChat(chatId: String): Boolean{
+        chats.value!!.forEach {
+            if(chatId == it.id){
+                return true;
+            }
+        }
+        return false
+    }
 }

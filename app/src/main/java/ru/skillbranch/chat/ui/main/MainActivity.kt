@@ -12,7 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.auth.api.Auth
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
@@ -23,6 +26,7 @@ import ru.skillbranch.chat.ui.archive.ArchiveActivity
 import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.group.GroupActivity
 import ru.skillbranch.chat.ui.profile.ProfileActivity
+import ru.skillbranch.chat.ui.signUp.SignUpActivity
 import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import java.util.*
@@ -83,6 +87,13 @@ class MainActivity : AppCompatActivity(){
             R.id.action_profile -> {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
+                AuthUI.getInstance()
+                        .signOut(this@MainActivity)
+                        .addOnCompleteListener {
+                            val intent = Intent(this, SignUpActivity::class.java)
+                            startActivity(intent)
+                        }
+                FireBaseUtil.updateCurrentUser(Date(), false)
                 true
             }
             else -> {
