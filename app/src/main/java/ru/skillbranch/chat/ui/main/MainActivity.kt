@@ -2,7 +2,6 @@ package ru.skillbranch.chat.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -13,12 +12,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.auth.api.Auth
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
@@ -85,8 +81,8 @@ class MainActivity : AppCompatActivity(){
                 true
             }
             R.id.action_profile -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                startActivity(intent)
+                //val intent = Intent(this, ProfileActivity::class.java)
+                //startActivity(intent)
                 AuthUI.getInstance()
                         .signOut(this@MainActivity)
                         .addOnCompleteListener {

@@ -2,6 +2,7 @@ package ru.skillbranch.chat.ui.chat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -32,6 +33,16 @@ class ChatActivity : AppCompatActivity() {
         initViews()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return if(item?.itemId == android.R.id.home){
+            finish()
+            true
+        }
+        else {
+            return super.onOptionsItemSelected(item)
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private fun initViews(){
         chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)!!
@@ -54,7 +65,11 @@ class ChatActivity : AppCompatActivity() {
                         .into(iv_avatar_chat)
             }
         }
-
+        chat.members.forEach{
+            if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                tv_last_activity.text = it.toUserItem().lastActivity
+            }
+        }
 
         messagesAdapter = MessagesAdapter()
         messagesAdapter.updateData(chat.messages)
