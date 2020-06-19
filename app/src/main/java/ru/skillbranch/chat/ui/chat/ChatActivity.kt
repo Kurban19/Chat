@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
@@ -19,8 +21,9 @@ import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
 
-class ChatActivity : AppCompatActivity() {
 
+class ChatActivity : AppCompatActivity() {
+    var reference: DocumentReference? = null
     private lateinit var messagesAdapter: MessagesAdapter
     private lateinit var chat: Chat
 
@@ -50,6 +53,12 @@ class ChatActivity : AppCompatActivity() {
 
         for(baseMessage in chat.messages){
             baseMessage.isRead = true
+        }
+
+//        reference = FirebaseDatabase.getInstance().getReference().child("Profiles");
+        reference = FirebaseFirestore.getInstance().collection("chats").document(chat.id)
+        reference!!.addSnapshotListener{document, firebaseFirestoreException ->
+            CacheManager.update(document!!.toObject(Chat::class.java)!!)
         }
 
         with(chatItem) {
@@ -86,14 +95,10 @@ class ChatActivity : AppCompatActivity() {
             chat.messages.add(message)
 
             FireBaseUtil.sendMessageChat(chat)
-            CacheManager.update(chat)
 
             messagesAdapter.updateData(chat.messages)
 
         }
-
-        FireBaseUtil.sendMessageChat(chat)
-        CacheManager.update(chat)
     }
 
 

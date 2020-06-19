@@ -131,7 +131,7 @@ object FireBaseUtil {
     }
 
     fun getChats1(){
-        val users = listOf("WeaJjEjOeAQGt50Y2QKxAvnPY3B3", "iNoiUitAADWVtI0C3kJ4N9lL6c03", "xIrT0xIzmmc87goV8a82BJP0kbo2")
+        val users = listOf("WeaJjEjOeAQGt50Y2QKxAvnPY3B3", "iNoiUitAADWVtI0C3kJ4N9lL6c03", "xIrT0xIzmmc87goV8a82BJP0kbo2", "DdubQKN5EdaGgDyAvr4LT3BUR0x2")
         for (element in users){
             getChat(element)
         }
