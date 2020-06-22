@@ -21,7 +21,6 @@ import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
 import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.group.GroupActivity
-import ru.skillbranch.chat.ui.profile.ProfileActivity
 import ru.skillbranch.chat.ui.signUp.SignUpActivity
 import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
@@ -103,7 +102,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initViews(){
-        FireBaseUtil.getChats1()
+//        FireBaseUtil.getChats()
+        FireBaseUtil.getEngagedChats()
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(AppConstants.CHAT_ID, it.id)

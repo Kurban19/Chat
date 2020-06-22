@@ -21,7 +21,6 @@ import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
 
-
 class ChatActivity : AppCompatActivity() {
     var reference: DocumentReference? = null
     private lateinit var messagesAdapter: MessagesAdapter
@@ -55,9 +54,11 @@ class ChatActivity : AppCompatActivity() {
             baseMessage.isRead = true
         }
 
-//        reference = FirebaseDatabase.getInstance().getReference().child("Profiles");
         reference = FirebaseFirestore.getInstance().collection("chats").document(chat.id)
         reference!!.addSnapshotListener{document, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                return@addSnapshotListener
+            }
             CacheManager.update(document!!.toObject(Chat::class.java)!!)
         }
 
@@ -90,12 +91,14 @@ class ChatActivity : AppCompatActivity() {
         }
 
         iv_send.setOnClickListener{
-            val message = TextMessage("3kl2ej32sf23", FirebaseAuth.getInstance().currentUser!!.toUser(), false, false, Date(), "text", et_message.text.toString())
+            if(et_message.text.toString() == ""){
+                return@setOnClickListener
+            }
+            val message = TextMessage("3kl2ej32sf23", FirebaseAuth.getInstance().currentUser!!.toUser(), isRead = false, isIncoming = false, date = Date(), type = "text", text = et_message.text.toString())
             et_message.setText("")
             chat.messages.add(message)
 
             FireBaseUtil.sendMessageChat(chat)
-
             messagesAdapter.updateData(chat.messages)
 
         }

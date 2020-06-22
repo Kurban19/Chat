@@ -99,9 +99,40 @@ object FireBaseUtil {
 
                 }
     }
-    private fun getChat(id: String) {
+
+    fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
-                .document(id).get().addOnSuccessListener { it ->
+                .get().addOnSuccessListener { result ->
+                    for(document in result){
+                        fireStoreInstance.collection("chats").document(document["channelId"] as String).
+                        get().addOnSuccessListener { result ->
+                            val chat = result.toObject(Chat::class.java)!!
+                            if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
+                                chat.members.forEach{
+                                    if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                                        chat.title = it.firstName ?: "Unknown"
+                                    }
+                                }
+                            }
+                            if(CacheManager.haveChat(chat.id)){
+                                CacheManager.update(chat)
+                            }
+                            else{
+                                CacheManager.insertChat(chat)
+                            }
+                        }
+                    }
+
+                }
+
+
+
+
+    }
+
+    private fun getChat(userId: String) {
+        currentUserDocRef.collection("engagedChats")
+                .document(userId).get().addOnSuccessListener { it ->
                     if (it.exists()) {
                         fireStoreInstance.collection("chats").document(it["channelId"] as String)
                                 .get()
@@ -130,7 +161,7 @@ object FireBaseUtil {
                 }
     }
 
-    fun getChats1(){
+    fun getChats(){
         val users = listOf("WeaJjEjOeAQGt50Y2QKxAvnPY3B3", "iNoiUitAADWVtI0C3kJ4N9lL6c03", "xIrT0xIzmmc87goV8a82BJP0kbo2", "DdubQKN5EdaGgDyAvr4LT3BUR0x2")
         for (element in users){
             getChat(element)
