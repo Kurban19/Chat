@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun initViews(){
 //        FireBaseUtil.getChats()
-        FireBaseUtil.getEngagedChats()
+//        FireBaseUtil.getEngagedChats()
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(AppConstants.CHAT_ID, it.id)
