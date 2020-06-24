@@ -7,11 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.TextMessage
@@ -22,8 +21,9 @@ import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
-    var reference: DocumentReference? = null
+    private var reference: CollectionReference? = null
     private lateinit var messagesAdapter: MessagesAdapter
+    private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,13 +54,7 @@ class ChatActivity : AppCompatActivity() {
             baseMessage.isRead = true
         }
 
-        reference = FirebaseFirestore.getInstance().collection("chats").document(chat.id)
-        reference!!.addSnapshotListener{document, firebaseFirestoreException ->
-            if (firebaseFirestoreException != null) {
-                return@addSnapshotListener
-            }
-            CacheManager.update(document!!.toObject(Chat::class.java)!!)
-        }
+
 
         with(chatItem) {
             tv_title_chat.text = " $title"
@@ -82,7 +76,26 @@ class ChatActivity : AppCompatActivity() {
         }
 
         messagesAdapter = MessagesAdapter()
-        messagesAdapter.updateData(chat.messages)
+
+        FireBaseUtil.getMessages(chat.id){
+            messagesAdapter.updateData(it)
+        }
+
+//        reference = FirebaseFirestore.getInstance().collection("chats").document(chat.id).collection("messages")
+//        reference!!
+//                .orderBy("time")
+//                .addSnapshotListener{querySnapshot, firebaseFirestoreException ->
+//                    if (firebaseFirestoreException != null) {
+//                        return@addSnapshotListener
+//                    }
+//
+//                    val items = mutableListOf<TextMessage>()
+//
+//                    querySnapshot!!.documents.forEach{
+//                        items.add(it.toObject(TextMessage::class.java)!!)
+//                    }
+//                    messagesAdapter.updateData(items)
+//                }
 
         with(rv_messages){
             adapter = messagesAdapter
@@ -98,10 +111,34 @@ class ChatActivity : AppCompatActivity() {
             et_message.setText("")
             chat.messages.add(message)
 
+            FireBaseUtil.sendMessage(message, chat.id)
             FireBaseUtil.sendMessageChat(chat)
-            messagesAdapter.updateData(chat.messages)
 
         }
+    }
+
+    private fun updateRecyclerView(messages: List<Item>){
+        fun init(){
+            recycler_view_messages.apply{
+                layoutManager = LinearLayoutManager(this@ChatActivity)
+                adapter = GroupAdapter<ViewHolder>().apply {
+                    messagesSection = Section(messages)
+                    add(messagesSection)
+                }
+            }
+            shouldInitRecyclerView = false
+        }
+
+        fun updateItems() = messagesSection.update(messages)
+
+        if(shouldInitRecyclerView)
+            init()
+
+        else
+            updateItems()
+
+        recycler_view_messages.scrollToPosition(recycler_view_messages.adapter!!.itemCount - 1)
+
     }
 
 

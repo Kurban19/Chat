@@ -1,9 +1,12 @@
 package ru.skillbranch.chat.data.managers
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import ru.skillbranch.chat.extensions.toUser
+import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import java.util.*
@@ -83,8 +86,8 @@ object FireBaseUtil {
                             .collection("engagedChats")
                             .document(currentUser.uid)
                             .set(mapOf("channelId" to newChat.id))
-                    //getChat(newChat.id)
-                    getEngagedChats()
+                            getEngagedChats()
+
 
                 }
     }
@@ -95,6 +98,9 @@ object FireBaseUtil {
                     for(document in result){
                         fireStoreInstance.collection("chats").document(document["channelId"] as String).
                         get().addOnSuccessListener { result ->
+                            if(!result.exists()){
+                                return@addOnSuccessListener
+                            }
                             val chat = result.toObject(Chat::class.java)!!
                             if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
                                 chat.members.forEach{
@@ -111,7 +117,26 @@ object FireBaseUtil {
                             }
                         }
                     }
+                }
+    }
 
+    fun addChatMessagesListener(
+            channelId: String,
+            onListen: (List<TextMessage>) -> Unit
+    ): ListenerRegistration {
+        return chatsCollectionRef.document(channelId).collection("messages")
+                .orderBy("time")
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if (firebaseFirestoreException != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val items = mutableListOf<TextMessage>()
+                    querySnapshot!!.documents.forEach {
+                            items.add(it.toObject(TextMessage::class.java)!!)
+                        return@forEach
+                    }
+                    onListen(items)
                 }
     }
 
@@ -120,5 +145,11 @@ object FireBaseUtil {
             chatsCollectionRef.document(chat.id)
                     .update(chat.toMap())
         }
+
+    fun sendMessage(message: TextMessage, chatId: String) {
+        chatsCollectionRef.document(chatId)
+                .collection("messages")
+                .add(message)
+    }
 
 }

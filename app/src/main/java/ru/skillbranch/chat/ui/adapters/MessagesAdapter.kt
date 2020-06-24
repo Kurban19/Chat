@@ -21,7 +21,7 @@ import java.util.zip.Inflater
 
 class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHolder>()  {
 
-    var items: List<BaseMessage> = listOf()
+    private var items: List<TextMessage> = listOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesItemViewHolder {
@@ -36,7 +36,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHol
         holder.bind(items[position], holder)
     }
 
-    fun updateData(data: List<BaseMessage>){
+    fun updateData(data: List<TextMessage>){
 
         val diffCallback = object : DiffUtil.Callback(){
             override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].id == data[newPos].id

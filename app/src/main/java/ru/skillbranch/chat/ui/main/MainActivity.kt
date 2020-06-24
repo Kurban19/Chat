@@ -26,12 +26,9 @@ import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import java.util.*
 
+
 class MainActivity : AppCompatActivity(){
 
-    companion object{
-        private const val TAG = "MainActivity"
-
-    }
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var viewModel: MainViewModel
 
@@ -102,8 +99,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initViews(){
-//        FireBaseUtil.getChats()
-//        FireBaseUtil.getEngagedChats()
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(AppConstants.CHAT_ID, it.id)
@@ -114,7 +109,7 @@ class MainActivity : AppCompatActivity(){
             val id = it.id
             viewModel.addToArchive(it.id)
             val snackBar: Snackbar = Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG)
-            snackBar.setAction("Undo"){
+            snackBar.setAction("Отмена"){
                 viewModel.restoreFromArchive(id)
             }
             snackBar.show()
@@ -145,7 +140,7 @@ class MainActivity : AppCompatActivity(){
         FireBaseUtil.updateCurrentUser(Date(), true)
     }
 
-    private fun initViewModel() {
+    private fun initViewModel()  {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getChatData().observe(this, Observer { chatAdapter.updateData(it) })
     }
