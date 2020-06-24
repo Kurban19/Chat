@@ -23,6 +23,7 @@ import java.util.*
 class ChatActivity : AppCompatActivity() {
     private var reference: CollectionReference? = null
     private lateinit var messagesAdapter: MessagesAdapter
+    private var shouldInitRecyclerView = true
     private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
 
@@ -75,11 +76,8 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        messagesAdapter = MessagesAdapter()
+        messagesListenerRegistration = FireBaseUtil.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
-        FireBaseUtil.getMessages(chat.id){
-            messagesAdapter.updateData(it)
-        }
 
 //        reference = FirebaseFirestore.getInstance().collection("chats").document(chat.id).collection("messages")
 //        reference!!
@@ -97,11 +95,6 @@ class ChatActivity : AppCompatActivity() {
 //                    messagesAdapter.updateData(items)
 //                }
 
-        with(rv_messages){
-            adapter = messagesAdapter
-            layoutManager = LinearLayoutManager(this@ChatActivity)
-            scrollToPosition(messagesAdapter.itemCount - 1)
-        }
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -117,19 +110,18 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateRecyclerView(messages: List<Item>){
+    private fun updateRecyclerView(messages: List<TextMessage>){
         fun init(){
-            recycler_view_messages.apply{
+            rv_messages.apply{
                 layoutManager = LinearLayoutManager(this@ChatActivity)
-                adapter = GroupAdapter<ViewHolder>().apply {
-                    messagesSection = Section(messages)
-                    add(messagesSection)
+                adapter = MessagesAdapter().apply {
+                    updateData(messages)
                 }
             }
             shouldInitRecyclerView = false
         }
 
-        fun updateItems() = messagesSection.update(messages)
+        fun updateItems() = messagesAdapter.updateData(messages)
 
         if(shouldInitRecyclerView)
             init()
@@ -137,7 +129,7 @@ class ChatActivity : AppCompatActivity() {
         else
             updateItems()
 
-        recycler_view_messages.scrollToPosition(recycler_view_messages.adapter!!.itemCount - 1)
+        rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)
 
     }
 
