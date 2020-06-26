@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
@@ -53,7 +52,6 @@ class ChatActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initViews(){
-        FireBaseUtil.getMessages()
         chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)!!
         val chatItem = chat.toChatItem()
 
@@ -80,7 +78,8 @@ class ChatActivity : AppCompatActivity() {
 //            }
 //        }
 
-        messagesListenerRegistration = FireBaseUtil.addChatMessagesListener(chat.id, this::updateRecyclerView)
+
+        FireBaseUtil.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -107,15 +106,21 @@ class ChatActivity : AppCompatActivity() {
             }
             shouldInitRecyclerView = false
         }
+        init()
 
-        fun updateItems() = messagesAdapter.updateData(messages)
-
-        if(shouldInitRecyclerView)
-            init()
-        else
-            updateItems()
+//        fun updateItems() = messagesAdapter.updateData(messages)
+//
+//        if(shouldInitRecyclerView)
+//            init()
+//        else
+//            updateItems()
 
         rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FireBaseUtil.getEngagedChats()
     }
 
     private fun initToolbar() {
