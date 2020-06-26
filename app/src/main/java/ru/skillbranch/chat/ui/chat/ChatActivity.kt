@@ -2,6 +2,7 @@ package ru.skillbranch.chat.ui.chat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,11 @@ import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
-    private var reference: CollectionReference? = null
+
+    companion object{
+        private const val TAG = "MainActivity"
+    }
+
     private lateinit var messagesAdapter: MessagesAdapter
     private var shouldInitRecyclerView = true
     private lateinit var messagesListenerRegistration: ListenerRegistration
@@ -48,14 +53,13 @@ class ChatActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initViews(){
+        FireBaseUtil.getMessages()
         chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)!!
         val chatItem = chat.toChatItem()
 
-        for(baseMessage in chat.messages){
-            baseMessage.isRead = true
-        }
-
-
+//        for(baseMessage in chat.messages){
+//            baseMessage.isRead = true
+//        }
 
         with(chatItem) {
             tv_title_chat.text = " $title"
@@ -70,31 +74,13 @@ class ChatActivity : AppCompatActivity() {
                         .into(iv_avatar_chat)
             }
         }
-        chat.members.forEach{
-            if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                tv_last_activity.text = it.toUserItem().lastActivity
-            }
-        }
+//        chat.members.forEach{
+//            if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+//                tv_last_activity.text = it.toUserItem().lastActivity
+//            }
+//        }
 
         messagesListenerRegistration = FireBaseUtil.addChatMessagesListener(chat.id, this::updateRecyclerView)
-
-
-//        reference = FirebaseFirestore.getInstance().collection("chats").document(chat.id).collection("messages")
-//        reference!!
-//                .orderBy("time")
-//                .addSnapshotListener{querySnapshot, firebaseFirestoreException ->
-//                    if (firebaseFirestoreException != null) {
-//                        return@addSnapshotListener
-//                    }
-//
-//                    val items = mutableListOf<TextMessage>()
-//
-//                    querySnapshot!!.documents.forEach{
-//                        items.add(it.toObject(TextMessage::class.java)!!)
-//                    }
-//                    messagesAdapter.updateData(items)
-//                }
-
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -114,6 +100,7 @@ class ChatActivity : AppCompatActivity() {
         fun init(){
             rv_messages.apply{
                 layoutManager = LinearLayoutManager(this@ChatActivity)
+                Log.d(TAG, "init adapter")
                 adapter = MessagesAdapter().apply {
                     updateData(messages)
                 }
@@ -125,18 +112,16 @@ class ChatActivity : AppCompatActivity() {
 
         if(shouldInitRecyclerView)
             init()
-
         else
             updateItems()
 
         rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)
-
     }
-
 
     private fun initToolbar() {
         setSupportActionBar(toolbar_chat)
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
+
 }

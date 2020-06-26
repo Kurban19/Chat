@@ -1,6 +1,6 @@
 package ru.skillbranch.chat.data.managers
 
-import android.content.Context
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,9 +11,10 @@ import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import java.util.*
 
-
 object FireBaseUtil {
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+
+    private const val TAG = "FireBase"
 
     private val currentUserDocRef: DocumentReference
         get() = fireStoreInstance.document(
@@ -28,6 +29,7 @@ object FireBaseUtil {
         fireStoreInstance.collection("users")
                 .get()
                 .addOnSuccessListener { result ->
+                    Log.d(TAG, result.documents.size.toString())
                     for (document in result) {
                         if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
                             items.add(document.toObject(User::class.java))
@@ -125,7 +127,7 @@ object FireBaseUtil {
             onListen: (List<TextMessage>) -> Unit
     ): ListenerRegistration {
         return chatsCollectionRef.document(channelId).collection("messages")
-                .orderBy("time")
+                .orderBy("date")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (firebaseFirestoreException != null) {
                         return@addSnapshotListener
@@ -133,17 +135,57 @@ object FireBaseUtil {
 
                     val items = mutableListOf<TextMessage>()
                     querySnapshot!!.documents.forEach {
-                            items.add(it.toObject(TextMessage::class.java)!!)
+                        val message = it.toObject(TextMessage::class.java)
+                        Log.d(TAG, message!!.text.toString())
+                            items.add(message)
                         return@forEach
                     }
                     onListen(items)
                 }
     }
 
+    fun getMessages(): MutableList<TextMessage> {
+        val items = mutableListOf<TextMessage>()
 
-        fun sendMessageChat(chat: Chat) {
-            chatsCollectionRef.document(chat.id)
-                    .update(chat.toMap())
+        chatsCollectionRef.document("hh1Av3KSfFO3HjtG37Ur").collection("messages")
+                .orderBy("date")
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if(firebaseFirestoreException != null) {
+                        return@addSnapshotListener
+                    }
+                    Log.d(TAG, querySnapshot!!.documents.size.toString())
+                    querySnapshot!!.documents.forEach {
+                        val message = it.toObject(TextMessage::class.java)
+                        items.add(message!!)
+                        return@forEach
+                    }
+                }
+        return items
+    }
+
+//    fun test(): MutableList<String> {
+//        val items = mutableListOf<String>()
+//
+//        chatsCollectionRef.document("hh1Av3KSfFO3HjtG37Ur").collection("messages")
+//                .get().addOnSuccessListener {
+//                    Log.d(TAG,it.documents.size.toString())
+//
+//                    it.forEach{
+//                        val message = it.toObject(TextMessage::class.java)
+//                        //Log.d(TAG, message.text.toString())
+//                        items.add(message.text.toString())
+//                        Log.d(TAG, items.size.toString())
+//                    }
+//                }
+//        Log.d(TAG, "${items.size} size of list")
+//        return items
+//    }
+
+
+
+    fun sendMessageChat(chat: Chat) {
+        chatsCollectionRef.document(chat.id)
+                .update(chat.toMap())
         }
 
     fun sendMessage(message: TextMessage, chatId: String) {
