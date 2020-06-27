@@ -94,11 +94,21 @@ object FireBaseUtil {
                 }
     }
 
+    fun getChat(chatId: String){
+        chatsCollectionRef.document(chatId)
+                .get().addOnSuccessListener { result ->
+                    if(!result.exists()){
+                        return@addOnSuccessListener
+                    }
+                    CacheManager.update(result.toObject(Chat::class.java)!!)
+                }
+    }
+
     fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){
-                        fireStoreInstance.collection("chats").document(document["channelId"] as String).
+                        chatsCollectionRef.document(document["channelId"] as String).
                         get().addOnSuccessListener { result ->
                             if(!result.exists()){
                                 return@addOnSuccessListener

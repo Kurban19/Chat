@@ -17,7 +17,6 @@ import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
-import ru.skillbranch.chat.repositories.GroupRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.ui.profile.ProfileActivity
 import ru.skillbranch.chat.utils.AppConstants
@@ -129,7 +128,7 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        FireBaseUtil.getEngagedChats()
+        FireBaseUtil.getChat(chat.id)
     }
 
     private fun initToolbar() {
