@@ -3,7 +3,6 @@ package ru.skillbranch.chat.repositories
 import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.data.managers.CacheManager
-import ru.skillbranch.chat.models.data.User
 
 object ChatRepository {
     private val chats = CacheManager.loadChats()
@@ -12,14 +11,6 @@ object ChatRepository {
         return chats
     }
 
-    fun createChat(user: User){
-        val title = "${user.firstName} ${user.lastName}"
-        val chat = Chat(CacheManager.nextChatId(), title, listOf(user))
-        //val copy = chats.value!!.toMutableList()
-        //copy.add(chat)
-        //chats.value = copy
-        CacheManager.insertChat(chat)
-    }
 
     fun update(chat: Chat) {
         val copy = chats.value!!.toMutableList()

@@ -136,54 +136,15 @@ object FireBaseUtil {
                     val items = mutableListOf<TextMessage>()
                     querySnapshot!!.documents.forEach {
                         val message = it.toObject(TextMessage::class.java)
-                        Log.d(TAG, message!!.text.toString())
-                            items.add(message)
+                            items.add(message!!)
                         return@forEach
                     }
                     onListen(items)
                 }
     }
 
-    fun getMessages(): MutableList<TextMessage> {
-        val items = mutableListOf<TextMessage>()
 
-        chatsCollectionRef.document("hh1Av3KSfFO3HjtG37Ur").collection("messages")
-                .orderBy("date")
-                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                    if(firebaseFirestoreException != null) {
-                        return@addSnapshotListener
-                    }
-                    Log.d(TAG, querySnapshot!!.documents.size.toString())
-                    querySnapshot!!.documents.forEach {
-                        val message = it.toObject(TextMessage::class.java)
-                        items.add(message!!)
-                        return@forEach
-                    }
-                }
-        return items
-    }
-
-//    fun test(): MutableList<String> {
-//        val items = mutableListOf<String>()
-//
-//        chatsCollectionRef.document("hh1Av3KSfFO3HjtG37Ur").collection("messages")
-//                .get().addOnSuccessListener {
-//                    Log.d(TAG,it.documents.size.toString())
-//
-//                    it.forEach{
-//                        val message = it.toObject(TextMessage::class.java)
-//                        //Log.d(TAG, message.text.toString())
-//                        items.add(message.text.toString())
-//                        Log.d(TAG, items.size.toString())
-//                    }
-//                }
-//        Log.d(TAG, "${items.size} size of list")
-//        return items
-//    }
-
-
-
-    fun sendMessageChat(chat: Chat) {
+    fun updateChat(chat: Chat) {
         chatsCollectionRef.document(chat.id)
                 .update(chat.toMap())
         }

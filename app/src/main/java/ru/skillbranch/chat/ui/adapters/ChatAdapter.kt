@@ -101,6 +101,7 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
 
             tv_message_single.text = item.shortDescription
             tv_title_single.text = item.title
+
             itemView.setOnClickListener{
                 listener.invoke(item)
             }
@@ -140,6 +141,8 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
                 visibility = if(item.messageCount > 0) View.VISIBLE else View.GONE
                 text = "${item.author} :"
             }
+
+
             itemView.setOnClickListener{
                 listener.invoke(item)
 

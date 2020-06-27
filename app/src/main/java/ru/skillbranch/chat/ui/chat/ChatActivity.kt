@@ -1,6 +1,7 @@
 package ru.skillbranch.chat.ui.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -8,15 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
+import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
+import ru.skillbranch.chat.repositories.GroupRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
+import ru.skillbranch.chat.ui.profile.ProfileActivity
 import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
 
@@ -28,7 +31,6 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var messagesAdapter: MessagesAdapter
     private var shouldInitRecyclerView = true
-    private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +61,8 @@ class ChatActivity : AppCompatActivity() {
 //            baseMessage.isRead = true
 //        }
 
+
+
         with(chatItem) {
             tv_title_chat.text = " $title"
             if(avatar == null){
@@ -72,11 +76,16 @@ class ChatActivity : AppCompatActivity() {
                         .into(iv_avatar_chat)
             }
         }
-//        chat.members.forEach{
-//            if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-//                tv_last_activity.text = it.toUserItem().lastActivity
-//            }
-//        }
+
+        iv_avatar_chat.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        chat.members.forEach{
+            if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                tv_last_activity.text = CacheManager.findUser(it.id).toUserItem().lastActivity
+            }
+        }
 
 
         FireBaseUtil.addChatMessagesListener(chat.id, this::updateRecyclerView)
@@ -90,7 +99,7 @@ class ChatActivity : AppCompatActivity() {
             chat.messages.add(message)
 
             FireBaseUtil.sendMessage(message, chat.id)
-            FireBaseUtil.sendMessageChat(chat)
+            FireBaseUtil.updateChat(chat)
 
         }
     }
@@ -107,7 +116,7 @@ class ChatActivity : AppCompatActivity() {
             shouldInitRecyclerView = false
         }
         init()
-
+//
 //        fun updateItems() = messagesAdapter.updateData(messages)
 //
 //        if(shouldInitRecyclerView)
