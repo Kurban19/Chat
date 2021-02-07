@@ -11,7 +11,6 @@ object ChatRepository {
         return chats
     }
 
-
     fun update(chat: Chat) {
         val copy = chats.value!!.toMutableList()
         val ind = chats.value!!.indexOfFirst { it.id == chat.id }

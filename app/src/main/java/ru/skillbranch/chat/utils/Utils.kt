@@ -3,11 +3,12 @@ package ru.skillbranch.chat.utils
 import java.util.*
 
 object Utils {
+
+    //TODO Fix this shitty function
     fun parseFullName(fullName: String?): Pair<String?, String?> {
         if (fullName == null) {
             return null to null
         }
-
         var pos: String = fullName
 
         pos = pos.trim()
