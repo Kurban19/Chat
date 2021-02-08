@@ -3,7 +3,6 @@ package ru.skillbranch.chat.ui.chat
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,17 +17,13 @@ import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
+import ru.skillbranch.chat.ui.main.MainActivity
 import ru.skillbranch.chat.ui.profile.ProfileActivity
-import ru.skillbranch.chat.utils.AppConstants
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
 
-    companion object{
-        private const val TAG = "MainActivity"
-    }
 
-    private lateinit var messagesAdapter: MessagesAdapter
     private var shouldInitRecyclerView = true
     private lateinit var chat: Chat
 
@@ -53,14 +48,12 @@ class ChatActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initViews(){
-        chat = ChatRepository.find(intent.getStringExtra(AppConstants.CHAT_ID)!!)!!
+        chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
 
 //        for(baseMessage in chat.messages){
 //            baseMessage.isRead = true
 //        }
-
-
 
         with(chatItem) {
             tv_title_chat.text = " $title"
@@ -93,7 +86,7 @@ class ChatActivity : AppCompatActivity() {
             if(et_message.text.toString() == ""){
                 return@setOnClickListener
             }
-            val message = TextMessage("3kl2ej32sf23", FirebaseAuth.getInstance().currentUser!!.toUser(), isRead = false, isIncoming = false, date = Date(), type = "text", text = et_message.text.toString())
+            val message = TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser())
             et_message.setText("")
             chat.messages.add(message)
 
@@ -107,7 +100,6 @@ class ChatActivity : AppCompatActivity() {
         fun init(){
             rv_messages.apply{
                 layoutManager = LinearLayoutManager(this@ChatActivity)
-                Log.d(TAG, "init adapter")
                 adapter = MessagesAdapter().apply {
                     updateData(messages)
                 }
@@ -124,11 +116,6 @@ class ChatActivity : AppCompatActivity() {
 //            updateItems()
 
         rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        FireBaseUtil.getChat(chat.id)
     }
 
     private fun initToolbar() {

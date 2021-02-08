@@ -138,15 +138,17 @@ object FireBaseUtil {
     ): ListenerRegistration {
         return chatsCollectionRef.document(channelId).collection("messages")
                 .orderBy("date")
-                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                    if (firebaseFirestoreException != null) {
+                .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
+                    if (firebaseFireStoreException != null) {
                         return@addSnapshotListener
                     }
 
                     val items = mutableListOf<TextMessage>()
-                    querySnapshot!!.documents.forEach {
+                    querySnapshot?.documents?.forEach {
                         val message = it.toObject(TextMessage::class.java)
-                            items.add(message!!)
+                        if (message != null) {
+                            items.add(message)
+                        }
                         return@forEach
                     }
                     onListen(items)

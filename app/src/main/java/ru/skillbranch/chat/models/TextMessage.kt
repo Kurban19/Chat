@@ -18,7 +18,18 @@ class TextMessage(
     var text: String?
 ) : BaseMessage(id, from, isIncoming, isRead, date, type){
 
-    constructor():this("hjkjhkjh89y", null, false, false, Date(), "text", "test")
+
+    companion object Factory {
+        private var lastid : Int = -1
+        fun makeMessage(text: String, from: User) : TextMessage {
+            lastid++
+            return TextMessage(
+                    id = "$lastid",
+                    from = from,
+                    text = text
+            )
+        }
+    }
 
 
     override fun formatMessage(): String = "id $id ${from?.firstName} " +

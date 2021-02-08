@@ -19,8 +19,8 @@ object ChatRepository {
         chats.value = copy
     }
 
-    fun find(chatId: String): Chat? {
+    fun find(chatId: String): Chat {
         val ind = chats.value!!.indexOfFirst { it.id == chatId}
-        return chats.value!!.getOrNull(ind)
+        return chats.value!![ind]
     }
 }

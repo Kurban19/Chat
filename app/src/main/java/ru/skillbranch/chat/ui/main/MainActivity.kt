@@ -22,7 +22,6 @@ import ru.skillbranch.chat.ui.archive.ArchiveActivity
 import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.group.GroupActivity
 import ru.skillbranch.chat.ui.signUp.SignUpActivity
-import ru.skillbranch.chat.utils.AppConstants
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import java.util.*
 
@@ -31,6 +30,10 @@ class MainActivity : AppCompatActivity(){
 
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var viewModel: MainViewModel
+
+    companion object{
+        const val CHAT_ID = "chat_id"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -101,7 +104,7 @@ class MainActivity : AppCompatActivity(){
     private fun initViews(){
         chatAdapter = ChatAdapter{
             val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra(AppConstants.CHAT_ID, it.id)
+            intent.putExtra(CHAT_ID, it.id)
             startActivity(intent)
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)

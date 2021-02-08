@@ -9,15 +9,5 @@ class UserView(
     var initialse: String?
 ) {
 
-    fun printMe(){
-        print("""
-            id: $id
-            fullName: $fullName
-            nickName: $nickName
-            avatar: $avatar
-            status: $status
-            initialse: $initialse
-        """.trimIndent())
-    }
 
 }

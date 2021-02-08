@@ -5,7 +5,6 @@ import ru.skillbranch.chat.extensions.replaceGarbage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.models.data.UserItem
-//import ru.skillbranch.chat.utils.DataGenerator
 
 object GroupRepository {
 

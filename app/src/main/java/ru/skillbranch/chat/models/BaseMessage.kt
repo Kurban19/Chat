@@ -1,6 +1,5 @@
 package ru.skillbranch.chat.models
 
-import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import java.util.*
 
@@ -12,7 +11,6 @@ abstract class BaseMessage(
         val date: Date = Date(),
         open val type: String = "text"
 ) {
-
 
 
     abstract fun formatMessage(): String
