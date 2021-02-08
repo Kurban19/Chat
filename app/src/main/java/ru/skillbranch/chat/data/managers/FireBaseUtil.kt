@@ -1,11 +1,14 @@
 package ru.skillbranch.chat.data.managers
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.QuerySnapshot
 import ru.skillbranch.chat.extensions.toUser
+import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
@@ -133,10 +136,10 @@ object FireBaseUtil {
     }
 
     fun addChatMessagesListener(
-            channelId: String,
+            chatId: String,
             onListen: (List<TextMessage>) -> Unit
     ): ListenerRegistration {
-        return chatsCollectionRef.document(channelId).collection("messages")
+        return chatsCollectionRef.document(chatId).collection("messages")
                 .orderBy("date")
                 .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
                     if (firebaseFireStoreException != null) {
@@ -153,6 +156,23 @@ object FireBaseUtil {
                     }
                     onListen(items)
                 }
+    }
+
+
+    fun getUnreadMessages(chatId: String): Int {
+        val result = mutableListOf<BaseMessage>()
+        chatsCollectionRef.document(chatId).collection("messages")
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    querySnapshot.documents.forEach {
+                        val message = it.toObject(TextMessage::class.java)
+                        if (message != null) {
+                            result.add(message)
+                        }
+                        return@forEach
+                    }
+                }
+        return result.filter { !it.isRead }.size
     }
 
 
