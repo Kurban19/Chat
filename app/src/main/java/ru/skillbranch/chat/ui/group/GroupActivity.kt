@@ -15,11 +15,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
-import ru.skillbranch.chat.data.managers.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.ui.adapters.UserAdapter
 import ru.skillbranch.chat.viewmodels.GroupViewModel

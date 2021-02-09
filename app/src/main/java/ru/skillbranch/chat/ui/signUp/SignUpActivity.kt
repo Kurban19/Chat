@@ -10,7 +10,7 @@ import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import kotlinx.android.synthetic.main.activity_login.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.data.managers.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.ui.main.MainActivity
 
 class SignUpActivity : AppCompatActivity() {

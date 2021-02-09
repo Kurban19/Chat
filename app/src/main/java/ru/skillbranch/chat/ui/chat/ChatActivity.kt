@@ -1,6 +1,5 @@
 package ru.skillbranch.chat.ui.chat
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.data.managers.CacheManager
-import ru.skillbranch.chat.data.managers.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat

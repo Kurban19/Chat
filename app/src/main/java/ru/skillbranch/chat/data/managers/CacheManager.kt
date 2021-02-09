@@ -2,14 +2,13 @@ package ru.skillbranch.chat.data.managers
 
 import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.extensions.mutableLiveData
+import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 
 object CacheManager {
     private val chats = mutableLiveData(listOf<Chat>())
     private var users = mutableLiveData(FireBaseUtil.getUsers())
-
-    const val TAG = "CacheManager"
 
     fun loadChats(): MutableLiveData<List<Chat>> {
         return chats
@@ -19,7 +18,7 @@ object CacheManager {
         return users.value
     }
 
-    fun update(chat: Chat) {
+    fun updateChat(chat: Chat) {
         val copy = chats.value!!.toMutableList()
         val ind = chats.value!!.indexOfFirst { it.id == chat.id }
         if(ind == -1) return

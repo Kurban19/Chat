@@ -1,12 +1,11 @@
-package ru.skillbranch.chat.data.managers
+package ru.skillbranch.chat.firebase
 
 import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.QuerySnapshot
+import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage

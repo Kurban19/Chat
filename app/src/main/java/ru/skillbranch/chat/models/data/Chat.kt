@@ -1,6 +1,6 @@
 package ru.skillbranch.chat.models.data
 
-import ru.skillbranch.chat.data.managers.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.extensions.shortFormat
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.ImageMessage
