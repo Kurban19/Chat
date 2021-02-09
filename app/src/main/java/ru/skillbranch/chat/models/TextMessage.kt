@@ -10,12 +10,12 @@ import java.util.*
 
 class TextMessage(
     id: String,
-    from: User?,
+    from: User,
     isRead: Boolean = false,
     isIncoming: Boolean = false,
     date: Date = Date(),
     override val type: String = "text",
-    var text: String?
+    var text: String
 ) : BaseMessage(id, from, isIncoming, isRead, date, type){
 
 

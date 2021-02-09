@@ -7,7 +7,4 @@ class UserView(
     var avatar: String? = null,
     var status: String? = "offline",
     var initialse: String?
-) {
-
-
-}
+) {}

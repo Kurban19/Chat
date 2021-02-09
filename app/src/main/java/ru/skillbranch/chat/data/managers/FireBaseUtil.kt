@@ -81,7 +81,7 @@ object FireBaseUtil {
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
                     val newChat = chatsCollectionRef.document()
-                    newChat.set(Chat(newChat.id, otherUser.firstName!!, mutableListOf(currentUser.toUser(), otherUser), mutableListOf()))
+                    newChat.set(Chat(newChat.id, otherUser.firstName, mutableListOf(currentUser.toUser(), otherUser), null))
 
                     currentUserDocRef.collection("engagedChats")
                             .document(otherUser.id)

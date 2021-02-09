@@ -24,7 +24,6 @@ import java.util.*
 class ChatActivity : AppCompatActivity() {
 
 
-    private var shouldInitRecyclerView = true
     private lateinit var chat: Chat
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,23 +45,18 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun initViews(){
         chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
-
-//        for(baseMessage in chat.messages){
-//            baseMessage.isRead = true
-//        }
+        chatItem.messageCount = 0
 
         with(chatItem) {
-            tv_title_chat.text = " $title"
+            tv_title_chat.text = title
             if(avatar == null){
                 Glide.with(this@ChatActivity)
                         .clear(iv_avatar_chat)
                 iv_avatar_chat.setInitials(initials)
-            }
-            else{
+            } else{
                 Glide.with(this@ChatActivity)
                         .load(avatar)
                         .into(iv_avatar_chat)
@@ -73,6 +67,7 @@ class ChatActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+
         chat.members.forEach{
             if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
                 tv_last_activity.text = CacheManager.findUser(it.id).toUserItem().lastActivity
@@ -88,7 +83,7 @@ class ChatActivity : AppCompatActivity() {
             }
             val message = TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser())
             et_message.setText("")
-            chat.messages.add(message)
+            chat.lastMessage = message
 
             FireBaseUtil.sendMessage(message, chat.id)
             FireBaseUtil.updateChat(chat)
@@ -97,23 +92,12 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun updateRecyclerView(messages: List<TextMessage>){
-        fun init(){
-            rv_messages.apply{
-                layoutManager = LinearLayoutManager(this@ChatActivity)
-                adapter = MessagesAdapter().apply {
-                    updateData(messages)
-                }
+        rv_messages.apply{
+            layoutManager = LinearLayoutManager(this@ChatActivity)
+            adapter = MessagesAdapter().apply {
+                updateData(messages)
             }
-            shouldInitRecyclerView = false
         }
-        init()
-//
-//        fun updateItems() = messagesAdapter.updateData(messages)
-//
-//        if(shouldInitRecyclerView)
-//            init()
-//        else
-//            updateItems()
 
         rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)
     }

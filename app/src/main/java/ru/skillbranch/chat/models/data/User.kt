@@ -7,7 +7,7 @@ import java.util.*
 
 data class User (
     var id:String,
-    var firstName:String?,
+    var firstName:String,
     var lastName:String?,
     var avatar:String?,
     var lastVisit: Date? = null,

@@ -5,7 +5,7 @@ import java.util.*
 
 abstract class BaseMessage(
         val id: String,
-        val from: User?,
+        val from: User,
         val isIncoming: Boolean = false,
         var isRead: Boolean = false,
         val date: Date = Date(),
@@ -16,7 +16,7 @@ abstract class BaseMessage(
     abstract fun formatMessage(): String
     companion object AbstractFactory{
         var lastId = -1
-        fun makeMessage(from: User?, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false, isRead: Boolean = false) : BaseMessage{
+        fun makeMessage(from: User, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false, isRead: Boolean = false) : BaseMessage{
             lastId++
             return when(type){
                 "image" -> ImageMessage("$lastId", from, isIncoming = isIncoming, isRead = isRead, date = date, image = payload as String, type = "image")

@@ -1,10 +1,7 @@
 package ru.skillbranch.chat.models.data
 
-import androidx.annotation.VisibleForTesting
-import com.google.firebase.auth.FirebaseAuth
 import ru.skillbranch.chat.data.managers.FireBaseUtil
 import ru.skillbranch.chat.extensions.shortFormat
-import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.ImageMessage
 import ru.skillbranch.chat.models.TextMessage
@@ -15,13 +12,13 @@ data class Chat(
     val id: String,
     var title: String,
     val members: List<User> = listOf(),
-    var lastMessage: BaseMessage,
+    var lastMessage: BaseMessage? = null,
     var isArchived: Boolean = false){
 
     private fun unreadableMessageCount(): Int = FireBaseUtil.getUnreadMessages(id)
 
     private fun lastMessageDate(): Date {
-        return lastMessage.date
+        return lastMessage?.date ?: Date()
     }
 
     fun toMap(): Map<String, Any> {
@@ -29,17 +26,16 @@ data class Chat(
                 "id" to id,
                 "title" to title,
                 "members" to members,
-                "lastMessage" to lastMessage,
+                "lastMessage" to lastMessage!!,
                 "isArchived" to isArchived)
     }
 
 
-    private fun lastMessageShort(): Pair<String?, String> = when(val lastMessage = lastMessage){
-        is TextMessage -> lastMessage.text to  lastMessage.from!!.firstName!!
-        is ImageMessage -> "${lastMessage.from!!.firstName!!} - отправил фото" to  lastMessage.from.firstName!!
+    private fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
+        is TextMessage -> lastMessage.text to lastMessage.from.firstName
+        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
         else -> "Сообщений еще нет" to "undefine"
     }
-
 
     private fun isSingle(): Boolean = members.size == 1
 
