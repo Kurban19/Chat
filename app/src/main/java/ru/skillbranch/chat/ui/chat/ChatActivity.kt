@@ -9,11 +9,12 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
+import ru.skillbranch.chat.repositories.UsersRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.ui.main.MainActivity
 import ru.skillbranch.chat.ui.profile.ProfileActivity
@@ -23,6 +24,7 @@ class ChatActivity : AppCompatActivity() {
 
 
     private lateinit var chat: Chat
+    private lateinit var messagesAdapter: MessagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -44,6 +46,8 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
+        //init adapter for recycler view
+        messagesAdapter = MessagesAdapter()
         chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
         chatItem.messageCount = 0
@@ -68,12 +72,11 @@ class ChatActivity : AppCompatActivity() {
 
         chat.members.forEach{
             if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                tv_last_activity.text = CacheManager.findUser(it.id).toUserItem().lastActivity
+                tv_last_activity.text = UsersRepository.findUser(it.id).toUserItem().lastActivity
             }
         }
 
-
-        FireBaseUtil.addChatMessagesListener(chat.id, this::updateRecyclerView)
+        FireBase.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -83,8 +86,8 @@ class ChatActivity : AppCompatActivity() {
             et_message.setText("")
             chat.lastMessage = message
 
-            FireBaseUtil.sendMessage(message, chat.id)
-            FireBaseUtil.updateChat(chat)
+            FireBase.sendMessage(message, chat.id)
+            FireBase.updateChat(chat)
 
         }
     }
@@ -92,9 +95,9 @@ class ChatActivity : AppCompatActivity() {
     private fun updateRecyclerView(messages: List<TextMessage>){
         rv_messages.apply{
             layoutManager = LinearLayoutManager(this@ChatActivity)
-            adapter = MessagesAdapter().apply {
+            adapter = messagesAdapter.apply {
                 updateData(messages)
-            }
+                }
         }
 
         rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)

@@ -15,7 +15,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(){
                             val intent = Intent(this, SignUpActivity::class.java)
                             startActivity(intent)
                         }
-                FireBaseUtil.updateCurrentUser(Date(), false)
+                FireBase.updateCurrentUser(Date(), false)
                 true
             }
             else -> {
@@ -134,12 +134,12 @@ class MainActivity : AppCompatActivity(){
 
     override fun onStop() {
         super.onStop()
-        FireBaseUtil.updateCurrentUser(Date(), false)
+        FireBase.updateCurrentUser(Date(), false)
     }
 
     override fun onStart() {
         super.onStart()
-        FireBaseUtil.updateCurrentUser(Date(), true)
+        FireBase.updateCurrentUser(Date(), true)
     }
 
     private fun initViewModel()  {

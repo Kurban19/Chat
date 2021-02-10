@@ -1,6 +1,6 @@
 package ru.skillbranch.chat.models.data
 
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.extensions.shortFormat
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.ImageMessage
@@ -15,7 +15,7 @@ data class Chat(
     var lastMessage: BaseMessage? = null,
     var isArchived: Boolean = false){
 
-    private fun unreadableMessageCount(): Int = FireBaseUtil.getUnreadMessages(id)
+    private fun unreadableMessageCount(): Int = FireBase.getUnreadMessages(id)
 
     private fun lastMessageDate(): Date {
         return lastMessage?.date ?: Date()

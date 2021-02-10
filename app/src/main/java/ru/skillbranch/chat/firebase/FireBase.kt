@@ -10,9 +10,10 @@ import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
+import ru.skillbranch.chat.repositories.ChatRepository
 import java.util.*
 
-object FireBaseUtil {
+object FireBase {
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private const val TAG = "FireBase"
@@ -44,7 +45,7 @@ object FireBaseUtil {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 with(FirebaseAuth.getInstance().currentUser){
-                    val newUser = User(this!!.uid, displayName ?: "unknown", "", email ?: "", Date())
+                    val newUser = User(this!!.uid, displayName ?: "unknown", "", email = email ?: "")
 
                 currentUserDocRef.set(newUser).addOnSuccessListener {
                     onComplete()
@@ -62,12 +63,6 @@ object FireBaseUtil {
         currentUserDocRef.update(userFieldMap)
     }
 
-    fun getCurrentUser(onComplete: (User) -> Unit) {
-        currentUserDocRef.get()
-                .addOnSuccessListener {
-                    onComplete(it.toObject(User::class.java)!!)
-                }
-    }
 
     fun getOrCreateChat(otherUser: User) {
 
@@ -95,17 +90,7 @@ object FireBaseUtil {
                 }
     }
 
-    fun getChat(chatId: String){
-        chatsCollectionRef.document(chatId)
-                .get().addOnSuccessListener { result ->
-                    if(!result.exists()){
-                        return@addOnSuccessListener
-                    }
-                    CacheManager.updateChat(result.toObject(Chat::class.java)!!)
-                }
-    }
-
-    fun getEngagedChats(){
+    fun getEngagedChats(onComplete: (() -> Unit)? = null){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){
@@ -118,19 +103,22 @@ object FireBaseUtil {
                             if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
                                 chat.members.forEach{
                                     if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                                        chat.title = it.firstName ?: "Unknown"
+                                        chat.title = it.firstName
                                     }
                                 }
                             }
-                            if(CacheManager.haveChat(chat.id)){
-                                CacheManager.updateChat(chat)
+                            if(ChatRepository.haveChat(chat.id)){
+                                ChatRepository.updateChat(chat)
                             }
                             else{
-                                CacheManager.insertChat(chat)
+                                ChatRepository.insertChat(chat)
                             }
                         }
                     }
                 }
+        if (onComplete != null) {
+            onComplete()
+        }
     }
 
     fun addChatMessagesListener(

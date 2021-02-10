@@ -10,8 +10,8 @@ import ru.skillbranch.chat.repositories.UsersRepository
 
 class GroupViewModel : ViewModel() {
     private val query = mutableLiveData("")
-    private val groupRepository = UsersRepository
-    private val userItems = mutableLiveData(loadUsers())
+    private val usersRepository = UsersRepository
+    private val userItems = mutableLiveData(usersRepository.loadUsers().value!!.map{it.toUserItem()})
     private val selectedItems = Transformations.map(userItems){users -> users.filter {it.isSelected}}
 
     fun getUsersData(): LiveData<List<UserItem>>{
@@ -52,10 +52,8 @@ class GroupViewModel : ViewModel() {
     }
 
 
-    private fun loadUsers(): List<UserItem> = groupRepository.loadUsers().map{it.toUserItem()}
-
     fun handleCreatedGroup() {
-        groupRepository.createChat(selectedItems.value!!)
+        usersRepository.createChat(selectedItems.value!!)
     }
 
 

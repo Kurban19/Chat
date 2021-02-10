@@ -2,14 +2,14 @@ package ru.skillbranch.chat.repositories
 
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.extensions.replaceGarbage
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.models.data.UserItem
 
 object UsersRepository {
 
-    private val users = mutableLiveData(FireBaseUtil.getUsers())
+    private val users = mutableLiveData(FireBase.getUsers())
 
 
     fun loadUsers() = users

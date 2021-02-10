@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.models.data.UserItem
+import ru.skillbranch.chat.repositories.ChatRepository
+import ru.skillbranch.chat.repositories.UsersRepository
 import ru.skillbranch.chat.ui.adapters.UserAdapter
 import ru.skillbranch.chat.viewmodels.GroupViewModel
 
@@ -82,9 +84,9 @@ class GroupActivity : AppCompatActivity() {
 
     private fun initViews() {
         usersAdapter = UserAdapter {
-            val user = CacheManager.findUser(it.id)
+            val user = UsersRepository.findUser(it.id)
             //viewModel.handleSelectedItem(it.id)
-            FireBaseUtil.getOrCreateChat(user)
+            FireBase.getOrCreateChat(user)
             finish()
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
@@ -99,7 +101,7 @@ class GroupActivity : AppCompatActivity() {
             finish()
         }
 
-        val users = FireBaseUtil.getUsers()
+        val users = FireBase.getUsers()
         Log.d(TAG, users.size.toString())
 
 

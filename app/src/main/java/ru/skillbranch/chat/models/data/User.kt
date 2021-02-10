@@ -9,8 +9,8 @@ data class User (
     var id:String,
     var firstName:String,
     var lastName:String?,
-    var avatar:String?,
-    var lastVisit: Date? = null,
+    var avatar:String? = null,
+    var lastVisit: Date = Date(),
     var isOnline:Boolean = false,
     var email: String
 ) {
@@ -35,34 +35,11 @@ data class User (
     }
 
 
-    constructor(id: String, firstName: String, lastName: String, email: String) : this(
-        id = id,
-        firstName = firstName,
-        lastName = lastName,
-        email = email,
-        avatar = null
-    )
-
-    ;constructor(id: String, firstName: String, lastName: String, email: String, date: Date) : this(
-            id = id,
-            firstName = firstName,
-            lastName = lastName,
-            email = email,
-            avatar = null,
-            lastVisit = date)
-
-    constructor(): this("42332253fd", "John", "Doe", "")
-
-    constructor(id: String, firstName: String, email: String):this(id, firstName, "", email)
-
-    constructor(id: String) : this(id, "John", "Doe", "")
-
-
     companion object Factory {
         private var lastid : Int = -1
-        fun makeUser(fullName:String?) : User {
-            lastid++
 
+        fun makeUser(fullName:String) : User {
+            lastid++
             val (firsName, lastName) = Utils.parseFullName(fullName)
 
             return User(

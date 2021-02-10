@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.ui.main.MainActivity
 import ru.skillbranch.chat.ui.signUp.SignUpActivity
 
@@ -17,9 +17,7 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else{
-            FireBaseUtil.getEngagedChats()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            FireBase.getEngagedChats{startActivity(Intent(this, MainActivity::class.java))}
         }
         finish()
     }

@@ -10,7 +10,7 @@ import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import kotlinx.android.synthetic.main.activity_login.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBaseUtil
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.ui.main.MainActivity
 
 class SignUpActivity : AppCompatActivity() {
@@ -49,10 +49,8 @@ class SignUpActivity : AppCompatActivity() {
 
         if(requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
-
             if (resultCode == Activity.RESULT_OK) {
-
-                FireBaseUtil.initCurrentUserIfFirstTime {
+                FireBase.initCurrentUserIfFirstTime {
                     startActivity(Intent(this, MainActivity::class.java))
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
