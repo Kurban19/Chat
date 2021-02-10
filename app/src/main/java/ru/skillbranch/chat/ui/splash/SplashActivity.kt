@@ -6,14 +6,14 @@ import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.ui.main.MainActivity
-import ru.skillbranch.chat.ui.signUp.SignUpActivity
+import ru.skillbranch.chat.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if(FirebaseAuth.getInstance().currentUser == null){
-            val intent = Intent(this, SignUpActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
         else{

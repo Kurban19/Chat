@@ -24,7 +24,7 @@ class ChatActivity : AppCompatActivity() {
 
 
     private lateinit var chat: Chat
-    private lateinit var messagesAdapter: MessagesAdapter
+    private val messagesAdapter: MessagesAdapter = MessagesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -46,8 +46,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
-        //init adapter for recycler view
-        messagesAdapter = MessagesAdapter()
         chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
         chatItem.messageCount = 0

@@ -1,4 +1,4 @@
-package ru.skillbranch.chat.ui.signUp
+package ru.skillbranch.chat.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -13,7 +13,7 @@ import ru.skillbranch.chat.R
 import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.ui.main.MainActivity
 
-class SignUpActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 0
 
     private val signInProviders =

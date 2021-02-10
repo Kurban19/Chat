@@ -21,7 +21,7 @@ import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
 import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.group.GroupActivity
-import ru.skillbranch.chat.ui.signUp.SignUpActivity
+import ru.skillbranch.chat.ui.login.LoginActivity
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import java.util.*
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(){
                 AuthUI.getInstance()
                         .signOut(this@MainActivity)
                         .addOnCompleteListener {
-                            val intent = Intent(this, SignUpActivity::class.java)
+                            val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
                 FireBase.updateCurrentUser(Date(), false)

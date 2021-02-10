@@ -18,6 +18,12 @@ class TextMessage(
     var text: String
 ) : BaseMessage(id, from, isIncoming, isRead, date, type){
 
+    constructor() : this("", User.makeUser("Johny"), text = "")
+
+
+    override fun formatMessage(): String = "id $id ${from.firstName} " +
+            "${if(isIncoming) "получил" else " отправил"} сообщение \"$text\" ${date.humanizeDiff()}"
+
 
     companion object Factory {
         private var lastid : Int = -1
@@ -30,9 +36,5 @@ class TextMessage(
             )
         }
     }
-
-
-    override fun formatMessage(): String = "id $id ${from?.firstName} " +
-            "${if(isIncoming) "получил" else " отправил"} сообщение \"$text\" ${date.humanizeDiff()}"
 
 }

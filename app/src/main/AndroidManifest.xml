@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.signUp.SignUpActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.chat.ChatActivity" />
         <activity android:name=".ui.main.MainActivity"/>
         <activity android:name=".ui.group.GroupActivity" />

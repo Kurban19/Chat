@@ -12,6 +12,8 @@ abstract class BaseMessage(
         open val type: String = "text"
 ) {
 
+    constructor() : this("", User.makeUser("Johny"))
+
 
     abstract fun formatMessage(): String
     companion object AbstractFactory{

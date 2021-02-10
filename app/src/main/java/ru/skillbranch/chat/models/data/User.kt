@@ -8,12 +8,15 @@ import java.util.*
 data class User (
     var id:String,
     var firstName:String,
-    var lastName:String?,
+    var lastName:String = "",
     var avatar:String? = null,
-    var lastVisit: Date = Date(),
+    var lastVisit: Date? = null,
     var isOnline:Boolean = false,
-    var email: String
+    var email: String = ""
 ) {
+
+    constructor() : this("", "")
+
 
 
     fun toUserItem(): UserItem {

@@ -5,6 +5,7 @@ import ru.skillbranch.chat.extensions.shortFormat
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.ImageMessage
 import ru.skillbranch.chat.models.TextMessage
+import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.utils.Utils
 import java.util.*
 
@@ -14,6 +15,8 @@ data class Chat(
     val members: List<User> = listOf(),
     var lastMessage: BaseMessage? = null,
     var isArchived: Boolean = false){
+
+    constructor() : this("", "Unknown")
 
     private fun unreadableMessageCount(): Int = FireBase.getUnreadMessages(id)
 
