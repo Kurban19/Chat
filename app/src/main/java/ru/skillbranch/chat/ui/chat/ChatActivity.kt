@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.TextMessage

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.firebase.FireBaseUtil
 import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.ui.adapters.UserAdapter

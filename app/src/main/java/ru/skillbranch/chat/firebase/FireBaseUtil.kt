@@ -5,7 +5,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import ru.skillbranch.chat.data.managers.CacheManager
 import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
@@ -102,7 +101,7 @@ object FireBaseUtil {
                     if(!result.exists()){
                         return@addOnSuccessListener
                     }
-                    CacheManager.update(result.toObject(Chat::class.java)!!)
+                    CacheManager.updateChat(result.toObject(Chat::class.java)!!)
                 }
     }
 
@@ -124,7 +123,7 @@ object FireBaseUtil {
                                 }
                             }
                             if(CacheManager.haveChat(chat.id)){
-                                CacheManager.update(chat)
+                                CacheManager.updateChat(chat)
                             }
                             else{
                                 CacheManager.insertChat(chat)

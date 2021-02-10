@@ -80,8 +80,7 @@ class MainActivity : AppCompatActivity(){
                 true
             }
             R.id.action_profile -> {
-                //val intent = Intent(this, ProfileActivity::class.java)
-                //startActivity(intent)
+
                 AuthUI.getInstance()
                         .signOut(this@MainActivity)
                         .addOnCompleteListener {
