@@ -13,7 +13,7 @@ data class Chat(
     val id: String,
     var title: String,
     val members: List<User> = listOf(),
-    var lastMessage: BaseMessage? = null,
+    var lastMessage: TextMessage? = null,
     var isArchived: Boolean = false){
 
     constructor() : this("", "Unknown")
@@ -36,7 +36,7 @@ data class Chat(
 
     private fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
         is TextMessage -> lastMessage.text to lastMessage.from.firstName
-        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
+//        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
         else -> "Сообщений еще нет" to "undefine"
     }
 

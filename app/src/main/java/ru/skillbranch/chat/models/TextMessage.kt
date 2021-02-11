@@ -9,16 +9,15 @@ import ru.skillbranch.chat.models.data.User
 import java.util.*
 
 class TextMessage(
-    id: String,
-    from: User,
+    id: String = "",
+    from: User = User.makeUser("Johny"),
     isRead: Boolean = false,
     isIncoming: Boolean = false,
     date: Date = Date(),
     override val type: String = "text",
-    var text: String
+    var text: String = ""
 ) : BaseMessage(id, from, isIncoming, isRead, date, type){
 
-    constructor() : this("", User.makeUser("Johny"), text = "")
 
 
     override fun formatMessage(): String = "id $id ${from.firstName} " +

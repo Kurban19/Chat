@@ -4,15 +4,14 @@ import ru.skillbranch.chat.models.data.User
 import java.util.*
 
 abstract class BaseMessage(
-        val id: String,
-        val from: User,
+        val id: String = "",
+        val from: User = User.makeUser("Johny"),
         val isIncoming: Boolean = false,
         var isRead: Boolean = false,
         val date: Date = Date(),
         open val type: String = "text"
 ) {
 
-    constructor() : this("", User.makeUser("Johny"))
 
 
     abstract fun formatMessage(): String

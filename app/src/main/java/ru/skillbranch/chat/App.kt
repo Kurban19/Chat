@@ -9,8 +9,6 @@ import ru.skillbranch.chat.repositories.PreferencesRepository
 class App: Application() {
 
     companion object{
-
-        var user = User.makeUser("Admin Sucks")
         private var instance:App? = null
 
         fun applicationContext(): Context{

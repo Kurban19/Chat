@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
-
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
@@ -51,7 +49,7 @@ fun Date.humanizeDiff(date: Date = Date()): String{
 
     println(this.format())
 
-    val diffInMillies = current!!.getTime() - past!!.getTime()
+    val diffInMillies = current!!.time - past!!.time
     val days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS)
     val hours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS)
     val minutes = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS)
@@ -82,7 +80,7 @@ enum class TimeUnits{
     DAY;
 
     fun plural(input: Long): String {
-        var times: Array<String> =
+        val times: Array<String> =
             when(true) {
                 this == SECOND -> arrayOf("секунду", "секунды", "секунд")
                 this == MINUTE -> arrayOf("минуту", "минуты", "минут")
@@ -97,7 +95,7 @@ enum class TimeUnits{
 
         if (number % 10 == 1L && number % 100 != 11L) {
             str += times[0]
-        } else if (number % 10 >= 2 && number % 10 <= 4 && (number % 100 < 10 || number % 100 >= 20)) {
+        } else if (number % 10 in 2..4 && (number % 100 < 10 || number % 100 >= 20)) {
             str += times[1]
         } else {
             str += times[2]

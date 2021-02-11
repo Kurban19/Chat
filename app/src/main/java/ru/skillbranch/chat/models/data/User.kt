@@ -6,8 +6,8 @@ import ru.skillbranch.chat.utils.Utils
 import java.util.*
 
 data class User (
-    var id:String,
-    var firstName:String,
+    var id:String = "",
+    var firstName:String = "",
     var lastName:String = "",
     var avatar:String? = null,
     var lastVisit: Date? = null,
@@ -15,7 +15,6 @@ data class User (
     var email: String = ""
 ) {
 
-    constructor() : this("", "")
 
 
 
