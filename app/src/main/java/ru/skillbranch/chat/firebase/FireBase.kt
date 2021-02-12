@@ -30,10 +30,10 @@ object FireBase {
     fun getAllDataFromServer(onComplete: (() -> Unit)){
         getEngagedChats()
         getUsers()
-        onComplete
+        onComplete()
     }
 
-    fun getUsers(){
+    private fun getUsers(){
         fireStoreInstance.collection("users")
                 .get()
                 .addOnSuccessListener { result ->
@@ -70,7 +70,6 @@ object FireBase {
 
 
     fun getOrCreateChat(otherUser: User) {
-
         currentUserDocRef.collection("engagedChats")
                 .document(otherUser.id).get().addOnSuccessListener {
                     if (it.exists()) {
@@ -95,7 +94,7 @@ object FireBase {
                 }
     }
 
-    fun getEngagedChats(){
+    private fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){

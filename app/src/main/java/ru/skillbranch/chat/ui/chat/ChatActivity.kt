@@ -17,7 +17,6 @@ import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.repositories.UsersRepository
 import ru.skillbranch.chat.ui.adapters.MessagesAdapter
 import ru.skillbranch.chat.ui.main.MainActivity
-import ru.skillbranch.chat.ui.profile.ProfileActivity
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
@@ -62,10 +61,6 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        iv_avatar_chat.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
 
         chat.members.forEach{
             if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
