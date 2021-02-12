@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else{
-            FireBase.getEngagedChats{startActivity(Intent(this, MainActivity::class.java))}
+            FireBase.getAllDataFromServer{startActivity(Intent(this, MainActivity::class.java))}
         }
         finish()
     }

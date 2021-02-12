@@ -101,10 +101,6 @@ class GroupActivity : AppCompatActivity() {
             finish()
         }
 
-        val users = FireBase.getUsers()
-        Log.d(TAG, users.size.toString())
-
-
     }
 
     private fun initViewModel() {

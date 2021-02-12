@@ -9,10 +9,16 @@ import ru.skillbranch.chat.models.data.UserItem
 
 object UsersRepository {
 
-    private val users = mutableLiveData(FireBase.getUsers())
+    private val users = mutableLiveData(listOf<User>())
 
 
     fun loadUsers() = users
+
+    fun addUser(user: User){
+        val copy = users.value!!.toMutableList()
+        copy.add(user)
+        users.value = copy
+    }
 
 
     fun findUser(userId: String): User{

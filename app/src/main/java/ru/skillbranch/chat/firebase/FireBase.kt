@@ -11,6 +11,7 @@ import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.repositories.ChatRepository
+import ru.skillbranch.chat.repositories.UsersRepository
 import java.util.*
 
 object FireBase {
@@ -26,18 +27,22 @@ object FireBase {
     private val chatsCollectionRef = fireStoreInstance.collection("chats")
 
 
-    fun getUsers(): MutableList<User> {
-        val items = mutableListOf<User>()
+    fun getAllDataFromServer(onComplete: (() -> Unit)){
+        getEngagedChats()
+        getUsers()
+        onComplete
+    }
+
+    fun getUsers(){
         fireStoreInstance.collection("users")
                 .get()
                 .addOnSuccessListener { result ->
                     Log.d(TAG, result.documents.size.toString())
                     for (document in result) {
                         if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
-                            items.add(document.toObject(User::class.java))
+                            UsersRepository.addUser(document.toObject(User::class.java))
                     }
                 }
-        return items
     }
 
 
@@ -48,11 +53,11 @@ object FireBase {
                     val newUser = User(this!!.uid, displayName ?: "unknown", "", email = email ?: "")
 
                 currentUserDocRef.set(newUser).addOnSuccessListener {
-                    onComplete()
+                    getAllDataFromServer(onComplete)
                     }
                 }
             } else
-                onComplete()
+                getAllDataFromServer(onComplete)
         }
     }
 
@@ -90,7 +95,7 @@ object FireBase {
                 }
     }
 
-    fun getEngagedChats(onComplete: (() -> Unit)? = null){
+    fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){
@@ -116,9 +121,6 @@ object FireBase {
                         }
                     }
                 }
-        if (onComplete != null) {
-            onComplete()
-        }
     }
 
     fun addChatMessagesListener(

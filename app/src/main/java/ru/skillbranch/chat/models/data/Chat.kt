@@ -1,5 +1,6 @@
 package ru.skillbranch.chat.models.data
 
+import android.util.Log
 import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.extensions.shortFormat
 import ru.skillbranch.chat.models.BaseMessage
@@ -10,13 +11,12 @@ import ru.skillbranch.chat.utils.Utils
 import java.util.*
 
 data class Chat(
-    val id: String,
-    var title: String,
+    val id: String = "",
+    var title: String = "",
     val members: List<User> = listOf(),
     var lastMessage: TextMessage? = null,
     var isArchived: Boolean = false){
 
-    constructor() : this("", "Unknown")
 
     private fun unreadableMessageCount(): Int = FireBase.getUnreadMessages(id)
 
@@ -43,13 +43,14 @@ data class Chat(
     private fun isSingle(): Boolean = members.size == 1
 
     fun toChatItem(): ChatItem {
-        val user = members.first()
+        val user = members.last()
+        Log.d("Tag", user.firstName)
         return if (isSingle()) {
             ChatItem(
                     id,
                     user.avatar,
                     Utils.toInitials(user.firstName, user.lastName) ?: "??",
-                    "${user.firstName ?: ""} ${user.lastName ?: ""}",
+                    "${user.firstName} ${user.lastName}",
                     lastMessageShort().first,
                     unreadableMessageCount(),
                     lastMessageDate().shortFormat(),

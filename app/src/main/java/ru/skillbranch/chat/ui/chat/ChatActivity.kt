@@ -22,7 +22,6 @@ import java.util.*
 
 class ChatActivity : AppCompatActivity() {
 
-
     private lateinit var chat: Chat
     private val messagesAdapter: MessagesAdapter = MessagesAdapter()
 
@@ -70,7 +69,7 @@ class ChatActivity : AppCompatActivity() {
 
         chat.members.forEach{
             if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-//                tv_last_activity.text = UsersRepository.findUser(it.id).toUserItem().lastActivity
+                tv_last_activity.text = UsersRepository.findUser(it.id).toUserItem().lastActivity
             }
         }
 
