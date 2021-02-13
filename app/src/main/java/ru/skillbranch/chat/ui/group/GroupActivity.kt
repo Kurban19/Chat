@@ -76,7 +76,6 @@ class GroupActivity : AppCompatActivity() {
     }
 
 
-
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -84,10 +83,10 @@ class GroupActivity : AppCompatActivity() {
 
     private fun initViews() {
         usersAdapter = UserAdapter {
-            val user = UsersRepository.findUser(it.id)
-            //viewModel.handleSelectedItem(it.id)
-            FireBase.getOrCreateChat(user)
-            finish()
+//            val user = UsersRepository.findUser(it.id)
+//            //viewModel.handleSelectedItem(it.id)
+//            FireBase.getOrCreateChat(user)
+//            finish()
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         with(rv_user_list){
@@ -136,10 +135,10 @@ class GroupActivity : AppCompatActivity() {
     private fun updateChips(listUsers: List<UserItem>){
         chip_group.visibility = if(listUsers.isEmpty()) View.GONE else View.VISIBLE
         val users = listUsers
-            .associate { user -> user.id to user }
-            .toMutableMap()
+                .associateBy { user -> user.id }
+                .toMutableMap()
 
-        val views = chip_group.children.associate{ view -> view.tag to view }
+        val views = chip_group.children.associateBy { view -> view.tag }
 
         for((k,v) in views){
             if(users.containsKey(k)) chip_group.removeView(v)
