@@ -31,7 +31,7 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private lateinit var usersAdapter: UserAdapter
-    private lateinit var viewModel:GroupViewModel
+    private lateinit var viewModel: GroupViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -135,11 +135,10 @@ class GroupActivity : AppCompatActivity() {
 
     private fun updateChips(listUsers: List<UserItem>){
         chip_group.visibility = if(listUsers.isEmpty()) View.GONE else View.VISIBLE
-        val users = listUsers
-            .associate { user -> user.id to user }
+        val users = listUsers.associateBy { user -> user.id }
             .toMutableMap()
 
-        val views = chip_group.children.associate{ view -> view.tag to view }
+        val views = chip_group.children.associateBy { view -> view.tag }
 
         for((k,v) in views){
             if(users.containsKey(k)) chip_group.removeView(v)
