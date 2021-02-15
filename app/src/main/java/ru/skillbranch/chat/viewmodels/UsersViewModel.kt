@@ -5,10 +5,11 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import ru.skillbranch.chat.extensions.mutableLiveData
+import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.repositories.UsersRepository
 
-class GroupViewModel : ViewModel() {
+class UsersViewModel : ViewModel() {
     private val query = mutableLiveData("")
     private val usersRepository = UsersRepository
     private val userItems = mutableLiveData(usersRepository.loadUsers().value!!.map{it.toUserItem()})

@@ -23,7 +23,7 @@
         <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.chat.ChatActivity" />
         <activity android:name=".ui.main.MainActivity"/>
-        <activity android:name=".ui.group.GroupActivity" />
+        <activity android:name=".ui.users.UsersActivity" />
         <activity android:name=".ui.archive.ArchiveActivity" />
         <activity android:name=".ui.profile.ProfileActivity" />
     </application>

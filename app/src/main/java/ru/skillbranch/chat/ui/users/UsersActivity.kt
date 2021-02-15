@@ -1,9 +1,9 @@
-package ru.skillbranch.chat.ui.group
+package ru.skillbranch.chat.ui.users
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,21 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.models.data.UserItem
-import ru.skillbranch.chat.repositories.ChatRepository
-import ru.skillbranch.chat.repositories.UsersRepository
 import ru.skillbranch.chat.ui.adapters.UserAdapter
-import ru.skillbranch.chat.viewmodels.GroupViewModel
+import ru.skillbranch.chat.viewmodels.UsersViewModel
 
-class GroupActivity : AppCompatActivity() {
+class UsersActivity : AppCompatActivity() {
 
     companion object{
         const val TAG = "GroupActivity"
     }
 
     private lateinit var usersAdapter: UserAdapter
-    private lateinit var viewModel: GroupViewModel
+    private lateinit var viewModel: UsersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -84,15 +81,12 @@ class GroupActivity : AppCompatActivity() {
 
     private fun initViews() {
         usersAdapter = UserAdapter {
-            val user = UsersRepository.findUser(it.id)
-            //viewModel.handleSelectedItem(it.id)
-            FireBase.getOrCreateChat(user)
-            finish()
+            viewModel.handleSelectedItem(it.id)
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         with(rv_user_list){
             adapter = usersAdapter
-            layoutManager = LinearLayoutManager(this@GroupActivity)
+            layoutManager = LinearLayoutManager(this@UsersActivity)
             addItemDecoration(divider)
         }
 
@@ -104,11 +98,11 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
         viewModel.getUsersData().observe(this, Observer { usersAdapter.updateData(it) })
         viewModel.getSelectedData().observe(this, Observer {
             updateChips(it)
-            toggleFab(it.size>1)
+            toggleFab(it.isNotEmpty())
         })
     }
 
@@ -118,6 +112,7 @@ class GroupActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun addChipToGroup(user: UserItem) {
         val chip = Chip(this).apply {
             text = user.fullName
@@ -144,7 +139,6 @@ class GroupActivity : AppCompatActivity() {
             if(users.containsKey(k)) chip_group.removeView(v)
             else users.remove(k)
         }
-
         users.forEach{(_,v) ->addChipToGroup(v)}
     }
 }

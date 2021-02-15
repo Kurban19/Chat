@@ -68,6 +68,10 @@ object FireBase {
         currentUserDocRef.update(userFieldMap)
     }
 
+    fun getOrCreateGroupChat(list: List<User>){
+
+    }
+
 
     fun getOrCreateChat(otherUser: User) {
         currentUserDocRef.collection("engagedChats")

@@ -20,7 +20,7 @@ import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
 import ru.skillbranch.chat.ui.chat.ChatActivity
-import ru.skillbranch.chat.ui.group.GroupActivity
+import ru.skillbranch.chat.ui.users.UsersActivity
 import ru.skillbranch.chat.ui.login.LoginActivity
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import java.util.*
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(){
             addItemDecoration(divider)
         }
         fab.setOnClickListener{
-            val intent = Intent(this, GroupActivity::class.java)
+            val intent = Intent(this, UsersActivity::class.java)
             startActivity(intent)
         }
     }
