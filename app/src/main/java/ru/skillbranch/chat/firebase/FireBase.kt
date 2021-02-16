@@ -68,7 +68,27 @@ object FireBase {
         currentUserDocRef.update(userFieldMap)
     }
 
-    fun getOrCreateGroupChat(list: List<User>){
+    fun getOrCreateGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
+        val currentUser = FirebaseAuth.getInstance().currentUser!!
+
+        val newChat = chatsCollectionRef.document()
+        listOfUsers.add(currentUser.toUser())
+        newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
+
+        listOfUsers.forEach {
+            currentUserDocRef.collection("engagedChats")
+                    .document(it.id)
+                    .set(mapOf("channelId" to newChat.id))
+        }
+
+        listOfUsers.forEach {
+            fireStoreInstance.collection("users").document(it.id)
+                    .collection("engagedChats")
+                    .document(currentUser.uid)
+                    .set(mapOf("channelId" to newChat.id))
+        }
+
+        getEngagedChats()
 
     }
 
@@ -93,8 +113,6 @@ object FireBase {
                             .document(currentUser.uid)
                             .set(mapOf("channelId" to newChat.id))
                             getEngagedChats()
-
-
                 }
     }
 

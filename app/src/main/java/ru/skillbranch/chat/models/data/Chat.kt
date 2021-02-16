@@ -11,11 +11,11 @@ import ru.skillbranch.chat.utils.Utils
 import java.util.*
 
 data class Chat(
-    val id: String = "",
-    var title: String = "",
-    val members: List<User> = listOf(),
-    var lastMessage: TextMessage? = null,
-    var isArchived: Boolean = false){
+        val id: String = "",
+        var title: String = "",
+        val members: List<User> = listOf(),
+        var lastMessage: TextMessage? = null,
+        var isArchived: Boolean = false){
 
 
     private fun unreadableMessageCount(): Int = FireBase.getUnreadMessages(id)

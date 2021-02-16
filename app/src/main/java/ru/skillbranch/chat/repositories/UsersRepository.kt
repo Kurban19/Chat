@@ -2,7 +2,6 @@ package ru.skillbranch.chat.repositories
 
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.extensions.replaceGarbage
-import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.models.data.UserItem
