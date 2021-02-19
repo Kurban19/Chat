@@ -109,7 +109,6 @@ class UsersActivity : AppCompatActivity() {
     private fun toggleFab(isShow: Boolean) {
         if(isShow) fab.show()
         else fab.hide()
-
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

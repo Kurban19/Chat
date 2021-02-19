@@ -29,7 +29,7 @@ object UsersRepository {
         return users.value!!.first()
     }
 
-    private fun findUsersById(ids: List<String>): List<User> {
+    fun findUsersById(ids: List<String>): List<User> {
         return users.value!!.filter { ids.contains(it.id) }
     }
 

@@ -10,6 +10,7 @@ import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.User
+import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.repositories.UsersRepository
 import java.util.*
@@ -68,14 +69,14 @@ object FireBase {
         currentUserDocRef.update(userFieldMap)
     }
 
-    fun getOrCreateGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
-        val currentUser = FirebaseAuth.getInstance().currentUser!!
-
+    fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
+        val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
         val newChat = chatsCollectionRef.document()
-        listOfUsers.add(currentUser.toUser())
+        listOfUsers.add(currentUser)
         newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
 
         listOfUsers.forEach {
+            if(it.id == currentUser.id) return
             currentUserDocRef.collection("engagedChats")
                     .document(it.id)
                     .set(mapOf("channelId" to newChat.id))
@@ -84,12 +85,21 @@ object FireBase {
         listOfUsers.forEach {
             fireStoreInstance.collection("users").document(it.id)
                     .collection("engagedChats")
-                    .document(currentUser.uid)
+                    .document(currentUser.id)
                     .set(mapOf("channelId" to newChat.id))
         }
 
-        getEngagedChats()
+        listOfUsers.forEach{
+            for (user in listOfUsers){
+                if(user.id == it.id) return
+                fireStoreInstance.collection("users").document(it.id)
+                        .collection("engagedChats")
+                        .document(user.id)
+                        .set(mapOf("channelId" to newChat.id))
+            }
+        }
 
+        getEngagedChats()
     }
 
 

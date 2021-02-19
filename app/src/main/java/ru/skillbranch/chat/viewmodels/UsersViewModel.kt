@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.firebase.FireBase
+import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.repositories.UsersRepository
 
@@ -54,7 +55,12 @@ class UsersViewModel : ViewModel() {
 
 
     fun handleCreatedGroup() {
-        usersRepository.createChat(selectedItems.value!!)
+        if(selectedItems.value!!.size > 1){
+            FireBase.createGroupChat(usersRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
+        }
+        else{
+            FireBase.getOrCreateChat(usersRepository.findUser(selectedItems.value!!.first().id))
+        }
     }
 
 
