@@ -9,6 +9,7 @@ import ru.skillbranch.chat.extensions.toUser
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
+import ru.skillbranch.chat.models.data.ChatId
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.repositories.ChatRepository
@@ -29,7 +30,7 @@ object FireBase {
 
 
     fun getAllDataFromServer(onComplete: (() -> Unit)){
-        getEngagedChats()
+//        getEngagedChats()
         getUsers()
         onComplete()
     }
@@ -79,14 +80,16 @@ object FireBase {
             if(it.id == currentUser.id) return
             currentUserDocRef.collection("engagedChats")
                     .document(it.id)
-                    .set(mapOf("channelId" to newChat.id))
+                    .set(ChatId(newChat.id))
+//                    .set(mapOf("channelId" to newChat.id))
         }
 
         listOfUsers.forEach {
             fireStoreInstance.collection("users").document(it.id)
                     .collection("engagedChats")
                     .document(currentUser.id)
-                    .set(mapOf("channelId" to newChat.id))
+                    .set(ChatId(newChat.id))
+//                    .set(mapOf("channelId" to newChat.id))
         }
 
         listOfUsers.forEach{
@@ -95,11 +98,12 @@ object FireBase {
                 fireStoreInstance.collection("users").document(it.id)
                         .collection("engagedChats")
                         .document(user.id)
-                        .set(mapOf("channelId" to newChat.id))
+                        .set(ChatId(newChat.id))
+//                        .set(mapOf("channelId" to newChat.id))
             }
         }
 
-        getEngagedChats()
+//        getEngagedChats()
     }
 
 
@@ -115,14 +119,16 @@ object FireBase {
                     newChat.set(Chat(newChat.id, otherUser.firstName, mutableListOf(currentUser.toUser(), otherUser), null))
 
                     currentUserDocRef.collection("engagedChats")
-                            .document(otherUser.id)
-                            .set(mapOf("channelId" to newChat.id))
+                            .document(newChat.id)
+                            .set(ChatId(newChat.id))
+//                            .set(mapOf("channelId" to newChat.id))
 
                     fireStoreInstance.collection("users").document(otherUser.id)
                             .collection("engagedChats")
-                            .document(currentUser.uid)
-                            .set(mapOf("channelId" to newChat.id))
-                            getEngagedChats()
+                            .document(newChat.id)
+                            .set(ChatId(newChat.id))
+//                            .set(mapOf("channelId" to newChat.id))
+//                            getEngagedChats()
                 }
     }
 
