@@ -30,7 +30,7 @@ object FireBase {
 
 
     fun getAllDataFromServer(onComplete: (() -> Unit)){
-//        getEngagedChats()
+        getEngagedChats()
         getUsers()
         onComplete()
     }
@@ -76,34 +76,22 @@ object FireBase {
         listOfUsers.add(currentUser)
         newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
 
-        listOfUsers.forEach {
-            if(it.id == currentUser.id) return
-            currentUserDocRef.collection("engagedChats")
-                    .document(it.id)
-                    .set(ChatId(newChat.id))
-//                    .set(mapOf("channelId" to newChat.id))
-        }
+        currentUserDocRef.collection("engagedChats")
+                .document(newChat.id)
+                .set(ChatId(newChat.id))
 
-        listOfUsers.forEach {
-            fireStoreInstance.collection("users").document(it.id)
-                    .collection("engagedChats")
-                    .document(currentUser.id)
-                    .set(ChatId(newChat.id))
-//                    .set(mapOf("channelId" to newChat.id))
-        }
+
 
         listOfUsers.forEach{
             for (user in listOfUsers){
                 if(user.id == it.id) return
                 fireStoreInstance.collection("users").document(it.id)
                         .collection("engagedChats")
-                        .document(user.id)
+                        .document(newChat.id)
                         .set(ChatId(newChat.id))
-//                        .set(mapOf("channelId" to newChat.id))
             }
         }
-
-//        getEngagedChats()
+        getEngagedChats()
     }
 
 
@@ -121,22 +109,20 @@ object FireBase {
                     currentUserDocRef.collection("engagedChats")
                             .document(newChat.id)
                             .set(ChatId(newChat.id))
-//                            .set(mapOf("channelId" to newChat.id))
 
                     fireStoreInstance.collection("users").document(otherUser.id)
                             .collection("engagedChats")
                             .document(newChat.id)
                             .set(ChatId(newChat.id))
-//                            .set(mapOf("channelId" to newChat.id))
-//                            getEngagedChats()
                 }
+        getEngagedChats()
     }
 
     private fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){
-                        chatsCollectionRef.document(document["channelId"] as String).
+                        chatsCollectionRef.document(document.id).
                         get().addOnSuccessListener { result ->
                             if(!result.exists()){
                                 return@addOnSuccessListener
