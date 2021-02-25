@@ -11,7 +11,6 @@ import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.ChatId
 import ru.skillbranch.chat.models.data.User
-import ru.skillbranch.chat.models.data.UserItem
 import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.repositories.UsersRepository
 import java.util.*

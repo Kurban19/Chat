@@ -30,6 +30,7 @@ class ChatActivity : AppCompatActivity() {
 
         initToolbar()
         initViews()
+        setMessagesListener()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -61,12 +62,25 @@ class ChatActivity : AppCompatActivity() {
         }
 
 
-        chat.members.forEach{
-            if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                tv_last_activity.text = UsersRepository.findUser(it.id).toUserItem().lastActivity
+        if(chat.members.size > 2){
+            var concatenatedString = ""
+            chat.members.forEach {
+                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                    concatenatedString += UsersRepository.findUser(it.id).firstName + " "
+                }
+            }
+            tv_last_activity.text = concatenatedString.trim()
+        }
+        else{
+            chat.members.forEach{
+                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                    tv_last_activity.text = UsersRepository.findUser(it.id).toUserItem().lastActivity
+                }
             }
         }
+    }
 
+    private fun setMessagesListener(){
         FireBase.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
