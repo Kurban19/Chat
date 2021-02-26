@@ -15,7 +15,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBase
+import ru.skillbranch.chat.firebase.FireBaseChats
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.chat.ui.archive.ArchiveActivity
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(){
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        FireBaseChats.getUsers()
         initToolbar()
         initViews()
         initViewModel()
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity(){
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
-                FireBase.updateCurrentUser(Date(), false)
+                FireBaseChats.updateCurrentUser(Date(), false)
                 true
             }
             else -> {
@@ -134,12 +135,12 @@ class MainActivity : AppCompatActivity(){
 
     override fun onStop() {
         super.onStop()
-        FireBase.updateCurrentUser(Date(), false)
+        FireBaseChats.updateCurrentUser(Date(), false)
     }
 
     override fun onStart() {
         super.onStart()
-        FireBase.updateCurrentUser(Date(), true)
+        FireBaseChats.updateCurrentUser(Date(), true)
     }
 
     private fun initViewModel()  {

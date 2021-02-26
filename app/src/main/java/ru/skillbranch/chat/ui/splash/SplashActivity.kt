@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
-import ru.skillbranch.chat.firebase.FireBase
 import ru.skillbranch.chat.ui.main.MainActivity
 import ru.skillbranch.chat.ui.login.LoginActivity
 
@@ -17,7 +16,8 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else{
-            FireBase.getAllDataFromServer{startActivity(Intent(this, MainActivity::class.java))}
+//            FireBase.getAllDataFromServer{startActivity(Intent(this, MainActivity::class.java))}
+            startActivity(Intent(this, MainActivity::class.java))
         }
         finish()
     }

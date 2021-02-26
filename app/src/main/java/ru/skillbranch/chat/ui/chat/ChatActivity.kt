@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.extensions.toUser
-import ru.skillbranch.chat.firebase.FireBase
+import ru.skillbranch.chat.firebase.FireBaseChats
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
@@ -27,7 +27,6 @@ class ChatActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
         initToolbar()
         initViews()
         setMessagesListener()
@@ -61,12 +60,11 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-
         if(chat.members.size > 2){
             var concatenatedString = ""
             chat.members.forEach {
                 if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    concatenatedString += UsersRepository.findUser(it.id).firstName + " "
+                    concatenatedString += UsersRepository.findUser(it.id)!!.firstName + " "
                 }
             }
             tv_last_activity.text = concatenatedString.trim()
@@ -74,14 +72,14 @@ class ChatActivity : AppCompatActivity() {
         else{
             chat.members.forEach{
                 if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    tv_last_activity.text = UsersRepository.findUser(it.id).toUserItem().lastActivity
+                    tv_last_activity.text = UsersRepository.findUser(it.id)!!.toUserItem().lastActivity
                 }
             }
         }
     }
 
     private fun setMessagesListener(){
-        FireBase.addChatMessagesListener(chat.id, this::updateRecyclerView)
+        FireBaseChats.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -91,8 +89,8 @@ class ChatActivity : AppCompatActivity() {
             et_message.setText("")
             chat.lastMessage = message
 
-            FireBase.sendMessage(message, chat.id)
-            FireBase.updateChat(chat)
+            FireBaseChats.sendMessage(message, chat.id)
+            FireBaseChats.updateChat(chat)
 
         }
     }

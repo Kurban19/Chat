@@ -3,10 +3,16 @@ package ru.skillbranch.chat.repositories
 import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.extensions.mutableLiveData
+import ru.skillbranch.chat.firebase.FireBaseChats
 
 object ChatRepository {
 
     private val chats = mutableLiveData(listOf<Chat>())
+
+
+    init {
+        FireBaseChats.getEngagedChats()
+    }
 
     fun loadChats() : MutableLiveData<List<Chat>> {
         return chats

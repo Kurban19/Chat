@@ -15,7 +15,7 @@ import ru.skillbranch.chat.repositories.ChatRepository
 import ru.skillbranch.chat.repositories.UsersRepository
 import java.util.*
 
-object FireBase {
+object FireBaseChats {
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private const val TAG = "FireBase"
@@ -25,49 +25,9 @@ object FireBase {
                 "users/${FirebaseAuth.getInstance().currentUser?.uid
                         ?: throw NullPointerException("UID is null.")}"
         )
+
     private val chatsCollectionRef = fireStoreInstance.collection("chats")
 
-
-    fun getAllDataFromServer(onComplete: (() -> Unit)){
-        getEngagedChats()
-        getUsers()
-        onComplete()
-    }
-
-    private fun getUsers(){
-        fireStoreInstance.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    Log.d(TAG, result.documents.size.toString())
-                    for (document in result) {
-                        if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
-                            UsersRepository.addUser(document.toObject(User::class.java))
-                    }
-                }
-    }
-
-
-    fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
-        currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
-            if (!documentSnapshot.exists()) {
-                with(FirebaseAuth.getInstance().currentUser){
-                    val newUser = User(this!!.uid, displayName ?: "unknown", "", email = email ?: "")
-
-                currentUserDocRef.set(newUser).addOnSuccessListener {
-                    getAllDataFromServer(onComplete)
-                    }
-                }
-            } else
-                getAllDataFromServer(onComplete)
-        }
-    }
-
-    fun updateCurrentUser(date: Date = Date(), online: Boolean) {
-        val userFieldMap = mutableMapOf<String, Any>()
-        userFieldMap["lastVisit"] = date
-        userFieldMap["online"] = online
-        currentUserDocRef.update(userFieldMap)
-    }
 
     fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
         val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
@@ -78,8 +38,6 @@ object FireBase {
         currentUserDocRef.collection("engagedChats")
                 .document(newChat.id)
                 .set(ChatId(newChat.id))
-
-
 
         listOfUsers.forEach{
             for (user in listOfUsers){
@@ -117,7 +75,7 @@ object FireBase {
         getEngagedChats()
     }
 
-    private fun getEngagedChats(){
+    fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){

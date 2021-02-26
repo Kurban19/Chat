@@ -10,7 +10,6 @@ object UsersRepository {
 
     private val users = mutableLiveData(listOf<User>())
 
-
     fun loadUsers() = users
 
     fun addUser(user: User){
@@ -20,13 +19,13 @@ object UsersRepository {
     }
 
 
-    fun findUser(userId: String): User{
+    fun findUser(userId: String): User?{
         users.value!!.forEach {
             if(userId == it.id){
-                return it;
+                return it
             }
         }
-        return users.value!!.first()
+        return null
     }
 
     fun findUsersById(ids: List<String>): List<User> {
