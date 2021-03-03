@@ -16,7 +16,6 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else{
-//            FireBase.getAllDataFromServer{startActivity(Intent(this, MainActivity::class.java))}
             startActivity(Intent(this, MainActivity::class.java))
         }
         finish()
