@@ -1,6 +1,5 @@
 package ru.skillbranch.chat.firebase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,7 +11,6 @@ import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.models.data.ChatId
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.repositories.ChatRepository
-import ru.skillbranch.chat.repositories.UsersRepository
 import java.util.*
 
 object FireBaseChats {

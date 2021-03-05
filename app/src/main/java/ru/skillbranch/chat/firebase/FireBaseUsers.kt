@@ -20,9 +20,11 @@ object FireBaseUsers {
                 ?: throw NullPointerException("UID is null.")}"
         )
 
+    private val usersCollectionRef = fireStoreInstance.collection("users")
+
 
     fun getUsers(){
-        fireStoreInstance.collection("users")
+        usersCollectionRef
             .get()
             .addOnSuccessListener { result ->
                 Log.d(TAG, result.documents.size.toString())
@@ -44,7 +46,7 @@ object FireBaseUsers {
                     currentUserDocRef.set(newUser)
                 }
             }
-        }
+        }.addOnCompleteListener { onComplete }
     }
 
     fun updateCurrentUser(date: Date = Date(), online: Boolean) {
