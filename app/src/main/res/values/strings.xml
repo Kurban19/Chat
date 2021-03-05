@@ -14,4 +14,5 @@
     <string name="hint_sign_up_password">Password</string>
     <string name="text_sign_up_btn">Already has an account?</string>
     <string name="sign_up_btn">Sign Up</string>
+    <string name="title_archive">Архив</string>
 </resources>
