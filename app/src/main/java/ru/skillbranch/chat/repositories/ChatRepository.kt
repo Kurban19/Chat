@@ -34,10 +34,6 @@ object ChatRepository {
         chats.value = copy
     }
 
-    fun nextChatId(): String{
-        return "${chats.value!!.size}"
-    }
-
     fun insertChat(chat: Chat){
         val copy = chats.value!!.toMutableList()
         copy.add(chat)
