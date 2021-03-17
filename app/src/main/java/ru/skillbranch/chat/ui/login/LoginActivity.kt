@@ -50,9 +50,8 @@ class LoginActivity : AppCompatActivity() {
         if(requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-                FireBaseUsers.initCurrentUserIfFirstTime {
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
+                FireBaseUsers.initCurrentUserIfFirstTime()
+                startActivity(Intent(this, MainActivity::class.java))
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 if (response == null) return
 

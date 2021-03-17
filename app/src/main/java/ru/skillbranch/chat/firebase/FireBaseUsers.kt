@@ -38,7 +38,7 @@ object FireBaseUsers {
     }
 
 
-    fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
+    fun initCurrentUserIfFirstTime() {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 with(FirebaseAuth.getInstance().currentUser){
@@ -46,7 +46,7 @@ object FireBaseUsers {
                     currentUserDocRef.set(newUser)
                 }
             }
-        }.addOnCompleteListener { onComplete }
+        }
     }
 
     fun updateCurrentUser(date: Date = Date(), online: Boolean) {

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -146,7 +147,27 @@ class MainActivity : AppCompatActivity(){
 
     private fun initViewModel()  {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getChatData().observe(this, Observer { chatAdapter.updateData(it) })
+        viewModel.getChatData().observe(this, Observer {
+            if(it.isEmpty()){
+                toggleProgressBar(true)
+            }
+            else{
+                toggleProgressBar(false)
+            }
+            chatAdapter.updateData(it)
+        })
+    }
+
+    private fun toggleProgressBar(visible: Boolean){
+        if (visible){
+            rv_chat_list.visibility = View.GONE
+            progress_bar.visibility = View.VISIBLE
+        }
+        else{
+            rv_chat_list.visibility = View.VISIBLE
+            progress_bar.visibility = View.GONE
+        }
+
     }
 
 }
