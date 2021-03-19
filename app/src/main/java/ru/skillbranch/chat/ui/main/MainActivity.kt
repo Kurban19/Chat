@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,7 +31,7 @@ import java.util.*
 class MainActivity : AppCompatActivity(){
 
     private lateinit var chatAdapter: ChatAdapter
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     companion object{
         const val CHAT_ID = "chat_id"
@@ -145,7 +146,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initViewModel()  {
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getChatData().observe(this, Observer {
             if(it.isEmpty()){
                 toggleProgressBar(true)

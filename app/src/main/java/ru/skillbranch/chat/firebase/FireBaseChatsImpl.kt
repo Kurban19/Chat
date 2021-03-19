@@ -90,12 +90,12 @@ class FireBaseChatsImpl: FireBaseChats {
                                     }
                                 }
                             }
-                            if(ChatRepository.haveChat(chat.id)){
-                                ChatRepository.updateChat(chat)
-                            }
-                            else{
-                                ChatRepository.insertChat(chat)
-                            }
+//                            if(ChatRepository.haveChat(chat.id)){
+//                                ChatRepository.updateChat(chat)
+//                            }
+//                            else{
+//                                ChatRepository.insertChat(chat)
+//                            }
                         }
                     }
                 }

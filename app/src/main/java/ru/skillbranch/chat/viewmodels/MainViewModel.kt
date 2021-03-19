@@ -7,16 +7,17 @@ import androidx.lifecycle.ViewModel
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.ChatItem
 import ru.skillbranch.chat.repositories.ChatRepository
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val chatRepository: ChatRepository
+): ViewModel() {
 
     private val query = mutableLiveData("")
-    private val chatRepository = ChatRepository
     private val chats = Transformations.map(chatRepository.loadChats()) { chats ->
         return@map chats.filter{!it.isArchived}
             .map { it.toChatItem() }
     }
-
 
 
     fun getChatData() : LiveData<List<ChatItem>>{
