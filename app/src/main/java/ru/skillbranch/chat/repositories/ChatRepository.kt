@@ -3,7 +3,7 @@ package ru.skillbranch.chat.repositories
 import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.extensions.mutableLiveData
-import ru.skillbranch.chat.firebase.FireBaseChats
+import ru.skillbranch.chat.firebase.FireBaseChatsImpl
 
 object ChatRepository {
 
@@ -11,7 +11,7 @@ object ChatRepository {
 
 
     init {
-        FireBaseChats.getEngagedChats()
+        FireBaseChatsImpl.getEngagedChats()
     }
 
     fun loadChats() : MutableLiveData<List<Chat>> {

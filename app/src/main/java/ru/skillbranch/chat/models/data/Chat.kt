@@ -1,7 +1,7 @@
 package ru.skillbranch.chat.models.data
 
 import android.util.Log
-import ru.skillbranch.chat.firebase.FireBaseChats
+import ru.skillbranch.chat.firebase.FireBaseChatsImpl
 import ru.skillbranch.chat.extensions.shortFormat
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.utils.Utils
@@ -15,7 +15,7 @@ data class Chat(
         var isArchived: Boolean = false){
 
 
-    private fun unreadableMessageCount(): Int = FireBaseChats.getUnreadMessages(id)
+    private fun unreadableMessageCount(): Int = FireBaseChatsImpl.getUnreadMessages(id)
 
     private fun lastMessageDate(): Date {
         return lastMessage?.date ?: Date()

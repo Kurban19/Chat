@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chat.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.extensions.toUser
-import ru.skillbranch.chat.firebase.FireBaseChats
+import ru.skillbranch.chat.firebase.FireBaseChatsImpl
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.repositories.ChatRepository
@@ -79,7 +79,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setMessagesListener(){
-        FireBaseChats.addChatMessagesListener(chat.id, this::updateRecyclerView)
+//        FireBaseChatsImpl.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -89,8 +89,8 @@ class ChatActivity : AppCompatActivity() {
             et_message.setText("")
             chat.lastMessage = message
 
-            FireBaseChats.sendMessage(message, chat.id)
-            FireBaseChats.updateChat(chat)
+//            FireBaseChatsImpl.sendMessage(message, chat.id)
+//            FireBaseChatsImpl.updateChat(chat)
 
         }
     }

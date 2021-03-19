@@ -16,7 +16,6 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
-import ru.skillbranch.chat.firebase.FireBaseChats
 import ru.skillbranch.chat.firebase.FireBaseUsers
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
 import ru.skillbranch.chat.ui.adapters.ChatItemTouchHelperCallback
@@ -137,12 +136,12 @@ class MainActivity : AppCompatActivity(){
 
     override fun onStop() {
         super.onStop()
-        FireBaseUsers.updateCurrentUser(Date(), false)
+//        FireBaseUsers.updateCurrentUser(Date(), false)
     }
 
     override fun onStart() {
         super.onStart()
-        FireBaseUsers.updateCurrentUser(Date(), true)
+//        FireBaseUsers.updateCurrentUser(Date(), true)
     }
 
     private fun initViewModel()  {

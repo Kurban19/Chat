@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import ru.skillbranch.chat.extensions.toUser
+import ru.skillbranch.chat.interfaces.FireBaseChats
 import ru.skillbranch.chat.models.BaseMessage
 import ru.skillbranch.chat.models.TextMessage
 import ru.skillbranch.chat.models.data.Chat
@@ -13,10 +14,9 @@ import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.repositories.ChatRepository
 import java.util.*
 
-object FireBaseChats {
-    private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+class FireBaseChatsImpl: FireBaseChats {
 
-    private const val TAG = "FireBase"
+    private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private val currentUserDocRef: DocumentReference
         get() = fireStoreInstance.document(
@@ -27,7 +27,7 @@ object FireBaseChats {
     private val chatsCollectionRef = fireStoreInstance.collection("chats")
 
 
-    fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
+    override fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
         val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
         val newChat = chatsCollectionRef.document()
         listOfUsers.add(currentUser)
@@ -50,7 +50,7 @@ object FireBaseChats {
     }
 
 
-    fun getOrCreateChat(otherUser: User) {
+    override fun getOrCreateChat(otherUser: User) {
         currentUserDocRef.collection("engagedChats")
                 .document(otherUser.id).get().addOnSuccessListener {
                     if (it.exists()) {
@@ -73,7 +73,7 @@ object FireBaseChats {
         getEngagedChats()
     }
 
-    fun getEngagedChats(){
+    override fun getEngagedChats(){
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { result ->
                     for(document in result){
@@ -101,7 +101,7 @@ object FireBaseChats {
                 }
     }
 
-    fun addChatMessagesListener(
+    override fun addChatMessagesListener(
             chatId: String,
             onListen: (List<TextMessage>) -> Unit
     ): ListenerRegistration {
@@ -125,7 +125,7 @@ object FireBaseChats {
     }
 
 
-    fun getUnreadMessages(chatId: String): Int {
+    override fun getUnreadMessages(chatId: String): Int {
         val result = mutableListOf<BaseMessage>()
         chatsCollectionRef.document(chatId).collection("messages")
                 .get()
@@ -142,12 +142,12 @@ object FireBaseChats {
     }
 
 
-    fun updateChat(chat: Chat) {
+    override fun updateChat(chat: Chat) {
         chatsCollectionRef.document(chat.id)
                 .update(chat.toMap())
         }
 
-    fun sendMessage(message: TextMessage, chatId: String) {
+    override fun sendMessage(message: TextMessage, chatId: String) {
         chatsCollectionRef.document(chatId)
                 .collection("messages")
                 .add(message)
