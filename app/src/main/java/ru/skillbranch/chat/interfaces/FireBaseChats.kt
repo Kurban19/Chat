@@ -7,11 +7,11 @@ import ru.skillbranch.chat.models.data.User
 
 interface FireBaseChats {
 
-    fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String)
+    fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit)
 
     fun getOrCreateChat(otherUser: User)
 
-    fun getEngagedChats()
+    fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String)
 
     fun addChatMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration
 

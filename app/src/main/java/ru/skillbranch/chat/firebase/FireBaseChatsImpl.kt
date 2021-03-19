@@ -46,7 +46,6 @@ class FireBaseChatsImpl: FireBaseChats {
                         .set(ChatId(newChat.id))
             }
         }
-        getEngagedChats()
     }
 
 
@@ -70,15 +69,51 @@ class FireBaseChatsImpl: FireBaseChats {
                             .document(newChat.id)
                             .set(ChatId(newChat.id))
                 }
-        getEngagedChats()
     }
 
-    override fun getEngagedChats(){
+
+//    override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit){
+//        val items = mutableListOf<Chat>()
+//        currentUserDocRef.collection("engagedChats")
+//                .get().addOnSuccessListener { result ->
+//                    for(document in result){
+//                        chatsCollectionRef.document(document.id).
+//                        get().addOnSuccessListener { result ->
+//                            if(!result.exists()){
+//                                return@addOnSuccessListener
+//                            }
+//                            val chat = result.toObject(Chat::class.java)!!
+//                            if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
+//                                chat.members.forEach{
+//                                    if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+//                                        chat.title = it.firstName
+//                                    }
+//                                }
+//                            }
+//                            items.add(chat)
+//
+////                            if(ChatRepository.haveChat(chat.id)){
+////                                ChatRepository.updateChat(chat)
+////                            }
+////                            else{
+////                                ChatRepository.insertChat(chat)
+////                            }
+//                        }
+//                    }
+//                }
+//    }
+
+
+    override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit){
+        val items = mutableListOf<Chat>()
         currentUserDocRef.collection("engagedChats")
-                .get().addOnSuccessListener { result ->
-                    for(document in result){
-                        chatsCollectionRef.document(document.id).
-                        get().addOnSuccessListener { result ->
+            .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
+                if (firebaseFireStoreException != null) {
+                    return@addSnapshotListener
+                }
+                querySnapshot?.documents?.forEach {
+                    chatsCollectionRef.document(it.id)
+                        .get().addOnSuccessListener { result ->
                             if(!result.exists()){
                                 return@addOnSuccessListener
                             }
@@ -90,15 +125,11 @@ class FireBaseChatsImpl: FireBaseChats {
                                     }
                                 }
                             }
-//                            if(ChatRepository.haveChat(chat.id)){
-//                                ChatRepository.updateChat(chat)
-//                            }
-//                            else{
-//                                ChatRepository.insertChat(chat)
-//                            }
+                            items.add(chat)
                         }
-                    }
                 }
+            }
+        onListen(items)
     }
 
     override fun addChatMessagesListener(

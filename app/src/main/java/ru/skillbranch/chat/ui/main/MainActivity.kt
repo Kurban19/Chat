@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.firebase.FireBaseUsers
@@ -27,7 +28,7 @@ import ru.skillbranch.chat.ui.login.LoginActivity
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import java.util.*
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
     private lateinit var chatAdapter: ChatAdapter

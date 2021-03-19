@@ -55,10 +55,10 @@ class UsersViewModel : ViewModel() {
 
     fun handleCreatedGroup() {
         if(selectedItems.value!!.size > 1){
-            FireBaseChatsImpl.createGroupChat(usersRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
+//            FireBaseChatsImpl.createGroupChat(usersRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
         }
         else{
-            FireBaseChatsImpl.getOrCreateChat(usersRepository.findUser(selectedItems.value!!.first().id)!!)
+//            FireBaseChatsImpl.getOrCreateChat(usersRepository.findUser(selectedItems.value!!.first().id)!!)
         }
     }
 

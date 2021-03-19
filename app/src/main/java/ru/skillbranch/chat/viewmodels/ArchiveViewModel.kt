@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.ChatItem
 import ru.skillbranch.chat.repositories.ChatRepository
+import javax.inject.Inject
 
-class ArchiveViewModel: ViewModel() {
+class ArchiveViewModel @Inject constructor(private val chatRepository: ChatRepository): ViewModel() {
     private val query = mutableLiveData("")
-    private val chatRepository = ChatRepository
     private val chats = Transformations.map(chatRepository.loadChats()) { chats ->
         return@map chats.filter{it.isArchived}
             .map { it.toChatItem() }
@@ -36,13 +36,11 @@ class ArchiveViewModel: ViewModel() {
 
     fun addToArchive(chatId: String) {
         val chat = chatRepository.find(chatId)
-        chat ?: return
         chatRepository.update(chat.copy(isArchived = true))
     }
 
     fun restoreFromArchive(chatId: String){
         val chat = chatRepository.find(chatId)
-        chat ?: return
         chatRepository.update(chat.copy(isArchived = false))
     }
 

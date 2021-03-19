@@ -15,7 +15,9 @@ data class Chat(
         var isArchived: Boolean = false){
 
 
-    private fun unreadableMessageCount(): Int = FireBaseChatsImpl.getUnreadMessages(id)
+//    private fun unreadableMessageCount(): Int = FireBaseChatsImpl.getUnreadMessages(id)
+
+    private fun unreadableMessageCount(): Int = 1
 
     private fun lastMessageDate(): Date {
         return lastMessage?.date ?: Date()

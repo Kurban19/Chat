@@ -14,7 +14,7 @@ class ChatRepository @Inject constructor(
 
 
     init {
-        fireBaseService.getEngagedChats()
+        fireBaseService.setEngagedChatsListener(this::setItems)
     }
 
     fun loadChats() : MutableLiveData<List<Chat>> {
@@ -41,6 +41,11 @@ class ChatRepository @Inject constructor(
         val copy = chats.value!!.toMutableList()
         copy.add(chat)
         chats.value = copy
+    }
+
+
+    private fun setItems(list: List<Chat>){
+        chats.value = list
     }
 
 

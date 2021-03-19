@@ -43,7 +43,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
-        chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
+//        chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
         chatItem.messageCount = 0
 

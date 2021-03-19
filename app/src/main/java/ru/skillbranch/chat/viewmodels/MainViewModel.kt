@@ -4,11 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.models.data.ChatItem
 import ru.skillbranch.chat.repositories.ChatRepository
 import javax.inject.Inject
 
+
+
+
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val chatRepository: ChatRepository
 ): ViewModel() {
