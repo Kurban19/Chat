@@ -65,7 +65,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesItemViewHol
 
        fun bind(item: BaseMessage, holder: MessagesItemViewHolder){
 
-           if(item.from!!.id == FirebaseAuth.getInstance().currentUser!!.uid){
+           if(item.from.id == FirebaseAuth.getInstance().currentUser!!.uid){
                holder.message_root.apply {
                    setBackgroundResource(R.drawable.rect_round_blue)
                    val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.END)

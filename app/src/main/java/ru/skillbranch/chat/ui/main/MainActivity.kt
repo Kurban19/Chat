@@ -26,13 +26,15 @@ import ru.skillbranch.chat.ui.chat.ChatActivity
 import ru.skillbranch.chat.ui.users.UsersActivity
 import ru.skillbranch.chat.ui.login.LoginActivity
 import ru.skillbranch.chat.viewmodels.MainViewModel
+import ru.skillbranch.chat.viewmodels.UsersViewModel
 import java.util.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
     private lateinit var chatAdapter: ChatAdapter
-    private val viewModel: MainViewModel by viewModels()
+    private  val viewModel: MainViewModel by viewModels()
 
     companion object{
         const val CHAT_ID = "chat_id"
@@ -134,16 +136,6 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, UsersActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-//        FireBaseUsers.updateCurrentUser(Date(), false)
-    }
-
-    override fun onStart() {
-        super.onStart()
-//        FireBaseUsers.updateCurrentUser(Date(), true)
     }
 
     private fun initViewModel()  {

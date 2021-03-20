@@ -13,8 +13,9 @@ import ru.skillbranch.chat.models.data.ChatId
 import ru.skillbranch.chat.models.data.User
 import ru.skillbranch.chat.repositories.ChatRepository
 import java.util.*
+import javax.inject.Inject
 
-class FireBaseChatsImpl: FireBaseChats {
+class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 

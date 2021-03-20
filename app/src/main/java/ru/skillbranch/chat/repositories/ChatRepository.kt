@@ -3,15 +3,13 @@ package ru.skillbranch.chat.repositories
 import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.extensions.mutableLiveData
+import ru.skillbranch.chat.firebase.FireBaseChatsImpl
 import ru.skillbranch.chat.interfaces.FireBaseChats
 import javax.inject.Inject
 
-class ChatRepository @Inject constructor(
-    private val fireBaseService: FireBaseChats
-) {
+class ChatRepository @Inject constructor(private val fireBaseService: FireBaseChatsImpl) {
 
     private val chats = mutableLiveData(listOf<Chat>())
-
 
     init {
         fireBaseService.setEngagedChatsListener(this::setItems)
