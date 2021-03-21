@@ -1,0 +1,79 @@
+package com.shkiper.chat.models.data
+
+import android.util.Log
+import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.utils.Utils
+import java.util.*
+
+data class Chat(
+        val id: String = "",
+        var title: String = "",
+        val members: List<User> = listOf(),
+        var lastMessage: TextMessage? = null,
+        var isArchived: Boolean = false){
+
+
+//    private fun unreadableMessageCount(): Int = FireBaseChatsImpl.getUnreadMessages(id)
+
+    private fun unreadableMessageCount(): Int = 1
+
+    private fun lastMessageDate(): Date {
+        return lastMessage?.date ?: Date()
+    }
+
+    fun toMap(): Map<String, Any> {
+        return mapOf(
+                "id" to id,
+                "title" to title,
+                "members" to members,
+                "lastMessage" to lastMessage!!,
+                "isArchived" to isArchived)
+    }
+
+
+    private fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
+        is TextMessage -> lastMessage.text to lastMessage.from.firstName
+//        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
+        else -> "Сообщений еще нет" to "undefine"
+    }
+
+    private fun isSingle(): Boolean = members.size == 1
+
+    fun toChatItem(): ChatItem {
+        val user = members.last()
+        Log.d("Tag", user.firstName)
+        return if (isSingle()) {
+            ChatItem(
+                    id,
+                    user.avatar,
+                    Utils.toInitials(user.firstName, user.lastName) ?: "??",
+                    "${user.firstName} ${user.lastName}",
+                    lastMessageShort().first,
+                    unreadableMessageCount(),
+                    lastMessageDate().shortFormat(),
+                    user.isOnline
+            )
+        }
+        else {
+            ChatItem(
+                    id,
+                null,
+                    title[0].toString(),
+                    title,
+                    lastMessageShort().first,
+                    unreadableMessageCount(),
+                    lastMessageDate().shortFormat(),
+                false,
+                    ChatType.GROUP,
+                    lastMessageShort().second
+            )
+        }
+    }
+}
+
+enum class ChatType{
+    SINGLE,
+    GROUP,
+    ARCHIVE
+}
