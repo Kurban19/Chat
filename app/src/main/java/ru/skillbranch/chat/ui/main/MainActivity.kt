@@ -17,6 +17,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.chat.App
 import ru.skillbranch.chat.R
 import ru.skillbranch.chat.firebase.FireBaseUsers
 import ru.skillbranch.chat.ui.adapters.ChatAdapter
@@ -28,13 +29,15 @@ import ru.skillbranch.chat.ui.login.LoginActivity
 import ru.skillbranch.chat.viewmodels.MainViewModel
 import ru.skillbranch.chat.viewmodels.UsersViewModel
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
     private lateinit var chatAdapter: ChatAdapter
-    private  val viewModel: MainViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: MainViewModel
 
     companion object{
         const val CHAT_ID = "chat_id"
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity(){
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        (applicationContext as App).appComponent.inject(this)
         FireBaseUsers.getUsers()
         initToolbar()
         initViews()
@@ -140,12 +144,12 @@ class MainActivity : AppCompatActivity(){
 
     private fun initViewModel()  {
         viewModel.getChatData().observe(this, Observer {
-            if(it.isEmpty()){
-                toggleProgressBar(true)
-            }
-            else{
-                toggleProgressBar(false)
-            }
+//            if(it.isEmpty()){
+//                toggleProgressBar(true)
+//            }
+//            else{
+//                toggleProgressBar(false)
+//            }
             chatAdapter.updateData(it)
         })
     }

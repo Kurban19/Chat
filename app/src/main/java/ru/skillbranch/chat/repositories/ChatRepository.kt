@@ -4,15 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.chat.models.data.Chat
 import ru.skillbranch.chat.extensions.mutableLiveData
 import ru.skillbranch.chat.firebase.FireBaseChatsImpl
-import ru.skillbranch.chat.interfaces.FireBaseChats
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class ChatRepository @Inject constructor(private val fireBaseService: FireBaseChatsImpl) {
+
+@Singleton
+class ChatRepository @Inject constructor(fireBaseService: FireBaseChatsImpl) {
 
     private val chats = mutableLiveData(listOf<Chat>())
 
     init {
-        fireBaseService.setEngagedChatsListener(this::setItems)
+        fireBaseService.setEngagedChatsListener(this::setChat)
     }
 
     fun loadChats() : MutableLiveData<List<Chat>> {
@@ -27,23 +29,9 @@ class ChatRepository @Inject constructor(private val fireBaseService: FireBaseCh
         chats.value = copy
     }
 
-    fun updateChat(chat: Chat) {
-        val copy = chats.value!!.toMutableList()
-        val ind = chats.value!!.indexOfFirst { it.id == chat.id }
-        if(ind == -1) return
-        copy[ind] = chat
-        chats.value = copy
-    }
 
-    fun insertChat(chat: Chat){
-        val copy = chats.value!!.toMutableList()
-        copy.add(chat)
-        chats.value = copy
-    }
-
-
-    private fun setItems(list: List<Chat>){
-        chats.value = list
+    private fun setChat(listOfChats: List<Chat>){
+        chats.value = listOfChats
     }
 
 
@@ -53,12 +41,4 @@ class ChatRepository @Inject constructor(private val fireBaseService: FireBaseCh
     }
 
 
-    fun haveChat(chatId: String): Boolean{
-        chats.value!!.forEach {
-            if(chatId == it.id){
-                return true;
-            }
-        }
-        return false
-    }
 }

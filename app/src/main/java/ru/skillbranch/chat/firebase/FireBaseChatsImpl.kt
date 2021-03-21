@@ -104,7 +104,6 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
 //                }
 //    }
 
-
     override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit){
         val items = mutableListOf<Chat>()
         currentUserDocRef.collection("engagedChats")

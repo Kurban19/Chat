@@ -10,7 +10,7 @@ import ru.skillbranch.chat.models.data.ChatItem
 import ru.skillbranch.chat.repositories.ChatRepository
 import javax.inject.Inject
 
-@HiltViewModel
+//@HiltViewModel
 class MainViewModel @Inject constructor(
     private val chatRepository: ChatRepository
 ): ViewModel() {

@@ -27,6 +27,7 @@ object UsersRepository {
         }
         return null
     }
+
     fun findUsersById(ids: List<String>): List<User> {
         return users.value!!.filter { ids.contains(it.id) }
     }
