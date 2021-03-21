@@ -1,5 +1,6 @@
 package com.shkiper.chat.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.extensions.mutableLiveData
@@ -31,7 +32,8 @@ class ChatsRepository @Inject constructor(fireBaseService: FireBaseChatsImpl) {
 
 
     private fun setChats(listOfChats: List<Chat>){
-        chats.value = listOfChats
+        Log.d("ChatsRepository", listOfChats.toString())
+        chats.postValue(listOfChats)
     }
 
 

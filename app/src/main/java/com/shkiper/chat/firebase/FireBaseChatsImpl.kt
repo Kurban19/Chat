@@ -1,5 +1,6 @@
 package com.shkiper.chat.firebase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,6 +24,7 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
                 "users/${FirebaseAuth.getInstance().currentUser?.uid
                         ?: throw NullPointerException("UID is null.")}"
         )
+
 
     private val chatsCollectionRef = fireStoreInstance.collection("chats")
 
@@ -90,23 +92,17 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
                                     }
                                 }
                             }
+                            Log.d("FireBase calls", chat.toString())
                             items.add(chat)
-
-//                            if(ChatRepository.haveChat(chat.id)){
-//                                ChatRepository.updateChat(chat)
-//                            }
-//                            else{
-//                                ChatRepository.insertChat(chat)
-//                            }
                         }
                     }
                 }
           return items
     }
 
-    override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit){
+    override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit): ListenerRegistration{
         val items = mutableListOf<Chat>()
-        currentUserDocRef.collection("engagedChats")
+        return currentUserDocRef.collection("engagedChats")
             .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
                 if (firebaseFireStoreException != null) {
                     return@addSnapshotListener
@@ -125,11 +121,13 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
                                     }
                                 }
                             }
-                            items.add(chat)
+                                Log.d("FireBaseChats calls", chat.toString())
+
+                                items.add(chat)
                         }
                 }
+                onListen(items)
             }
-        onListen(items)
     }
 
     override fun addChatMessagesListener(

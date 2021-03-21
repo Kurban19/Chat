@@ -7,7 +7,7 @@ import com.shkiper.chat.models.data.User
 
 interface FireBaseChats {
 
-    fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit)
+    fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit): ListenerRegistration
 
     fun getOrCreateChat(otherUser: User)
 

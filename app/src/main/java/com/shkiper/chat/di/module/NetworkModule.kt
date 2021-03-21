@@ -13,11 +13,6 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 open class NetworkModule {
 
-    @Provides
-    @Singleton
-    fun providesFireBaseChatsService(): FireBaseChatsImpl{
-        return FireBaseChatsImpl()
-    }
 
     @Provides
     @Singleton
