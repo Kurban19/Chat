@@ -92,7 +92,6 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
                                     }
                                 }
                             }
-                            Log.d("FireBase calls", chat.toString())
                             items.add(chat)
                         }
                     }
@@ -100,33 +99,61 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
           return items
     }
 
-    override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit): ListenerRegistration{
-        return currentUserDocRef.collection("engagedChats")
-            .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
-                if (firebaseFireStoreException != null) {
-                    return@addSnapshotListener
-                }
-                val items = mutableListOf<Chat>()
-                querySnapshot?.documents?.forEach { documentSnapshot ->
-                    chatsCollectionRef.document(documentSnapshot.id)
-                        .get().addOnSuccessListener { result ->
-                            if(!result.exists()){
-                                return@addOnSuccessListener
-                            }
-                            val chat = result.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
-                            if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
-                                chat.title = chat.members.last().firstName
-                            }
-                                Log.d("FireBaseChats calls", "$chat ${Date()}")
+//    override fun setEngagedChatsListener(
+//            onListen: (List<Chat>) -> Unit
+//    ): ListenerRegistration{
+//        return currentUserDocRef.collection("engagedChats")
+//            .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
+//                if (firebaseFireStoreException != null) {
+//                    return@addSnapshotListener
+//                }
+//                val items = mutableListOf<Chat>()
+//                querySnapshot?.documents?.forEach { documentSnapshot ->
+//                    chatsCollectionRef.document(documentSnapshot.id)
+//                        .get().addOnSuccessListener { result ->
+//                            if(!result.exists()){
+//                                return@addOnSuccessListener
+//                            }
+//                            val chat = result.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
+//                            if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
+//                                chat.title = chat.members.last().firstName
+//                            }
+////                                Log.d("FireBaseChats calls", "$chat ${Date()}")
+//
+//                                items.add(chat)
+//                        }
+//                }
+////                Log.d("FireBaseChats calls", "$items ${Date()}")
+//                Log.d("FireBaseChats calls", "${items.size} ${Date()}")
+//                onListen(items)
+//            }
+//    }
 
-                                items.add(chat)
-                                return@addOnSuccessListener
+    override fun setEngagedChatsListener(
+            onListen: (List<Chat>) -> Unit
+    ): ListenerRegistration{
+        return chatsCollectionRef
+                .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
+                    if (firebaseFireStoreException != null) {
+                        return@addSnapshotListener
+                    }
+                    val items = mutableListOf<Chat>()
+                    querySnapshot?.documents?.forEach { documentSnapshot ->
+                        if(!documentSnapshot.exists()){
+                            return@addSnapshotListener
                         }
+                        val chat = documentSnapshot.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
+                        if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
+                            chat.title = chat.members.last().firstName
+                        }
+
+                        items.add(chat)
+
+                    }
+//                Log.d("FireBaseChats calls", "$items ${Date()}")
+                    Log.d("FireBaseChats calls", "${items.size} ${Date()}")
+                    onListen(items)
                 }
-                Log.d("FireBaseChats calls", "$items ${Date()}")
-                Log.d("FireBaseChats calls", "${items.size} ${Date()}")
-                onListen(items)
-            }
     }
 
     override fun addChatMessagesListener(
@@ -146,8 +173,11 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
                         if (message != null) {
                             items.add(message)
                         }
+//                        Log.d("FireBaseChats mes calls", "$message ${Date()}")
                         return@forEach
                     }
+//                    Log.d("FireBaseChats mes calls", "$items ${Date()}")
+                    Log.d("FireBaseChats mes calls", "${items.size} ${Date()}")
                     onListen(items)
                 }
     }
