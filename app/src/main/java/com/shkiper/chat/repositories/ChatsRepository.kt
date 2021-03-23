@@ -33,7 +33,7 @@ class ChatsRepository @Inject constructor(fireBaseService: FireBaseChatsImpl) {
 
     private fun setChats(listOfChats: List<Chat>){
         Log.d("ChatsRepository", listOfChats.toString())
-        chats.postValue(listOfChats)
+        chats.value = listOfChats
     }
 
 

@@ -101,31 +101,30 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
     }
 
     override fun setEngagedChatsListener(onListen: (List<Chat>) -> Unit): ListenerRegistration{
-        val items = mutableListOf<Chat>()
         return currentUserDocRef.collection("engagedChats")
             .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
                 if (firebaseFireStoreException != null) {
                     return@addSnapshotListener
                 }
+                val items = mutableListOf<Chat>()
                 querySnapshot?.documents?.forEach { documentSnapshot ->
                     chatsCollectionRef.document(documentSnapshot.id)
                         .get().addOnSuccessListener { result ->
                             if(!result.exists()){
                                 return@addOnSuccessListener
                             }
-                            val chat = result.toObject(Chat::class.java) ?: Chat()
+                            val chat = result.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
                             if(chat.title == FirebaseAuth.getInstance().currentUser!!.displayName){
-                                chat.members.forEach{
-                                    if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                                        chat.title = it.firstName
-                                    }
-                                }
+                                chat.title = chat.members.last().firstName
                             }
-                                Log.d("FireBaseChats calls", chat.toString())
+                                Log.d("FireBaseChats calls", "$chat ${Date()}")
 
                                 items.add(chat)
+                                return@addOnSuccessListener
                         }
                 }
+                Log.d("FireBaseChats calls", "$items ${Date()}")
+                Log.d("FireBaseChats calls", "${items.size} ${Date()}")
                 onListen(items)
             }
     }
@@ -136,7 +135,7 @@ class FireBaseChatsImpl @Inject constructor(): FireBaseChats {
     ): ListenerRegistration {
         return chatsCollectionRef.document(chatId).collection("messages")
                 .orderBy("date")
-                .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
+                .addSnapshotListener {  querySnapshot, firebaseFireStoreException ->
                     if (firebaseFireStoreException != null) {
                         return@addSnapshotListener
                     }

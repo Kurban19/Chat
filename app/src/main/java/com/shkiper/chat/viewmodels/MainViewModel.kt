@@ -20,7 +20,6 @@ class MainViewModel @Inject constructor(
             .map { it.toChatItem() }
     }
 
-
     fun getChatData() : LiveData<List<ChatItem>>{
         val result = MediatorLiveData<List<ChatItem>>()
 
