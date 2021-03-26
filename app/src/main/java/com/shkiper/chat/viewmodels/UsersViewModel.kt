@@ -6,14 +6,12 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.models.data.UserItem
-import com.shkiper.chat.repositories.ChatsRepository
-import com.shkiper.chat.repositories.UsersRepository
+import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Inject
 
-class UsersViewModel @Inject constructor(private val chatsRepository: ChatsRepository) : ViewModel() {
+class UsersViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
     private val query = mutableLiveData("")
-    private val usersRepository = UsersRepository
-    private val userItems = mutableLiveData(usersRepository.loadUsers().value!!.map{it.toUserItem()})
+    private val userItems = mutableLiveData(mainRepository.loadUsers().value!!.map{it.toUserItem()})
     private val selectedItems = Transformations.map(userItems){users -> users.filter {it.isSelected}}
 
     fun getUsersData(): LiveData<List<UserItem>>{
@@ -59,8 +57,7 @@ class UsersViewModel @Inject constructor(private val chatsRepository: ChatsRepos
 //            FireBaseChatsImpl.createGroupChat(usersRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
         }
         else{
-//            FireBaseChatsImpl.getOrCreateChat(usersRepository.findUser(selectedItems.value!!.first().id)!!)
-            chatsRepository.createChat(usersRepository.findUser(selectedItems.value!!.first().id)!!)
+            mainRepository.createChat(mainRepository.findUser(selectedItems.value!!.first().id)!!)
         }
     }
 

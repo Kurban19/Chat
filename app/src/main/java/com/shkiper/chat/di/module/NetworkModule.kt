@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import com.shkiper.chat.firebase.FireBaseChatsImpl
-import com.shkiper.chat.repositories.ChatsRepository
+import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Singleton
 
 
@@ -16,8 +16,8 @@ open class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesChatsRepository(firebaseChatService: FireBaseChatsImpl): ChatsRepository {
-        return ChatsRepository(firebaseChatService)
+    fun providesChatsRepository(firebaseChatService: FireBaseChatsImpl): MainRepository {
+        return MainRepository(firebaseChatService)
     }
 
 }

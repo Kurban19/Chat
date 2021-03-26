@@ -6,16 +6,16 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.models.data.ChatItem
-import com.shkiper.chat.repositories.ChatsRepository
+import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Inject
 
 //@HiltViewModel
 class MainViewModel @Inject constructor(
-    private val chatsRepository: ChatsRepository
+    private val mainRepository: MainRepository
 ): ViewModel() {
 
     private val query = mutableLiveData("")
-    private val chats = Transformations.map(chatsRepository.loadChats()) { chats ->
+    private val chats = Transformations.map(mainRepository.loadChats()) { chats ->
         return@map chats.filter{!it.isArchived}
             .map { it.toChatItem() }
     }
@@ -38,13 +38,13 @@ class MainViewModel @Inject constructor(
     }
 
     fun addToArchive(chatId: String) {
-        val chat = chatsRepository.find(chatId)
-        chatsRepository.update(chat.copy(isArchived = true))
+        val chat = mainRepository.find(chatId)
+        mainRepository.update(chat.copy(isArchived = true))
     }
 
     fun restoreFromArchive(chatId: String){
-        val chat = chatsRepository.find(chatId)
-        chatsRepository.update(chat.copy(isArchived = false))
+        val chat = mainRepository.find(chatId)
+        mainRepository.update(chat.copy(isArchived = false))
     }
 
     fun handleSearchQuery(text: String?) {

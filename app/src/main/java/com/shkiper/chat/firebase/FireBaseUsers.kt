@@ -5,7 +5,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shkiper.chat.models.data.User
-import com.shkiper.chat.repositories.UsersRepository
 import java.util.*
 
 object FireBaseUsers {

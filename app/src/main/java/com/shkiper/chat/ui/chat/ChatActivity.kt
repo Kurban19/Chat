@@ -11,7 +11,6 @@ import com.shkiper.chat.R
 import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
-import com.shkiper.chat.repositories.UsersRepository
 import com.shkiper.chat.ui.adapters.MessagesAdapter
 import java.util.*
 
