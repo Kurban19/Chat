@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.lifecycle.Observer
@@ -15,11 +16,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import com.shkiper.chat.App
 import kotlinx.android.synthetic.main.activity_group.*
 import com.shkiper.chat.R
 import com.shkiper.chat.models.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
+import com.shkiper.chat.viewmodels.MainViewModel
 import com.shkiper.chat.viewmodels.UsersViewModel
+import javax.inject.Inject
 
 class UsersActivity : AppCompatActivity() {
 
@@ -28,11 +32,13 @@ class UsersActivity : AppCompatActivity() {
     }
 
     private lateinit var usersAdapter: UserAdapter
-    private lateinit var viewModel: UsersViewModel
+    @Inject
+    lateinit var viewModel: UsersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+        (applicationContext as App).appComponent.inject(this)
         setContentView(R.layout.activity_group)
         initToolbar()
         initViews()
@@ -98,7 +104,7 @@ class UsersActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
         viewModel.getUsersData().observe(this, Observer { usersAdapter.updateData(it) })
         viewModel.getSelectedData().observe(this, Observer {
             updateChips(it)

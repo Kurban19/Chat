@@ -6,27 +6,31 @@ import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.firebase.FireBaseChatsImpl
 import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.models.data.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
-class ChatsRepository @Inject constructor(fireBaseService: FireBaseChatsImpl) {
+class ChatsRepository @Inject constructor(private val fireBaseService: FireBaseChatsImpl) {
 
     private val chats = mutableLiveData(listOf<Chat>())
 
     init {
-        fireBaseService.addChatMessagesListener("7BYNqUMf5s9BSHY9iscb", this::setMessages)
-        fireBaseService.setEngagedChatsListener(this::setChats)
+        fireBaseService.getEngagedChats(this::setChats)
     }
 
     fun loadChats() : MutableLiveData<List<Chat>> {
         return chats
     }
 
-    fun setMessages(list: List<TextMessage>){
 
+    fun createChat(user: User){
+        fireBaseService.getOrCreateChat(user)
     }
+
+
+
 
     fun update(chat: Chat) {
         val copy = chats.value!!.toMutableList()

@@ -6,9 +6,11 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.models.data.UserItem
+import com.shkiper.chat.repositories.ChatsRepository
 import com.shkiper.chat.repositories.UsersRepository
+import javax.inject.Inject
 
-class UsersViewModel : ViewModel() {
+class UsersViewModel @Inject constructor(private val chatsRepository: ChatsRepository) : ViewModel() {
     private val query = mutableLiveData("")
     private val usersRepository = UsersRepository
     private val userItems = mutableLiveData(usersRepository.loadUsers().value!!.map{it.toUserItem()})
@@ -58,6 +60,7 @@ class UsersViewModel : ViewModel() {
         }
         else{
 //            FireBaseChatsImpl.getOrCreateChat(usersRepository.findUser(selectedItems.value!!.first().id)!!)
+            chatsRepository.createChat(usersRepository.findUser(selectedItems.value!!.first().id)!!)
         }
     }
 

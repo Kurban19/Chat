@@ -141,12 +141,12 @@ class MainActivity : AppCompatActivity(){
 
     private fun initViewModel()  {
         viewModel.getChatData().observe(this, Observer {
-//            if(it.isEmpty()){
-//                toggleProgressBar(true)
-//            }
-//            else{
-//                toggleProgressBar(false)
-//            }
+            if(it.isEmpty()){
+                toggleProgressBar(true)
+            }
+            else{
+                toggleProgressBar(false)
+            }
             chatAdapter.updateData(it)
         })
     }
