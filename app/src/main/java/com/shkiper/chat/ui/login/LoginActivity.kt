@@ -10,7 +10,6 @@ import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import kotlinx.android.synthetic.main.activity_login.*
 import com.shkiper.chat.R
-//import com.shkiper.chat.firebase.FireBaseUsers
 import com.shkiper.chat.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {

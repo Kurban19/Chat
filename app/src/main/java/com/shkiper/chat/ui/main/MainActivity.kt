@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         (applicationContext as App).appComponent.inject(this)
-//        FireBaseUsers.getUsers()
         initToolbar()
         initViews()
         initViewModel()

@@ -4,21 +4,21 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.extensions.mutableLiveData
-import com.shkiper.chat.firebase.FireBaseChatsImpl
-import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.firebase.FireBaseService
 import com.shkiper.chat.models.data.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
-class MainRepository @Inject constructor(private val fireBaseService: FireBaseChatsImpl) {
+class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
 
     private val chats = mutableLiveData(listOf<Chat>())
     private val users = mutableLiveData(listOf<User>())
 
     init {
         fireBaseService.setEngagedChatsListener(this::setChats)
+        fireBaseService.setUsersListener(this::setUsers)
     }
 
     fun loadChats() : MutableLiveData<List<Chat>> {
@@ -69,8 +69,11 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseCh
 
 
     private fun setChats(listOfChats: List<Chat>){
-        Log.d("ChatsRepository", listOfChats.toString())
         chats.value = listOfChats
+    }
+
+    private fun setUsers(listOfUsers: List<User>){
+        users.value = listOfUsers
     }
 
 
