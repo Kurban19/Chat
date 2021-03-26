@@ -60,7 +60,7 @@ class ChatActivity : AppCompatActivity() {
             var concatenatedString = ""
             chat.members.forEach {
                 if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    concatenatedString += UsersRepository.findUser(it.id)!!.firstName + " "
+//                    concatenatedString += UsersRepository.findUser(it.id)!!.firstName + " "
                 }
             }
             tv_last_activity.text = concatenatedString.trim()
@@ -68,7 +68,7 @@ class ChatActivity : AppCompatActivity() {
         else{
             chat.members.forEach{
                 if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    tv_last_activity.text = UsersRepository.findUser(it.id)!!.toUserItem().lastActivity
+//                    tv_last_activity.text = UsersRepository.findUser(it.id)!!.toUserItem().lastActivity
                 }
             }
         }

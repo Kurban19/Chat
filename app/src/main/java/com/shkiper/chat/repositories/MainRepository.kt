@@ -18,7 +18,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseCh
     private val users = mutableLiveData(listOf<User>())
 
     init {
-        fireBaseService.getEngagedChats(this::setChats)
+        fireBaseService.setEngagedChatsListener(this::setChats)
     }
 
     fun loadChats() : MutableLiveData<List<Chat>> {

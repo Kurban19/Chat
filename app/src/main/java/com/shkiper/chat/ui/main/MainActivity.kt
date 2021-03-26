@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import com.shkiper.chat.App
 import com.shkiper.chat.R
-import com.shkiper.chat.firebase.FireBaseUsers
 import com.shkiper.chat.ui.adapters.ChatAdapter
 import com.shkiper.chat.ui.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.ui.archive.ArchiveActivity
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         (applicationContext as App).appComponent.inject(this)
-        FireBaseUsers.getUsers()
+//        FireBaseUsers.getUsers()
         initToolbar()
         initViews()
         initViewModel()
@@ -94,7 +93,7 @@ class MainActivity : AppCompatActivity(){
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
-                FireBaseUsers.updateCurrentUser(Date(), false)
+//                FireBaseUsers.updateCurrentUser(Date(), false)
                 true
             }
             else -> {
