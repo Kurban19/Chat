@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class UsersViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
     private val query = mutableLiveData("")
-    private val userItems = mutableLiveData(mainRepository.loadUsers().value!!.map{it.toUserItem()})
+    private val userItems = mutableLiveData(mainRepository.users.value!!.map{it.toUserItem()})
     private val selectedItems = Transformations.map(userItems){users -> users.filter {it.isSelected}}
 
     fun getUsersData(): LiveData<List<UserItem>>{

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class ArchiveViewModel @Inject constructor(private val mainRepository: MainRepository): ViewModel() {
     private val query = mutableLiveData("")
-    private val chats = Transformations.map(mainRepository.loadChats()) { chats ->
+    private val chats = Transformations.map(mainRepository.chats) { chats ->
         return@map chats.filter{it.isArchived}
             .map { it.toChatItem() }
             .sortedBy { it.id.toInt() }

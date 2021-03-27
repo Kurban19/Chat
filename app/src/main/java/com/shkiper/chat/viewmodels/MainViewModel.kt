@@ -10,10 +10,9 @@ import com.shkiper.chat.repositories.MainRepository
 import java.util.*
 import javax.inject.Inject
 
-//@HiltViewModel
 class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository
-): ViewModel() {
+    ): ViewModel() {
 
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->

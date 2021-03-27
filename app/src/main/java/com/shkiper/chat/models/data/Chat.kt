@@ -42,7 +42,7 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
         val user = members.last()
-        Log.d("Tag", user.firstName)
+
         return if (isSingle()) {
             ChatItem(
                     id,

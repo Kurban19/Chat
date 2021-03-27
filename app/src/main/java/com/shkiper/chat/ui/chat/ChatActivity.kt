@@ -7,24 +7,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
+import com.shkiper.chat.App
 import kotlinx.android.synthetic.main.activity_chat.*
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.ui.adapters.MessagesAdapter
+import com.shkiper.chat.ui.main.MainActivity
+import com.shkiper.chat.viewmodels.ChatViewModel
 import java.util.*
+import javax.inject.Inject
 
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
     private val messagesAdapter: MessagesAdapter = MessagesAdapter()
+    @Inject
+    lateinit var viewModel: ChatViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        (applicationContext as App).appComponent.inject(this)
         initToolbar()
         initViews()
         setMessagesListener()
@@ -41,9 +48,8 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
-//        chat = ChatRepository.find(intent.getStringExtra(MainActivity.CHAT_ID)!!)
+        chat = viewModel.getChat(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
-        chatItem.messageCount = 0
 
         with(chatItem) {
             tv_title_chat.text = title
@@ -58,26 +64,26 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        if(chat.members.size > 2){
-            var concatenatedString = ""
-            chat.members.forEach {
-                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+//        if(chat.members.size > 2){
+//            var concatenatedString = ""
+//            chat.members.forEach {
+//                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
 //                    concatenatedString += UsersRepository.findUser(it.id)!!.firstName + " "
-                }
-            }
-            tv_last_activity.text = concatenatedString.trim()
-        }
-        else{
-            chat.members.forEach{
-                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+//                }
+//            }
+//            tv_last_activity.text = concatenatedString.trim()
+//        }
+//        else{
+//            chat.members.forEach{
+//                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
 //                    tv_last_activity.text = UsersRepository.findUser(it.id)!!.toUserItem().lastActivity
-                }
-            }
-        }
+//                }
+//            }
+//        }
     }
 
     private fun setMessagesListener(){
-//        val messagesListener = FireBaseChatsImpl.addChatMessagesListener(chat.id, this::updateRecyclerView)
+        messagesListenerRegistration = viewModel.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){

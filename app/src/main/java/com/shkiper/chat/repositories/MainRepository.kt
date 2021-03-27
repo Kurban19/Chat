@@ -1,7 +1,9 @@
 package com.shkiper.chat.repositories
 
+import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.firebase.FireBaseService
+import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
 import java.util.*
@@ -18,6 +20,11 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     init {
         fireBaseService.setEngagedChatsListener(this::setChats)
         fireBaseService.setUsersListener(this::setUsers)
+    }
+
+
+    fun addMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration {
+        return fireBaseService.addChatMessagesListener(chatId, onListen)
     }
 
 

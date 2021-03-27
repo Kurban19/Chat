@@ -6,10 +6,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.interfaces.FireBaseChats
-import com.shkiper.chat.models.BaseMessage
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
-import com.shkiper.chat.models.data.ChatId
 import com.shkiper.chat.models.data.User
 import java.util.*
 import javax.inject.Inject
