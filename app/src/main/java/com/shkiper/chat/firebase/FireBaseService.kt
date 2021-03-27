@@ -26,27 +26,33 @@ class FireBaseService @Inject constructor(): FireBaseChats {
     private val usersCollectionRef = fireStoreInstance.collection("users")
 
 
-    fun setUsersListener(onListen: (List<User>) -> Unit){
-        usersCollectionRef
-                .get().addOnSuccessListener { result ->
-                for (document in result) {
+    fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
+//        usersCollectionRef
+//                .get().addOnSuccessListener { result ->
+//                for (document in result) {
 //                    if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
 //                        if(UsersRepository.findUser(document.id) == null){
 //                            UsersRepository.addUser(document.toObject(User::class.java))
+//
+//                }
+//            }
 
-                }
-            }
-    }
+        return usersCollectionRef
+                .addSnapshotListener{ querySnapshot, firebaseFireStoreException ->
+                    if (firebaseFireStoreException != null) {
+                        return@addSnapshotListener
+                    }
 
-    fun initCurrentUserIfFirstTime() {
-        currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
-            if (!documentSnapshot.exists()) {
-                with(FirebaseAuth.getInstance().currentUser){
-                    val newUser = User(this!!.uid, displayName ?: "unknown", "", email = email ?: "")
-                    currentUserDocRef.set(newUser)
+                    val items = mutableListOf<User>()
+                    querySnapshot?.documents?.forEach {
+                        val user = it.toObject(User::class.java)
+                        if (user != null && user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
+                            items.add(user)
+                        }
+                        return@forEach
+                    }
+                    onListen(items)
                 }
-            }
-        }
     }
 
     fun updateCurrentUser(date: Date = Date(), online: Boolean) {
@@ -152,23 +158,7 @@ class FireBaseService @Inject constructor(): FireBaseChats {
     }
 
 
-    override fun getUnreadMessages(chatId: String): Int {
-//        val result = mutableListOf<BaseMessage>()
-//        chatsCollectionRef.document(chatId).collection("messages")
-//                .get()
-//                .addOnSuccessListener { querySnapshot ->
-//                    querySnapshot.documents.forEach {
-//                        val message = it.toObject(TextMessage::class.java)
-//                        if (message != null) {
-//                            result.add(message)
-//                        }
-//                        return@forEach
-//                    }
-//                }
-//        return result.filter { !it.isRead }.size
-        return 1
-    }
-//
+
     override fun updateChat(chat: Chat) {
         currentUserDocRef.collection("engagedChats")
                 .document(chat.id)

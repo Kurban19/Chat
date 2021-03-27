@@ -14,7 +14,7 @@ class UsersViewModel @Inject constructor(private val mainRepository: MainReposit
     private val userItems = mutableLiveData(mainRepository.users.value!!.map{it.toUserItem()})
     private val selectedItems = Transformations.map(userItems){users -> users.filter {it.isSelected}}
 
-    fun getUsersData(): LiveData<List<UserItem>>{
+    fun getUsers(): LiveData<List<UserItem>>{
         val result = MediatorLiveData<List<UserItem>>()
 
         val filterF = {

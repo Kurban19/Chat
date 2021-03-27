@@ -20,5 +20,9 @@ class ChatViewModel @Inject constructor(
         return mainRepository.addMessagesListener(chatId, onListen)
     }
 
+    fun sendMessage(message: TextMessage, chatId: String){
+        mainRepository.sendMessage(message, chatId)
+    }
+
 
 }

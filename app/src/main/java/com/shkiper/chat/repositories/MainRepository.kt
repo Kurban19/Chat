@@ -47,7 +47,9 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         return users.value!!.filter { ids.contains(it.id) }
     }
 
-
+    fun sendMessage(message: TextMessage, chatId: String){
+        fireBaseService.sendMessage(message, chatId)
+    }
 
     fun find(chatId: String): Chat {
         val ind = chats.value!!.indexOfFirst { it.id == chatId}

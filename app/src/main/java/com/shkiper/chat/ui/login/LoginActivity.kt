@@ -11,6 +11,7 @@ import com.firebase.ui.auth.IdpResponse
 import kotlinx.android.synthetic.main.activity_login.*
 import com.shkiper.chat.R
 import com.shkiper.chat.ui.main.MainActivity
+import com.shkiper.chat.utils.FireBaseUtils
 
 class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 0
@@ -49,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         if(requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-//                FireBaseUsers.initCurrentUserIfFirstTime()
+                FireBaseUtils.initCurrentUserIfFirstTime()
                 startActivity(Intent(this, MainActivity::class.java))
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 if (response == null) return

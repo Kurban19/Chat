@@ -15,8 +15,6 @@ interface FireBaseChats {
 
     fun addChatMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration
 
-    fun getUnreadMessages(chatId: String): Int
-
     fun updateChat(chat: Chat)
 
     fun sendMessage(message: TextMessage, chatId: String)

@@ -93,7 +93,7 @@ class ChatActivity : AppCompatActivity() {
             et_message.setText("")
             chat.lastMessage = message
 
-//            FireBaseChatsImpl.sendMessage(message, chat.id)
+            viewModel.sendMessage(message, chat.id)
 //            FireBaseChatsImpl.updateChat(chat)
 
         }

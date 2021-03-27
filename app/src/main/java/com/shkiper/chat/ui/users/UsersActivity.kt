@@ -27,10 +27,6 @@ import javax.inject.Inject
 
 class UsersActivity : AppCompatActivity() {
 
-    companion object{
-        const val TAG = "GroupActivity"
-    }
-
     private lateinit var usersAdapter: UserAdapter
     @Inject
     lateinit var viewModel: UsersViewModel
@@ -104,8 +100,7 @@ class UsersActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-//        viewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
-        viewModel.getUsersData().observe(this, Observer { usersAdapter.updateData(it) })
+        viewModel.getUsers().observe(this, Observer { usersAdapter.updateData(it) })
         viewModel.getSelectedData().observe(this, Observer {
             updateChips(it)
             toggleFab(it.isNotEmpty())
