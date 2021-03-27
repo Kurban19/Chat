@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.models.data.ChatItem
 import com.shkiper.chat.repositories.MainRepository
+import java.util.*
 import javax.inject.Inject
 
 //@HiltViewModel
@@ -15,7 +16,7 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     private val query = mutableLiveData("")
-    private val chats = Transformations.map(mainRepository.loadChats()) { chats ->
+    private val chats = Transformations.map(mainRepository.chats) { chats ->
         return@map chats.filter{!it.isArchived}
             .map { it.toChatItem() }
     }
@@ -49,6 +50,10 @@ class MainViewModel @Inject constructor(
 
     fun handleSearchQuery(text: String?) {
         query.value = text
+    }
+
+    fun updateCurrentUser(date: Date = Date(), online: Boolean){
+        mainRepository.updateCurrentUser(date, online)
     }
 
 }

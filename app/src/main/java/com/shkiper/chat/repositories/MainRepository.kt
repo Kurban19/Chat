@@ -1,11 +1,10 @@
 package com.shkiper.chat.repositories
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.firebase.FireBaseService
+import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,20 +12,12 @@ import javax.inject.Singleton
 @Singleton
 class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
 
-    private val chats = mutableLiveData(listOf<Chat>())
-    private val users = mutableLiveData(listOf<User>())
+    val chats = mutableLiveData(listOf<Chat>())
+    val users = mutableLiveData(listOf<User>())
 
     init {
         fireBaseService.setEngagedChatsListener(this::setChats)
         fireBaseService.setUsersListener(this::setUsers)
-    }
-
-    fun loadChats() : MutableLiveData<List<Chat>> {
-        return chats
-    }
-
-    fun loadUsers(): MutableLiveData<List<User>> {
-        return users
     }
 
 
@@ -34,13 +25,6 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         fireBaseService.getOrCreateChat(user)
     }
 
-
-
-    fun addUser(user: User){
-        val copy = users.value!!.toMutableList()
-        copy.add(user)
-        users.value = copy
-    }
 
 
     fun findUser(userId: String): User?{
@@ -58,6 +42,11 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
 
 
 
+    fun find(chatId: String): Chat {
+        val ind = chats.value!!.indexOfFirst { it.id == chatId}
+        return chats.value!![ind]
+    }
+
 
     fun update(chat: Chat) {
         val copy = chats.value!!.toMutableList()
@@ -66,7 +55,6 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         copy[ind] = chat
         chats.value = copy
     }
-
 
     private fun setChats(listOfChats: List<Chat>){
         chats.value = listOfChats
@@ -77,10 +65,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     }
 
 
-    fun find(chatId: String): Chat {
-        val ind = chats.value!!.indexOfFirst { it.id == chatId}
-        return chats.value!![ind]
+    fun updateCurrentUser(date: Date = Date(), online: Boolean){
+        fireBaseService.updateCurrentUser(date, online)
     }
-
-
 }

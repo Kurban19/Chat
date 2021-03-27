@@ -92,17 +92,13 @@ class MainActivity : AppCompatActivity(){
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
-//                FireBaseUsers.updateCurrentUser(Date(), false)
+                viewModel.updateCurrentUser(Date(), false)
                 true
             }
             else -> {
                 return super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(toolbar)
     }
 
     private fun initViews(){
@@ -149,6 +145,10 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
+    }
+
     private fun toggleProgressBar(visible: Boolean){
         if (visible){
             rv_chat_list.visibility = View.GONE
@@ -159,6 +159,16 @@ class MainActivity : AppCompatActivity(){
             progress_bar.visibility = View.GONE
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.updateCurrentUser(Date(), false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.updateCurrentUser(Date(), true)
     }
 
 }

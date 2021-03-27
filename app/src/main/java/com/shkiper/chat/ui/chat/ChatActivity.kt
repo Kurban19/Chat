@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.activity_chat.*
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.toUser
@@ -16,6 +17,7 @@ import java.util.*
 
 class ChatActivity : AppCompatActivity() {
 
+    private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
     private val messagesAdapter: MessagesAdapter = MessagesAdapter()
 
@@ -75,7 +77,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setMessagesListener(){
-//        FireBaseChatsImpl.addChatMessagesListener(chat.id, this::updateRecyclerView)
+//        val messagesListener = FireBaseChatsImpl.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -108,4 +110,8 @@ class ChatActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        messagesListenerRegistration.remove()
+    }
 }
