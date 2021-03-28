@@ -94,7 +94,6 @@ class ChatActivity : AppCompatActivity() {
             chat.lastMessage = message
 
             viewModel.sendMessage(message, chat.id)
-//            FireBaseChatsImpl.updateChat(chat)
 
         }
     }

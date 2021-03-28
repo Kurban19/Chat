@@ -1,6 +1,5 @@
 package com.shkiper.chat.models.data
 
-import android.util.Log
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.utils.Utils
@@ -16,7 +15,7 @@ data class Chat(
 
 //    private fun unreadableMessageCount(): Int = FireBaseChatsImpl.getUnreadMessages(id)
 
-    private fun unreadableMessageCount(): Int = 1
+    private fun unreadMessageCount(): Int = 0
 
     private fun lastMessageDate(): Date {
         return lastMessage?.date ?: Date()
@@ -50,7 +49,7 @@ data class Chat(
                     Utils.toInitials(user.firstName, user.lastName) ?: "??",
                     "${user.firstName} ${user.lastName}",
                     lastMessageShort().first,
-                    unreadableMessageCount(),
+                    unreadMessageCount(),
                     lastMessageDate().shortFormat(),
                     user.isOnline
             )
@@ -62,7 +61,7 @@ data class Chat(
                     title[0].toString(),
                     title,
                     lastMessageShort().first,
-                    unreadableMessageCount(),
+                    unreadMessageCount(),
                     lastMessageDate().shortFormat(),
                 false,
                     ChatType.GROUP,

@@ -55,4 +55,9 @@ class MainViewModel @Inject constructor(
         mainRepository.updateCurrentUser(date, online)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        mainRepository.removeListeners()
+    }
+
 }

@@ -14,6 +14,9 @@ import javax.inject.Singleton
 @Singleton
 class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
 
+    private lateinit var chatsListenerRegistration: ListenerRegistration
+    private lateinit var usersListenerRegistration: ListenerRegistration
+
     val chats = mutableLiveData(listOf<Chat>())
     val users = mutableLiveData(listOf<User>())
 
@@ -73,8 +76,12 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         users.value = listOfUsers
     }
 
-
     fun updateCurrentUser(date: Date = Date(), online: Boolean){
         fireBaseService.updateCurrentUser(date, online)
+    }
+
+    fun removeListeners(){
+        chatsListenerRegistration.remove()
+        usersListenerRegistration.remove()
     }
 }
