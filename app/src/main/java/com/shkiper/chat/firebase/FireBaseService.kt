@@ -27,16 +27,6 @@ class FireBaseService @Inject constructor(): FireBaseChats {
 
 
     fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
-//        usersCollectionRef
-//                .get().addOnSuccessListener { result ->
-//                for (document in result) {
-//                    if (document.id != FirebaseAuth.getInstance().currentUser!!.uid)
-//                        if(UsersRepository.findUser(document.id) == null){
-//                            UsersRepository.addUser(document.toObject(User::class.java))
-//
-//                }
-//            }
-
         return usersCollectionRef
                 .addSnapshotListener{ querySnapshot, firebaseFireStoreException ->
                     if (firebaseFireStoreException != null) {

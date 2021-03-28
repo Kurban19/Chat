@@ -64,22 +64,22 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-//        if(chat.members.size > 2){
-//            var concatenatedString = ""
-//            chat.members.forEach {
-//                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-//                    concatenatedString += UsersRepository.findUser(it.id)!!.firstName + " "
-//                }
-//            }
-//            tv_last_activity.text = concatenatedString.trim()
-//        }
-//        else{
-//            chat.members.forEach{
-//                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-//                    tv_last_activity.text = UsersRepository.findUser(it.id)!!.toUserItem().lastActivity
-//                }
-//            }
-//        }
+        if(chat.members.size > 2){
+            var concatenatedString = ""
+            chat.members.forEach {
+                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                    concatenatedString += it.firstName + " "
+                }
+            }
+            tv_last_activity.text = concatenatedString.trim()
+        }
+        else{
+            chat.members.forEach{
+                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                    tv_last_activity.text = chat.members.last().toUserItem().lastActivity
+                }
+            }
+        }
     }
 
     private fun setMessagesListener(){
