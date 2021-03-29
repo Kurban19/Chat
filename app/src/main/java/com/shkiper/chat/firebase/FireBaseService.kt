@@ -62,16 +62,9 @@ class FireBaseService @Inject constructor(): FireBaseChats {
                     }
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
-
-//                    val newChat = chatsCollectionRef.document()
-
                     val newChat = currentUserDocRef.collection("engagedChats").document()
                     val chat = Chat(newChat.id, otherUser.firstName, mutableListOf(currentUser.toUser(), otherUser), null)
                     newChat.set(chat)
-
-//                    currentUserDocRef.collection("engagedChats")
-//                            .document(newChat.id)
-//                            .set(ChatId(newChat.id))
 
                     fireStoreInstance.collection("users").document(otherUser.id)
                             .collection("engagedChats")

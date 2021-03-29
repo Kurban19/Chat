@@ -4,27 +4,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.shkiper.chat.App
 import kotlinx.android.synthetic.main.activity_archive.*
 import kotlinx.android.synthetic.main.activity_archive.toolbar
 import com.shkiper.chat.R
 import com.shkiper.chat.ui.adapters.ArchiveAdapter
 import com.shkiper.chat.ui.adapters.ArchiveItemTouchHelperCallback
 import com.shkiper.chat.viewmodels.ArchiveViewModel
+import javax.inject.Inject
 
 class ArchiveActivity : AppCompatActivity() {
 
     private lateinit var archiveAdapter: ArchiveAdapter
-    private lateinit var viewModel: ArchiveViewModel
+    @Inject
+    lateinit var viewModel: ArchiveViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_archive)
+        (applicationContext as App).appComponent.inject(this)
         initToolbar()
         initViews()
         initViewModel()
@@ -74,8 +77,7 @@ class ArchiveActivity : AppCompatActivity() {
 
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(ArchiveViewModel::class.java)
-        viewModel.getChatData().observe(this, Observer { archiveAdapter.updateData(it) })
+        viewModel.getChats().observe(this, Observer { archiveAdapter.updateData(it) })
     }
 
 }

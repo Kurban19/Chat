@@ -54,7 +54,7 @@ class UsersViewModel @Inject constructor(private val mainRepository: MainReposit
 
     fun handleCreatedGroup() {
         if(selectedItems.value!!.size > 1){
-//            FireBaseChatsImpl.createGroupChat(usersRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
+            mainRepository.createGroupChat(mainRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
         }
         else{
             mainRepository.createChat(mainRepository.findUser(selectedItems.value!!.first().id)!!)

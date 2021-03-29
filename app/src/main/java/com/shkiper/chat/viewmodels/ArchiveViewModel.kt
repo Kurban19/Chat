@@ -17,7 +17,7 @@ class ArchiveViewModel @Inject constructor(private val mainRepository: MainRepos
             .sortedBy { it.id.toInt() }
     }
 
-    fun getChatData() : LiveData<List<ChatItem>>{
+    fun getChats() : LiveData<List<ChatItem>>{
         val result = MediatorLiveData<List<ChatItem>>()
 
         val filterF = {

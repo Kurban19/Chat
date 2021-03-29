@@ -84,4 +84,8 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         chatsListenerRegistration.remove()
         usersListenerRegistration.remove()
     }
+
+    fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
+        fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
+    }
 }
