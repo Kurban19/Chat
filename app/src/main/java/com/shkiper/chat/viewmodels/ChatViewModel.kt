@@ -2,6 +2,7 @@ package com.shkiper.chat.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration
+import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
@@ -11,6 +12,7 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
         private val mainRepository: MainRepository
         ) : ViewModel(){
+
 
 
     fun getChat(chatId: String): Chat {
@@ -24,6 +26,11 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(message: TextMessage, chatId: String){
         mainRepository.sendMessage(message, chatId)
     }
+
+    fun update(chat: Chat){
+        mainRepository.update(chat)
+    }
+
 
 
 }

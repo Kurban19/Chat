@@ -6,13 +6,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.interfaces.FireBaseChats
+import com.shkiper.chat.interfaces.FireBaseUsers
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
 import java.util.*
 import javax.inject.Inject
 
-class FireBaseService @Inject constructor(): FireBaseChats {
+class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
@@ -26,7 +27,7 @@ class FireBaseService @Inject constructor(): FireBaseChats {
     private val usersCollectionRef = fireStoreInstance.collection("users")
 
 
-    fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
+    override fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
         return usersCollectionRef
                 .addSnapshotListener{ querySnapshot, firebaseFireStoreException ->
                     if (firebaseFireStoreException != null) {
@@ -45,13 +46,51 @@ class FireBaseService @Inject constructor(): FireBaseChats {
                 }
     }
 
-    fun updateCurrentUser(date: Date = Date(), online: Boolean) {
-        val userFieldMap = mutableMapOf<String, Any>()
-        userFieldMap["lastVisit"] = date
-        userFieldMap["online"] = online
-        currentUserDocRef.update(userFieldMap)
+    override fun setEngagedChatsListener(
+            onListen: (List<Chat>) -> Unit
+    ): ListenerRegistration {
+        return currentUserDocRef.collection("engagedChats")
+                .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
+                    if (firebaseFireStoreException != null) {
+                        return@addSnapshotListener
+                    }
+                    val items = mutableListOf<Chat>()
+                    querySnapshot?.documents?.forEach {
+                        val chat = it.toObject(Chat::class.java)
+                                ?: throw KotlinNullPointerException()
+                        if (chat.title == FirebaseAuth.getInstance().currentUser!!.displayName) {
+                            chat.title = chat.members.last().firstName
+                        }
+                        items.add(chat)
+                    }
+                    onListen(items)
+                }
     }
 
+
+
+    override fun addChatMessagesListener(
+            chatId: String,
+            onListen: (List<TextMessage>) -> Unit
+    ): ListenerRegistration {
+        return messagesCollectionRef.document(chatId).collection("messages")
+                .orderBy("date")
+                .addSnapshotListener {  querySnapshot, firebaseFireStoreException ->
+                    if (firebaseFireStoreException != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val items = mutableListOf<TextMessage>()
+                    querySnapshot?.documents?.forEach {
+                        val message = it.toObject(TextMessage::class.java)
+                        if (message != null) {
+                            items.add(message)
+                        }
+                        return@forEach
+                    }
+                    onListen(items)
+                }
+    }
 
 
     override fun getOrCreateChat(otherUser: User) {
@@ -95,49 +134,11 @@ class FireBaseService @Inject constructor(): FireBaseChats {
 //        }
     }
 
-
-    override fun setEngagedChatsListener(
-            onListen: (List<Chat>) -> Unit
-    ): ListenerRegistration {
-        return currentUserDocRef.collection("engagedChats")
-                .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
-                    if (firebaseFireStoreException != null) {
-                        return@addSnapshotListener
-                    }
-                    val items = mutableListOf<Chat>()
-                    querySnapshot?.documents?.forEach {
-                        val chat = it.toObject(Chat::class.java)
-                                ?: throw KotlinNullPointerException()
-                        if (chat.title == FirebaseAuth.getInstance().currentUser!!.displayName) {
-                            chat.title = chat.members.last().firstName
-                        }
-                        items.add(chat)
-                    }
-                    onListen(items)
-                }
-    }
-
-    override fun addChatMessagesListener(
-            chatId: String,
-            onListen: (List<TextMessage>) -> Unit
-    ): ListenerRegistration {
-        return messagesCollectionRef.document(chatId).collection("messages")
-                .orderBy("date")
-                .addSnapshotListener {  querySnapshot, firebaseFireStoreException ->
-                    if (firebaseFireStoreException != null) {
-                        return@addSnapshotListener
-                    }
-
-                    val items = mutableListOf<TextMessage>()
-                    querySnapshot?.documents?.forEach {
-                        val message = it.toObject(TextMessage::class.java)
-                        if (message != null) {
-                            items.add(message)
-                        }
-                        return@forEach
-                    }
-                    onListen(items)
-                }
+    override fun updateCurrentUser(date: Date, online: Boolean) {
+        val userFieldMap = mutableMapOf<String, Any>()
+        userFieldMap["lastVisit"] = date
+        userFieldMap["online"] = online
+        currentUserDocRef.update(userFieldMap)
     }
 
 

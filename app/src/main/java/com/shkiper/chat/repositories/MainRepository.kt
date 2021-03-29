@@ -61,23 +61,15 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
 
 
     fun update(chat: Chat) {
-        val copy = chats.value!!.toMutableList()
-        val ind = chats.value!!.indexOfFirst { it.id == chat.id }
-        if(ind == -1) return
-        copy[ind] = chat
-        chats.value = copy
-    }
-
-    private fun setChats(listOfChats: List<Chat>){
-        chats.value = listOfChats
-    }
-
-    private fun setUsers(listOfUsers: List<User>){
-        users.value = listOfUsers
+        fireBaseService.updateChat(chat)
     }
 
     fun updateCurrentUser(date: Date = Date(), online: Boolean){
         fireBaseService.updateCurrentUser(date, online)
+    }
+
+    fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
+        fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
     fun removeListeners(){
@@ -85,7 +77,11 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         usersListenerRegistration.remove()
     }
 
-    fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
-        fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
+    private fun setUsers(listOfUsers: List<User>){
+        users.value = listOfUsers
+    }
+
+    private fun setChats(listOfChats: List<Chat>){
+        chats.value = listOfChats
     }
 }

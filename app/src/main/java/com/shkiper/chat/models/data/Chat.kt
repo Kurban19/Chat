@@ -2,6 +2,7 @@ package com.shkiper.chat.models.data
 
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
 import java.util.*
 
@@ -13,7 +14,7 @@ data class Chat(
         var isArchived: Boolean = false){
 
 
-//    private fun unreadableMessageCount(): Int = FireBaseChatsImpl.getUnreadMessages(id)
+    private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
 
     private fun unreadMessageCount(): Int = 0
 
@@ -37,7 +38,7 @@ data class Chat(
         else -> "Сообщений еще нет" to "undefine"
     }
 
-    private fun isSingle(): Boolean = members.size == 1
+    fun isSingle(): Boolean = members.size == 1
 
     fun toChatItem(): ChatItem {
         val user = members.last()

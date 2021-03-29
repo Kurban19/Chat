@@ -32,6 +32,7 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         (applicationContext as App).appComponent.inject(this)
+        chat = viewModel.getChat(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         initToolbar()
         initViews()
         setMessagesListener()
@@ -48,7 +49,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
-        chat = viewModel.getChat(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
 
         with(chatItem) {
@@ -64,7 +64,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        if(chat.members.size > 2){
+        if(chat.isSingle()){
             var concatenatedString = ""
             chat.members.forEach {
                 if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
@@ -80,10 +80,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
-    }
 
-    private fun setMessagesListener(){
-        messagesListenerRegistration = viewModel.addChatMessagesListener(chat.id, this::updateRecyclerView)
 
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
@@ -94,8 +91,15 @@ class ChatActivity : AppCompatActivity() {
             chat.lastMessage = message
 
             viewModel.sendMessage(message, chat.id)
-
+            chat.lastMessage = message
+            viewModel.update(chat)
         }
+
+
+    }
+
+    private fun setMessagesListener(){
+        messagesListenerRegistration = viewModel.addChatMessagesListener(chat.id, this::updateRecyclerView)
     }
 
     private fun updateRecyclerView(messages: List<TextMessage>){
