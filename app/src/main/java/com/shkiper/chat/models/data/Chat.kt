@@ -1,5 +1,6 @@
 package com.shkiper.chat.models.data
 
+import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.utils.FireBaseUtils
@@ -38,17 +39,18 @@ data class Chat(
         else -> "Сообщений еще нет" to "undefine"
     }
 
-    fun isSingle(): Boolean = members.size == 1
+    fun isSingle(): Boolean = members.size == 2
 
     fun toChatItem(): ChatItem {
-        val user = members.first()
-
+        val user = members.find { FirebaseAuth.getInstance().currentUser.uid != it.id }
+        user ?: throw KotlinNullPointerException()
         return if (isSingle()) {
+
             ChatItem(
                     id,
                     user.avatar,
                     Utils.toInitials(user.firstName, user.lastName) ?: "??",
-                    "${user.firstName} ${user.lastName}",
+                    "${user.firstName} ${user.lastName}" ,
                     lastMessageShort().first,
                     unreadMessageCount(),
                     lastMessageDate().shortFormat(),

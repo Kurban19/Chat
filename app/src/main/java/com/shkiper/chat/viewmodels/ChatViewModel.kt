@@ -14,7 +14,6 @@ class ChatViewModel @Inject constructor(
         ) : ViewModel(){
 
 
-
     fun getChat(chatId: String): Chat {
         return mainRepository.find(chatId)
     }

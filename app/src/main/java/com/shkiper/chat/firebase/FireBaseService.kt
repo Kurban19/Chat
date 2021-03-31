@@ -27,6 +27,25 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
     private val usersCollectionRef = fireStoreInstance.collection("users")
 
 
+//    override fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
+//        return usersCollectionRef
+//                .addSnapshotListener{ querySnapshot, firebaseFireStoreException ->
+//                    if (firebaseFireStoreException != null) {
+//                        return@addSnapshotListener
+//                    }
+//
+//                    val items = mutableListOf<User>()
+//                    querySnapshot?.documents?.forEach {
+//                        val user = it.toObject(User::class.java)
+//                        if (user != null && user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
+//                            items.add(user)
+//                        }
+//                        return@forEach
+//                    }
+//                    onListen(items)
+//                }
+//    }
+
     override fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
         return usersCollectionRef
                 .addSnapshotListener{ querySnapshot, firebaseFireStoreException ->
@@ -46,6 +65,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                 }
     }
 
+
     override fun setEngagedChatsListener(
             onListen: (List<Chat>) -> Unit
     ): ListenerRegistration {
@@ -56,14 +76,12 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     }
                     val items = mutableListOf<Chat>()
                     querySnapshot?.documents?.forEach {
-                        val chat = it.toObject(Chat::class.java)
-                                ?: throw KotlinNullPointerException()
-                        items.add(chat)
+                        val chat = it.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
 
+                        items.add(chat)
                         }
                     onListen(items)
                     }
-
     }
 
 
@@ -101,7 +119,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
                     val newChat = currentUserDocRef.collection("engagedChats").document()
-                    val chat = Chat(newChat.id, otherUser.firstName, mutableListOf(currentUser.toUser(), otherUser), null)
+                    val chat = Chat(newChat.id, newChat.id, mutableListOf(currentUser.toUser(), otherUser), null)
                     newChat.set(chat)
 
                     fireStoreInstance.collection("users").document(otherUser.id)

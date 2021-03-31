@@ -1,5 +1,6 @@
 package com.shkiper.chat.repositories
 
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.firebase.FireBaseService
@@ -17,8 +18,8 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     private lateinit var chatsListenerRegistration: ListenerRegistration
     private lateinit var usersListenerRegistration: ListenerRegistration
 
-    val chats = mutableLiveData(listOf<Chat>())
-    val users = mutableLiveData(listOf<User>())
+    val chats = MutableLiveData<List<Chat>>(listOf())
+    val users = MutableLiveData<List<User>>(listOf())
 
     init {
         fireBaseService.setEngagedChatsListener(this::setChats)
@@ -30,11 +31,9 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         return fireBaseService.setChatMessagesListener(chatId, onListen)
     }
 
-
     fun createChat(user: User){
         fireBaseService.getOrCreateChat(user)
     }
-
 
 
     fun findUser(userId: String): User?{
