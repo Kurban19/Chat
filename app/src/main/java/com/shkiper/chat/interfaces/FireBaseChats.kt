@@ -13,7 +13,7 @@ interface FireBaseChats {
 
     fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String)
 
-    fun addChatMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration
+    fun setChatMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration
 
     fun updateChat(chat: Chat)
 

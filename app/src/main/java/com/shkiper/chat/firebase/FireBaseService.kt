@@ -58,18 +58,17 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     querySnapshot?.documents?.forEach {
                         val chat = it.toObject(Chat::class.java)
                                 ?: throw KotlinNullPointerException()
-                        if (chat.title == FirebaseAuth.getInstance().currentUser!!.displayName) {
-                            chat.title = chat.members.last().firstName
-                        }
                         items.add(chat)
-                    }
+
+                        }
                     onListen(items)
-                }
+                    }
+
     }
 
 
 
-    override fun addChatMessagesListener(
+    override fun setChatMessagesListener(
             chatId: String,
             onListen: (List<TextMessage>) -> Unit
     ): ListenerRegistration {

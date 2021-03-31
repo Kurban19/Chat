@@ -27,7 +27,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
 
 
     fun addMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration {
-        return fireBaseService.addChatMessagesListener(chatId, onListen)
+        return fireBaseService.setChatMessagesListener(chatId, onListen)
     }
 
 

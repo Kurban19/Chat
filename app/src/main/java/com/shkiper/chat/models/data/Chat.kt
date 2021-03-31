@@ -41,7 +41,7 @@ data class Chat(
     fun isSingle(): Boolean = members.size == 1
 
     fun toChatItem(): ChatItem {
-        val user = members.last()
+        val user = members.first()
 
         return if (isSingle()) {
             ChatItem(
