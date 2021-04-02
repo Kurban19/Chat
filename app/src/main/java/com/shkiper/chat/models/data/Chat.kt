@@ -45,7 +45,6 @@ data class Chat(
         val user = members.find { FirebaseAuth.getInstance().currentUser.uid != it.id }
         user ?: throw KotlinNullPointerException()
         return if (isSingle()) {
-
             ChatItem(
                     id,
                     user.avatar,

@@ -16,8 +16,6 @@ data class User (
 ) {
 
 
-
-
     fun toUserItem(): UserItem {
         val lastActivity = when{
             lastVisit == null -> "Еще ниразу не заходил"

@@ -15,15 +15,13 @@ import javax.inject.Singleton
 @Singleton
 class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
 
-    private lateinit var chatsListenerRegistration: ListenerRegistration
-    private lateinit var usersListenerRegistration: ListenerRegistration
+    private val usersListenerRegistration: ListenerRegistration
 
     val chats = MutableLiveData<List<Chat>>(listOf())
     val users = MutableLiveData<List<User>>(listOf())
 
     init {
-        fireBaseService.setEngagedChatsListener(this::setChats)
-        fireBaseService.setUsersListener(this::setUsers)
+        usersListenerRegistration = fireBaseService.setUsersListener(this::setUsers)
     }
 
 
@@ -63,16 +61,12 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         fireBaseService.updateChat(chat)
     }
 
-    fun updateCurrentUser(date: Date = Date(), online: Boolean){
-        fireBaseService.updateCurrentUser(date, online)
-    }
-
     fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
         fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
     fun removeListeners(){
-        chatsListenerRegistration.remove()
+//        chatsListenerRegistration.remove()
         usersListenerRegistration.remove()
     }
 
@@ -82,5 +76,9 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
 
     private fun setChats(listOfChats: List<Chat>){
         chats.value = listOfChats
+    }
+
+    fun getChats() {
+        fireBaseService.getEngagedChats(this::setChats)
     }
 }

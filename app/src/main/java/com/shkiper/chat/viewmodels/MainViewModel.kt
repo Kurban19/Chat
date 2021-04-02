@@ -51,13 +51,16 @@ class MainViewModel @Inject constructor(
         query.value = text
     }
 
-    fun updateCurrentUser(date: Date = Date(), online: Boolean){
-        mainRepository.updateCurrentUser(date, online)
-    }
-
     override fun onCleared() {
         super.onCleared()
         mainRepository.removeListeners()
     }
+
+    fun updateData() {
+        mainRepository.
+        getChats()
+    }
+
+
 
 }

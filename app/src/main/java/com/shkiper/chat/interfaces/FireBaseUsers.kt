@@ -8,6 +8,5 @@ interface FireBaseUsers{
 
     fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration
 
-    fun updateCurrentUser(date: Date = Date(), online: Boolean)
 
 }

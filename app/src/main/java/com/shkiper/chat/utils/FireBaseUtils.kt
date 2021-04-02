@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shkiper.chat.models.data.User
+import java.util.*
 
 object FireBaseUtils {
 
@@ -24,6 +25,13 @@ object FireBaseUtils {
                 }
             }
         }
+    }
+
+    fun updateCurrentUser(date: Date, online: Boolean) {
+        val userFieldMap = mutableMapOf<String, Any>()
+        userFieldMap["lastVisit"] = date
+        userFieldMap["online"] = online
+        currentUserDocRef.update(userFieldMap)
     }
 
 

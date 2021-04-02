@@ -23,6 +23,7 @@ import com.shkiper.chat.ui.archive.ArchiveActivity
 import com.shkiper.chat.ui.chat.ChatActivity
 import com.shkiper.chat.ui.users.UsersActivity
 import com.shkiper.chat.ui.login.LoginActivity
+import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.viewmodels.MainViewModel
 import java.util.*
 import javax.inject.Inject
@@ -92,7 +93,6 @@ class MainActivity : AppCompatActivity(){
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
-                viewModel.updateCurrentUser(Date(), false)
                 true
             }
             else -> {
@@ -161,14 +161,14 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.updateCurrentUser(Date(), false)
-    }
-
     override fun onStart() {
         super.onStart()
-        viewModel.updateCurrentUser(Date(), true)
+        viewModel.updateData()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        FireBaseUtils.updateCurrentUser(Date(), false)
     }
 
 }
