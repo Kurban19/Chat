@@ -51,14 +51,8 @@ class MainViewModel @Inject constructor(
         query.value = text
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        mainRepository.removeListeners()
-    }
-
     fun updateData() {
-        mainRepository.
-        getChats()
+        mainRepository.getData()
     }
 
 

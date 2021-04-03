@@ -27,27 +27,22 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
     private val chatsCollectionRef = fireStoreInstance.collection("chats")
     private val messagesCollectionRef = fireStoreInstance.collection("messages")
 
-    override fun setUsersListener(onListen: (List<User>) -> Unit): ListenerRegistration {
-        return usersCollectionRef
-                .addSnapshotListener{ querySnapshot, firebaseFireStoreException ->
-                    if (firebaseFireStoreException != null) {
-                        return@addSnapshotListener
-                    }
-
-                    val items = mutableListOf<User>()
-                    querySnapshot?.documents?.forEach {
-                        val user = it.toObject(User::class.java)
-                        if (user != null && user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
-                            items.add(user)
+    override fun getUsers(onListen: (List<User>) -> Unit) {
+        val listOfUsers = mutableListOf<User>()
+        usersCollectionRef.get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents){
+                        val user = document.toObject(User::class.java)
+                        if (user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
+                            listOfUsers.add(user)
                         }
-                        return@forEach
                     }
-                    onListen(items)
                 }
+        onListen(listOfUsers)
     }
 
 
-    fun getEngagedChats(onListen: (List<Chat>) -> Unit) {
+    override fun getEngagedChats(onListen: (List<Chat>) -> Unit) {
         currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { documents ->
                     val listOfChats = mutableListOf<Chat>()
@@ -60,25 +55,6 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     }
                 }
     }
-
-
-    override fun setEngagedChatsListener(
-            onListen: (List<Chat>) -> Unit
-    ): ListenerRegistration {
-        return currentUserDocRef.collection("engagedChats")
-                .addSnapshotListener { querySnapshot, firebaseFireStoreException ->
-                    if (firebaseFireStoreException != null) {
-                        return@addSnapshotListener
-                    }
-                    val items = mutableListOf<Chat>()
-                    querySnapshot?.documents?.forEach {
-                        val chat = it.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
-                        items.add(chat)
-                        }
-                    onListen(items)
-                    }
-    }
-
 
 
     override fun setChatMessagesListener(
@@ -105,24 +81,6 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
     }
 
 
-//    override fun getOrCreateChat(otherUser: User) {
-//        currentUserDocRef.collection("engagedChats")
-//                .document(otherUser.id).get().addOnSuccessListener {
-//                    if (it.exists()) {
-//                        return@addOnSuccessListener
-//                    }
-//                    val currentUser = FirebaseAuth.getInstance().currentUser!!
-//
-//                    val newChat = currentUserDocRef.collection("engagedChats").document()
-//                    val chat = Chat(newChat.id, newChat.id, mutableListOf(currentUser.toUser(), otherUser), null)
-//                    newChat.set(chat)
-//
-//                    fireStoreInstance.collection("users").document(otherUser.id)
-//                            .collection("engagedChats")
-//                            .document()
-//                            .set(chat)
-//                }
-//    }
 
     override fun getOrCreateChat(otherUser: User) {
         currentUserDocRef.collection("engagedChatChannels")
@@ -151,26 +109,25 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
 
 
     override fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
-//        val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
-//        val newChat = chatsCollectionRef.document()
-//        listOfUsers.add(currentUser)
-//        newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
-//
-//        currentUserDocRef.collection("engagedChats")
-//                .document(newChat.id)
-//                .set(ChatId(newChat.id))
-//
-//        listOfUsers.forEach{
-//            for (user in listOfUsers){
-//                if(user.id == it.id) return
-//                fireStoreInstance.collection("users").document(it.id)
-//                        .collection("engagedChats")
-//                        .document(newChat.id)
-//                        .set(ChatId(newChat.id))
-//            }
-//        }
-    }
+        val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
+        val newChat = chatsCollectionRef.document()
+        listOfUsers.add(currentUser)
+        newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
 
+        currentUserDocRef.collection("engagedChats")
+                .document(newChat.id)
+                .set(mapOf("chatId" to newChat.id))
+
+        listOfUsers.forEach{
+            for (user in listOfUsers){
+                if(user.id == it.id) return
+                fireStoreInstance.collection("users").document(it.id)
+                        .collection("engageChats")
+                        .document(newChat.id)
+                        .set(mapOf("chatId" to newChat.id))
+            }
+        }
+    }
 
 
     override fun updateChat(chat: Chat) {

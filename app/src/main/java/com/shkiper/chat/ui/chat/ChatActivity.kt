@@ -65,6 +65,13 @@ class ChatActivity : AppCompatActivity() {
         }
 
         if(chat.isSingle()){
+            chat.members.forEach{
+                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                    tv_last_activity.text = chat.members.last().toUserItem().lastActivity
+                }
+            }
+        }
+        else{
             var concatenatedString = ""
             chat.members.forEach {
                 if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
@@ -72,13 +79,6 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
             tv_last_activity.text = concatenatedString.trim()
-        }
-        else{
-            chat.members.forEach{
-                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    tv_last_activity.text = chat.members.last().toUserItem().lastActivity
-                }
-            }
         }
 
 
