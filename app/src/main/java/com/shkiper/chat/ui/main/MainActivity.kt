@@ -134,13 +134,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initViewModel()  {
-        viewModel.getChatData().observe(this, Observer {
-//            if(it.isEmpty()){
-//                toggleProgressBar(true)
-//            }
-//            else{
-//                toggleProgressBar(false)
-//            }
+        viewModel.getChatData().observe(this, {
             chatAdapter.updateData(it)
         })
     }
@@ -166,10 +160,4 @@ class MainActivity : AppCompatActivity(){
         viewModel.updateData()
         
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        FireBaseUtils.updateCurrentUser(Date(), false)
-    }
-
 }
