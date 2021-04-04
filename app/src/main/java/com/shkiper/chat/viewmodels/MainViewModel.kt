@@ -55,6 +55,4 @@ class MainViewModel @Inject constructor(
         mainRepository.getData()
     }
 
-
-
 }

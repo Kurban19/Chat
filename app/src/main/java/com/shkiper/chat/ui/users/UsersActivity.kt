@@ -8,21 +8,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.shkiper.chat.App
-import kotlinx.android.synthetic.main.activity_group.*
 import com.shkiper.chat.R
 import com.shkiper.chat.models.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
-import com.shkiper.chat.viewmodels.MainViewModel
 import com.shkiper.chat.viewmodels.UsersViewModel
+import kotlinx.android.synthetic.main.activity_group.*
 import javax.inject.Inject
 
 class UsersActivity : AppCompatActivity() {
@@ -44,10 +40,10 @@ class UsersActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.isIconifiedByDefault = true;
-        searchView.isFocusable = true;
-        searchView.isIconified = false;
-        searchView.requestFocusFromTouch();
+        searchView.isIconifiedByDefault = true
+        searchView.isFocusable = true
+        searchView.isIconified = false
+        searchView.requestFocusFromTouch()
         searchView.queryHint ="Введите имя пользователя"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -93,15 +89,15 @@ class UsersActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener{
-            viewModel.handleCreatedGroup()
+            viewModel.handleCreatedChat()
             finish()
         }
 
     }
 
     private fun initViewModel() {
-        viewModel.getUsers().observe(this, Observer { usersAdapter.updateData(it) })
-        viewModel.getSelectedData().observe(this, Observer {
+        viewModel.getUsers().observe(this, { usersAdapter.updateData(it) })
+        viewModel.getSelectedData().observe(this, {
             updateChips(it)
             toggleFab(it.isNotEmpty())
         })

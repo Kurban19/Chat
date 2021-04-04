@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
+import com.shkiper.chat.models.data.User
 import com.shkiper.chat.models.data.UserItem
 import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Inject
@@ -52,13 +53,17 @@ class UsersViewModel @Inject constructor(private val mainRepository: MainReposit
     }
 
 
-    fun handleCreatedGroup() {
+    fun handleCreatedChat() {
         if(selectedItems.value!!.size > 1){
             mainRepository.createGroupChat(mainRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
         }
         else{
             mainRepository.createChat(mainRepository.findUser(selectedItems.value!!.first().id)!!)
         }
+    }
+
+    fun handleCreatedGroupChat(titleOfChat: String){
+        mainRepository.createGroupChat(mainRepository.findUsersById(selectedItems.value!!.map { it.id }).toMutableList(), "Test")
     }
 
 
