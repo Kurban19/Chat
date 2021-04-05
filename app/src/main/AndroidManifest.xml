@@ -24,7 +24,6 @@
         <activity android:name="com.shkiper.chat.ui.main.MainActivity"/>
         <activity android:name="com.shkiper.chat.ui.users.UsersActivity" />
         <activity android:name="com.shkiper.chat.ui.archive.ArchiveActivity" />
-        <activity android:name=".ui.profile.ProfileActivity" />
     </application>
 
 </manifest>

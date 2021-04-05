@@ -1,36 +1,35 @@
 package com.shkiper.chat
 
 import android.app.Application
-import android.content.Context
-import android.content.res.Configuration
-import dagger.hilt.android.HiltAndroidApp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.shkiper.chat.di.component.DaggerAppComponent
-import com.shkiper.chat.interfaces.FireBaseUsers
 import com.shkiper.chat.utils.FireBaseUtils
+import dagger.hilt.android.HiltAndroidApp
 import java.util.*
 
 
 @HiltAndroidApp
-class App: Application() {
+class App: Application(), LifecycleObserver {
 
-    val appComponent = DaggerAppComponent.create()
+    val appComponent = DaggerAppComponent.create()!!
 
     override fun onCreate() {
         super.onCreate()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this);
+    }
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    private fun onAppForegrounded() {
         FireBaseUtils.updateCurrentUser(Date(), true)
     }
 
-
-    companion object{
-        private var instance:App? = null
-
-        fun applicationContext(): Context{
-            return instance!!.applicationContext
-        }
-    }
-
-    init {
-        instance = this
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    private fun onAppBackgrounded() {
+        FireBaseUtils.updateCurrentUser(Date(), false)
     }
 
 
