@@ -155,9 +155,4 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.updateData()
-        
-    }
 }

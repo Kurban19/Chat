@@ -60,7 +60,7 @@ data class Chat(
             ChatItem(
                     id,
                 null,
-                    title[0].toString(),
+                    title[0].toString() ,
                     title,
                     lastMessageShort().first,
                     unreadMessageCount(),

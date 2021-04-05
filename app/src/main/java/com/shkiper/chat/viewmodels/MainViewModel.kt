@@ -51,8 +51,5 @@ class MainViewModel @Inject constructor(
         query.value = text
     }
 
-    fun updateData() {
-        mainRepository.getData()
-    }
 
 }

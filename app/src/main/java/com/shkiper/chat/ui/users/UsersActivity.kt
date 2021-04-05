@@ -1,6 +1,7 @@
 package com.shkiper.chat.ui.users
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -8,8 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
@@ -17,11 +20,13 @@ import com.shkiper.chat.App
 import com.shkiper.chat.R
 import com.shkiper.chat.models.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
+import com.shkiper.chat.ui.dialogs.GetTitleOfGroupDialog
 import com.shkiper.chat.viewmodels.UsersViewModel
 import kotlinx.android.synthetic.main.activity_group.*
 import javax.inject.Inject
 
-class UsersActivity : AppCompatActivity() {
+
+class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogListener {
 
     private lateinit var usersAdapter: UserAdapter
     @Inject
@@ -45,7 +50,7 @@ class UsersActivity : AppCompatActivity() {
         searchView.isIconified = false
         searchView.requestFocusFromTouch()
         searchView.queryHint ="Введите имя пользователя"
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.handleSearchQuery(query)
                 return true
@@ -70,8 +75,6 @@ class UsersActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -89,8 +92,15 @@ class UsersActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener{
-            viewModel.handleCreatedChat()
-            finish()
+            if(viewModel.getSizeOfSelectedItems() > 1){
+                //Start dialog for title of group
+                openDialog()
+            }
+            else{
+                viewModel.handleCreatedChat()
+                finish()
+            }
+
         }
 
     }
@@ -131,10 +141,23 @@ class UsersActivity : AppCompatActivity() {
 
         val views = chip_group.children.associateBy { view -> view.tag }
 
-        for((k,v) in views){
+        for((k, v) in views){
             if(users.containsKey(k)) chip_group.removeView(v)
             else users.remove(k)
         }
-        users.forEach{(_,v) ->addChipToGroup(v)}
+        users.forEach{ (_, v) ->addChipToGroup(v)}
     }
+
+    private fun openDialog() {
+        val dialog = GetTitleOfGroupDialog()
+        dialog.show(supportFragmentManager, "example dialog")
+    }
+
+
+    override fun getTitleOfChat(titleOfChat: String) {
+        viewModel.handleCreatedGroupChat(titleOfChat)
+        finish()
+    }
+
+
 }

@@ -83,7 +83,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
 
 
     override fun getOrCreateChat(otherUser: User) {
-        currentUserDocRef.collection("engagedChatChannels")
+        currentUserDocRef.collection("engagedChats")
                 .document(otherUser.id).get().addOnSuccessListener {
                     if (it.exists()) {
                         return@addOnSuccessListener
@@ -114,19 +114,13 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
         listOfUsers.add(currentUser)
         newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
 
-        currentUserDocRef.collection("engagedChats")
+        listOfUsers.forEach {
+            fireStoreInstance.collection("users").document(it.id)
+                .collection("engagedChats")
                 .document(newChat.id)
                 .set(mapOf("chatId" to newChat.id))
-
-        listOfUsers.forEach{
-            for (user in listOfUsers){
-                if(user.id == it.id) return
-                fireStoreInstance.collection("users").document(it.id)
-                        .collection("engageChats")
-                        .document(newChat.id)
-                        .set(mapOf("chatId" to newChat.id))
-            }
         }
+
     }
 
 

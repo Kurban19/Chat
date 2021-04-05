@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
     <EditText
-        android:id="@+id/edit_username"
+        android:id="@+id/edit_title_of_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Название группы" />
