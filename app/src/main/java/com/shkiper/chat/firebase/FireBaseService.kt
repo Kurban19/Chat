@@ -4,7 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.interfaces.FireBaseChats
 import com.shkiper.chat.interfaces.FireBaseUsers
 import com.shkiper.chat.models.TextMessage
@@ -37,8 +36,8 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                             listOfUsers.add(user)
                         }
                     }
-                }
-        onListen(listOfUsers)
+                }.addOnSuccessListener { onListen(listOfUsers)}
+
     }
 
 
@@ -82,9 +81,9 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
 
 
 
-    override fun getOrCreateChat(otherUser: User) {
+    override fun getOrCreateChat(otherUserId: String) {
         currentUserDocRef.collection("engagedChats")
-                .document(otherUser.id).get().addOnSuccessListener {
+                .document(otherUserId).get().addOnSuccessListener {
                     if (it.exists()) {
                         return@addOnSuccessListener
                     }
@@ -92,14 +91,14 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
                     val newChat = chatsCollectionRef.document()
-                    newChat.set(Chat(newChat.id, newChat.id, mutableListOf(currentUser.toUser(), otherUser), null))
+                    newChat.set(Chat(newChat.id, newChat.id, mutableListOf(currentUser.uid, otherUserId), null))
 
                     currentUserDocRef
                             .collection("engagedChats")
-                            .document(otherUser.id)
+                            .document(otherUserId)
                             .set(mapOf("chatId" to newChat.id))
 
-                    fireStoreInstance.collection("users").document(otherUser.id)
+                    fireStoreInstance.collection("users").document(otherUserId)
                             .collection("engagedChats")
                             .document(currentUser.uid)
                             .set(mapOf("chatId" to newChat.id))
@@ -108,14 +107,14 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
     }
 
 
-    override fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
-        val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
+    override fun createGroupChat(listOfUsersIds: MutableList<String>, titleOfChat: String){
+        val currentUser = FirebaseAuth.getInstance().currentUser!!
         val newChat = chatsCollectionRef.document()
-        listOfUsers.add(currentUser)
-        newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null))
+        listOfUsersIds.add(currentUser.uid)
+        newChat.set(Chat(newChat.id, titleOfChat, listOfUsersIds, null))
 
-        listOfUsers.forEach {
-            fireStoreInstance.collection("users").document(it.id)
+        listOfUsersIds.forEach {
+            fireStoreInstance.collection("users").document(it)
                 .collection("engagedChats")
                 .document(newChat.id)
                 .set(mapOf("chatId" to newChat.id))

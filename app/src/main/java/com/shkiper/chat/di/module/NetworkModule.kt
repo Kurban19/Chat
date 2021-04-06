@@ -11,12 +11,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
-open class NetworkModule {
-
+object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesChatsRepository(firebaseChatService: FireBaseService): MainRepository {
+    fun providesMainRepository(firebaseChatService: FireBaseService): MainRepository {
         return MainRepository(firebaseChatService)
     }
 

@@ -1,7 +1,11 @@
 package com.shkiper.chat.models.data
 
 import com.google.firebase.auth.FirebaseAuth
+import com.shkiper.chat.App
+import com.shkiper.chat.di.component.DaggerAppComponent
+import com.shkiper.chat.di.module.NetworkModule
 import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.firebase.FireBaseService
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
@@ -10,7 +14,7 @@ import java.util.*
 data class Chat(
         val id: String = "",
         var title: String = "",
-        val members: List<User> = listOf(),
+        val members: List<String> = listOf(),
         var lastMessage: TextMessage? = null,
         var isArchived: Boolean = false){
 
@@ -42,7 +46,11 @@ data class Chat(
     fun isSingle(): Boolean = members.size == 2
 
     fun toChatItem(): ChatItem {
-        val user = members.find { FirebaseAuth.getInstance().currentUser.uid != it.id }
+        val user = DaggerAppComponent.create().getInjectedClass().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
+
+//        val user = User()
+
+
         user ?: throw KotlinNullPointerException()
         return if (isSingle()) {
             ChatItem(

@@ -2,12 +2,10 @@ package com.shkiper.chat.repositories
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.firebase.FireBaseService
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,8 +26,8 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     }
 
 
-    fun createChat(user: User){
-        fireBaseService.getOrCreateChat(user)
+    fun createChat(userId: String){
+        fireBaseService.getOrCreateChat(userId)
     }
 
     fun findUser(userId: String): User?{
@@ -50,7 +48,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     }
 
 
-    fun find(chatId: String): Chat {
+    fun findChat(chatId: String): Chat {
         val ind = chats.value!!.indexOfFirst { it.id == chatId}
         return chats.value!![ind]
     }
@@ -60,8 +58,8 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     }
 
 
-    fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
-        fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
+    fun createGroupChat(listOfUsersIds: MutableList<String>, titleOfGroup: String) {
+        fireBaseService.createGroupChat(listOfUsersIds, titleOfGroup)
     }
 
     private fun setUsers(listOfUsers: List<User>){
@@ -75,5 +73,4 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     fun updateChats(){
         fireBaseService.getEngagedChats(this::setChats)
     }
-
 }

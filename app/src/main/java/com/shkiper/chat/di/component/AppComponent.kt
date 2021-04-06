@@ -2,6 +2,7 @@ package com.shkiper.chat.di.component
 
 import dagger.Component
 import com.shkiper.chat.di.module.NetworkModule
+import com.shkiper.chat.repositories.MainRepository
 import com.shkiper.chat.ui.archive.ArchiveActivity
 import com.shkiper.chat.ui.chat.ChatActivity
 import com.shkiper.chat.ui.main.MainActivity
@@ -20,4 +21,6 @@ interface AppComponent {
     fun inject(activity: ChatActivity)
 
     fun inject(activity: ArchiveActivity)
+
+    fun getInjectedClass(): MainRepository
 }

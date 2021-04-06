@@ -65,17 +65,16 @@ class ChatActivity : AppCompatActivity() {
         }
 
         if(chat.isSingle()){
-            chat.members.forEach{
-                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    tv_last_activity.text = chat.members.last().toUserItem().lastActivity
-                }
+            chat.members.find { it != FirebaseAuth.getInstance().currentUser!!.uid }.apply {
+//                tv_last_activity.text = this!!.isOnline.toString()
             }
+
         }
         else{
             var concatenatedString = ""
             chat.members.forEach {
-                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
-                    concatenatedString += it.firstName + " "
+                if(it != FirebaseAuth.getInstance().currentUser!!.uid){
+//                    concatenatedString += it.firstName + " "
                 }
             }
             tv_last_activity.text = concatenatedString.trim()

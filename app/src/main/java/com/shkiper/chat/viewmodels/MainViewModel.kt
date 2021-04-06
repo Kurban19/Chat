@@ -38,12 +38,12 @@ class MainViewModel @Inject constructor(
     }
 
     fun addToArchive(chatId: String) {
-        val chat = mainRepository.find(chatId)
+        val chat = mainRepository.findChat(chatId)
         mainRepository.update(chat.copy(isArchived = true))
     }
 
     fun restoreFromArchive(chatId: String){
-        val chat = mainRepository.find(chatId)
+        val chat = mainRepository.findChat(chatId)
         mainRepository.update(chat.copy(isArchived = false))
     }
 
