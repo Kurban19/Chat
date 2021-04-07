@@ -25,7 +25,7 @@ data class User (
 
         return UserItem(
             id,
-            "${firstName.orEmpty()} ${lastName.orEmpty()}",
+            "$firstName $lastName",
             Utils.toInitials(firstName, lastName)!!,
             avatar,
             lastActivity,
@@ -40,11 +40,11 @@ data class User (
 
         fun makeUser(fullName:String) : User {
             lastid++
-            val (firsName, lastName) = Utils.parseFullName(fullName)
+            val (firstName, lastName) = Utils.parseFullName(fullName)
 
             return User(
                 id = "$lastid",
-                firstName = firsName ?: "John",
+                firstName = firstName ?: "John",
                 lastName = lastName ?: "Doe",
                 email = ""
             )

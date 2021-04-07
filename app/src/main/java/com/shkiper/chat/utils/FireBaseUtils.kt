@@ -1,5 +1,6 @@
 package com.shkiper.chat.utils
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -51,6 +52,18 @@ object FireBaseUtils {
 //                }
 //        return result.filter { !it.isRead }.size
         return 1
+    }
+
+    fun findUser(userId: String): User? {
+        var user: User? = null
+        fireStoreInstance.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener {
+                user =  it.toObject(User::class.java)
+                Log.d("ChatTag", user.toString())
+            }
+        return user
     }
 
 }
