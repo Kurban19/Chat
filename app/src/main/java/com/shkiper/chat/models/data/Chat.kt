@@ -1,12 +1,8 @@
 package com.shkiper.chat.models.data
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.App
-import com.shkiper.chat.di.component.DaggerAppComponent
-import com.shkiper.chat.di.module.NetworkModule
 import com.shkiper.chat.extensions.shortFormat
-import com.shkiper.chat.firebase.FireBaseService
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
@@ -47,10 +43,11 @@ data class Chat(
     fun isSingle(): Boolean = members.size == 2
 
     fun toChatItem(): ChatItem {
-        val userTest = FireBaseUtils.findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
-        Log.d("ChatTag", userTest.toString())
 
-        val user = User()
+        val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
+//        Log.d("ChatTag", userTest.toString())
+
+//        val user = User()
 
 
         user ?: throw KotlinNullPointerException()

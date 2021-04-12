@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
+import com.shkiper.chat.models.data.User
 import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Inject
 
@@ -26,6 +27,10 @@ class ChatViewModel @Inject constructor(
 
     fun update(chat: Chat){
         mainRepository.update(chat)
+    }
+
+    fun findUser(userId: String): User? {
+        return mainRepository.findUser(userId)
     }
 
 

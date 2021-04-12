@@ -2,6 +2,7 @@ package com.shkiper.chat.di.component
 
 import dagger.Component
 import com.shkiper.chat.di.module.NetworkModule
+import com.shkiper.chat.firebase.FireBaseService
 import com.shkiper.chat.repositories.MainRepository
 import com.shkiper.chat.ui.archive.ArchiveActivity
 import com.shkiper.chat.ui.chat.ChatActivity
@@ -22,5 +23,8 @@ interface AppComponent {
 
     fun inject(activity: ArchiveActivity)
 
-    fun getInjectedClass(): MainRepository
+    fun getMainRepository(): MainRepository {
+        return NetworkModule.providesMainRepository(FireBaseService())
+    }
+
 }

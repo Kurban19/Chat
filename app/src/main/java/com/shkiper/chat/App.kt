@@ -1,7 +1,6 @@
 package com.shkiper.chat
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -26,12 +25,9 @@ class App: Application(), LifecycleObserver {
     companion object{
         private var instance:App? = null
 
-        fun applicationContext(): Context {
-            return instance!!.applicationContext
-        }
-
-        fun getAppComponent(){
-
+        @JvmStatic
+        fun getApp(): App {
+            return instance!!
         }
 
     }

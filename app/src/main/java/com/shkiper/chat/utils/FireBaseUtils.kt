@@ -61,7 +61,6 @@ object FireBaseUtils {
             .get()
             .addOnSuccessListener {
                 user =  it.toObject(User::class.java)
-                Log.d("ChatTag", user.toString())
             }
         return user
     }
