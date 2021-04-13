@@ -16,7 +16,7 @@ import com.shkiper.chat.R
 import com.shkiper.chat.models.data.ChatItem
 import com.shkiper.chat.models.data.ChatType
 
-class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
+class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object{
         private const val ARCHIVE_TYPE = 0
         private const val SINGLE_TYPE = 1
@@ -158,4 +158,51 @@ class ChatAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAda
             itemView.setBackgroundColor(Color.WHITE)
         }
     }
+
+
+    inner class HeaderViewHolder(convertView: View) : ChatItemViewHolder(convertView),
+        ChatItemTouchHelperCallback.ItemTouchViewHolder {
+
+        @SuppressLint("SetTextI18n")
+        override fun bind(item: ChatItem, listener: (ChatItem)->Unit){
+
+//            iv_avatar_group.setInitials(item.title[0].toString())
+
+
+
+//            with(tv_date_group){
+//                visibility = if(item.lastMessageDate != null) View.VISIBLE else View.GONE
+//                text = item.lastMessageDate
+//            }
+
+//            with(tv_counter_group){
+//                visibility = if(item.messageCount > 0) View.VISIBLE else View.GONE
+//                text = item.messageCount.toString()
+//            }
+
+            tv_title_group.text = "Архив"
+//            tv_message_group.text = item.shortDescription
+//            with(tv_message_author){
+//                visibility = if(item.messageCount > 0) View.VISIBLE else View.GONE
+//                text = "${item.author} :"
+//            }
+
+
+            itemView.setOnClickListener{
+                listener.invoke(item)
+
+            }
+
+        }
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY)
+        }
+
+        override fun onItemCleared() {
+            itemView.setBackgroundColor(Color.WHITE)
+        }
+    }
+
+
 }

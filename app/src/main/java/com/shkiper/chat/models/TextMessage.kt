@@ -23,16 +23,4 @@ class TextMessage(
             "${if(isIncoming) "получил" else " отправил"} сообщение \"$text\" ${date.humanizeDiff()}"
 
 
-    companion object Factory {
-        private var lastid : Int = -1
-        fun makeMessage(text: String, from: User) : TextMessage {
-            lastid++
-            return TextMessage(
-                    id = "$lastid",
-                    from = from,
-                    text = text
-            )
-        }
-    }
-
 }

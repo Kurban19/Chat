@@ -35,20 +35,4 @@ data class User (
     }
 
 
-    companion object Factory {
-        private var lastid : Int = -1
-
-        fun makeUser(fullName:String) : User {
-            lastid++
-            val (firstName, lastName) = Utils.parseFullName(fullName)
-
-            return User(
-                id = "$lastid",
-                firstName = firstName ?: "John",
-                lastName = lastName ?: "Doe",
-                email = ""
-            )
-        }
-    }
-
 }
