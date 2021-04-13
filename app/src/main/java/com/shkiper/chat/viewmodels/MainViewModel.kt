@@ -51,5 +51,4 @@ class MainViewModel @Inject constructor(
         query.value = text
     }
 
-
 }

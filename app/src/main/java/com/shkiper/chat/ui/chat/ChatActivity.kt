@@ -1,6 +1,7 @@
 package com.shkiper.chat.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,7 +81,6 @@ class ChatActivity : AppCompatActivity() {
             tv_last_activity.text = concatenatedString.trim()
         }
 
-
         iv_send.setOnClickListener{
             if(et_message.text.toString() == ""){
                 return@setOnClickListener
@@ -92,6 +92,7 @@ class ChatActivity : AppCompatActivity() {
             viewModel.sendMessage(message, chat.id)
             chat.lastMessage = message
             viewModel.update(chat)
+            viewModel.updateData()
         }
 
 

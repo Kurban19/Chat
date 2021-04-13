@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, UsersActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     private fun initViewModel()  {
@@ -154,5 +155,6 @@ class MainActivity : AppCompatActivity(){
         }
 
     }
+
 
 }

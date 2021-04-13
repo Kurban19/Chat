@@ -70,7 +70,9 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         chats.value = listOfChats
     }
 
-    fun updateChats(){
+
+    fun updateData() {
         fireBaseService.getEngagedChats(this::setChats)
+        fireBaseService.getUsers(this::setUsers)
     }
 }

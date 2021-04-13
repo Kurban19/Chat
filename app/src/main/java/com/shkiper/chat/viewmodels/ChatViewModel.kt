@@ -33,6 +33,9 @@ class ChatViewModel @Inject constructor(
         return mainRepository.findUser(userId)
     }
 
+    fun updateData() {
+        mainRepository.updateData()
+    }
 
 
 }
