@@ -8,6 +8,7 @@
 
     <com.shkiper.chat.ui.custom.AvatarImageView
         android:id="@+id/iv_avatar_archive"
+        android:src="@drawable/ic_archive_black_24dp"
         android:layout_width="@dimen/avatar_item_size"
         android:layout_height="@dimen/avatar_item_size"
         android:layout_marginEnd="@dimen/spacing_normal_16"
@@ -15,7 +16,7 @@
 
 
     <TextView
-        android:id="@+id/tv_title_group"
+        android:id="@+id/tv_title_archive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Архив чатов"
@@ -36,7 +37,7 @@
         android:textSize="14sp"
         android:layout_toEndOf="@id/iv_avatar_archive"
         android:layout_marginEnd="@dimen/spacing_tiny_4"
-        android:layout_below="@id/tv_title_group"/>
+        android:layout_below="@id/tv_title_archive"/>
 
     <TextView
         android:id="@+id/tv_message_archive"
@@ -49,7 +50,7 @@
         android:layout_toEndOf="@id/tv_message_author_archive"
         android:layout_toStartOf="@id/tv_counter_archive"
         android:layout_marginEnd="@dimen/spacing_normal_16"
-        android:layout_below="@id/tv_title_group"
+        android:layout_below="@id/tv_title_archive"
         android:maxLines="1"
         android:singleLine="true"/>
 

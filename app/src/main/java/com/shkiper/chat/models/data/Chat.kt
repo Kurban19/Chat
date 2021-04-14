@@ -18,9 +18,9 @@ data class Chat(
 
     private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
 
-    private fun unreadMessageCount(): Int = 0
+    fun unreadMessageCount(): Int = 0
 
-    private fun lastMessageDate(): Date {
+    fun lastMessageDate(): Date {
         return lastMessage?.date ?: Date()
     }
 
@@ -34,7 +34,7 @@ data class Chat(
     }
 
 
-    private fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
+    fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
         is TextMessage -> lastMessage.text to lastMessage.from.firstName
 //        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
         else -> "Сообщений еще нет" to "undefine"

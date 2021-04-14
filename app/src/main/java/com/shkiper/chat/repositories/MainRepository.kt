@@ -58,6 +58,16 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
     }
 
 
+    fun addToArchive(chat: Chat){
+        val copy = chats.value!!.toMutableList()
+        val index = chats.value!!.indexOfFirst { it.id == chat.id }
+        if (index == -1) return
+        copy[index] = chat
+        chats.value = copy
+        update(chat)
+    }
+
+
     fun createGroupChat(listOfUsersIds: MutableList<String>, titleOfGroup: String) {
         fireBaseService.createGroupChat(listOfUsersIds, titleOfGroup)
     }

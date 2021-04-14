@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_chat_single.*
 import com.shkiper.chat.R
 import com.shkiper.chat.models.data.ChatItem
 import com.shkiper.chat.models.data.ChatType
+import kotlinx.android.synthetic.main.item_chat_archive.*
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object{
@@ -37,7 +38,7 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
         return when(viewType){
             SINGLE_TYPE -> SingleViewHolder(inflater.inflate(R.layout.item_chat_single, parent, false))
             GROUP_TYPE -> GroupViewHolder(inflater.inflate(R.layout.item_chat_group, parent, false))
-            else -> SingleViewHolder(inflater.inflate(R.layout.item_chat_single, parent, false))
+            else -> ArchiveViewHolder(inflater.inflate(R.layout.item_chat_archive, parent, false))
         }
     }
 
@@ -160,37 +161,31 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
     }
 
 
-    inner class HeaderViewHolder(convertView: View) : ChatItemViewHolder(convertView),
+    inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView),
         ChatItemTouchHelperCallback.ItemTouchViewHolder {
+
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit){
 
-//            iv_avatar_group.setInitials(item.title[0].toString())
+            with(tv_date_archive) {
+                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
+                text = item.lastMessageDate
+            }
 
-
-
-//            with(tv_date_group){
-//                visibility = if(item.lastMessageDate != null) View.VISIBLE else View.GONE
-//                text = item.lastMessageDate
-//            }
-
-//            with(tv_counter_group){
-//                visibility = if(item.messageCount > 0) View.VISIBLE else View.GONE
-//                text = item.messageCount.toString()
-//            }
-
-            tv_title_group.text = "Архив"
-//            tv_message_group.text = item.shortDescription
-//            with(tv_message_author){
-//                visibility = if(item.messageCount > 0) View.VISIBLE else View.GONE
-//                text = "${item.author} :"
-//            }
-
-
-            itemView.setOnClickListener{
+            with(tv_counter_archive){
+                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
+                text = item.messageCount.toString()
+            }
+            tv_title_archive.text = item.title
+            tv_message_archive.text = item.shortDescription
+            itemView.setOnClickListener {
                 listener.invoke(item)
+            }
 
+            with(tv_message_author_archive){
+                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
+                text = "@${item.author}"
             }
 
         }

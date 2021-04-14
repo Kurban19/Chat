@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import com.shkiper.chat.App
 import com.shkiper.chat.R
+import com.shkiper.chat.models.data.ChatType
 import com.shkiper.chat.ui.adapters.ChatAdapter
 import com.shkiper.chat.ui.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.ui.archive.ArchiveActivity
@@ -53,7 +54,6 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
         menuInflater.inflate(R.menu.menu_search, menu)
-        menuInflater.inflate(R.menu.menu_archive, menu)
         menuInflater.inflate(R.menu.menu_profile, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
@@ -80,11 +80,6 @@ class MainActivity : AppCompatActivity(){
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_archive -> {
-                val intent = Intent(this, ArchiveActivity::class.java)
-                startActivity(intent)
-                true
-            }
             R.id.action_profile -> {
 
                 AuthUI.getInstance()
@@ -103,9 +98,15 @@ class MainActivity : AppCompatActivity(){
 
     private fun initViews(){
         chatAdapter = ChatAdapter{
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra(CHAT_ID, it.id)
-            startActivity(intent)
+            if (it.chatType == ChatType.ARCHIVE) {
+                val intent = Intent(this, ArchiveActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra(CHAT_ID, it.id)
+                startActivity(intent)
+            }
+
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
