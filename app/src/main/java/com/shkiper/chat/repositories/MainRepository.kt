@@ -55,6 +55,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
 
     fun update(chat: Chat) {
         fireBaseService.updateChat(chat)
+        updateData()
     }
 
 

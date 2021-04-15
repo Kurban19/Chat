@@ -90,9 +90,14 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
 
             sv_indicator.visibility = if(item.isOnline) View.VISIBLE else View.GONE
 
-            with(tv_date_single){
-                visibility = if(item.lastMessageDate != null) View.VISIBLE else View.GONE
-                text = item.lastMessageDate
+            with(tv_date_single) {
+                if (item.lastMessageDate != null){
+                    visibility = View.VISIBLE
+                    text = item.lastMessageDate
+                } else{
+                    visibility = View.GONE
+                }
+
             }
 
             with(tv_counter_single){
@@ -126,9 +131,14 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
 
             iv_avatar_group.setInitials(item.title[0].toString())
 
-            with(tv_date_group){
-                visibility = if(item.lastMessageDate != null) View.VISIBLE else View.GONE
-                text = item.lastMessageDate
+            with(tv_date_group) {
+                if (item.lastMessageDate != null){
+                    visibility = View.VISIBLE
+                    text = item.lastMessageDate
+                } else{
+                    visibility = View.GONE
+                }
+
             }
 
             with(tv_counter_group){
@@ -169,8 +179,13 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit){
 
             with(tv_date_archive) {
-                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
-                text = item.lastMessageDate
+                if (item.lastMessageDate != null){
+                    visibility = View.VISIBLE
+                    text = item.lastMessageDate
+                } else{
+                    visibility = View.GONE
+                }
+
             }
 
             with(tv_counter_archive){
@@ -179,6 +194,7 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
             }
             tv_title_archive.text = item.title
             tv_message_archive.text = item.shortDescription
+
             itemView.setOnClickListener {
                 listener.invoke(item)
             }

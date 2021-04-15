@@ -1,5 +1,6 @@
 package com.shkiper.chat.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
@@ -19,6 +20,7 @@ class MainViewModel @Inject constructor(
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->
         val archived = chats.filter { it.isArchived }
+        Log.d("MAinViewModel", chats.toString())
         if (archived.isEmpty()) {
             return@map chats.map { it.toChatItem() }
         } else {
@@ -66,7 +68,7 @@ class MainViewModel @Inject constructor(
 
         val lastChat: Chat =
                 if (archived.none { it.unreadMessageCount() != 0 }) archived.last() else
-                    archived.filter { it.unreadMessageCount() != 0 }.maxBy { it.lastMessageDate() }!!
+                    archived.filter { it.unreadMessageCount() != 0 }.maxBy { it.lastMessageDate()!! }!!
 
         return ChatItem(
                 "-1",
@@ -75,7 +77,7 @@ class MainViewModel @Inject constructor(
                 "Архив чатов",
                 lastChat.lastMessageShort().first,
                 count,
-                lastChat.lastMessageDate().shortFormat(),
+                lastChat.lastMessageDate()?.shortFormat(),
                 false,
                 ChatType.ARCHIVE,
                 lastChat.lastMessageShort().second

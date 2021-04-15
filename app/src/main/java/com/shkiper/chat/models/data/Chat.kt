@@ -20,16 +20,16 @@ data class Chat(
 
     fun unreadMessageCount(): Int = 0
 
-    fun lastMessageDate(): Date {
-        return lastMessage?.date ?: Date()
+    fun lastMessageDate(): Date? {
+        return lastMessage?.date
     }
 
-    fun toMap(): Map<String, Any> {
+    fun toMap(): Map<String, Any?> {
         return mapOf(
                 "id" to id,
                 "title" to title,
                 "members" to members,
-                "lastMessage" to lastMessage!!,
+                "lastMessage" to lastMessage,
                 "isArchived" to isArchived)
     }
 
@@ -45,23 +45,20 @@ data class Chat(
     fun toChatItem(): ChatItem {
 
         val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
-//        Log.d("ChatTag", userTest.toString())
-
-//        val user = User()
-
 
         user ?: throw KotlinNullPointerException()
         return if (isSingle()) {
-            ChatItem(
-                    id,
-                    user.avatar,
-                    Utils.toInitials(user.firstName, user.lastName) ?: "??",
-                    "${user.firstName} ${user.lastName}" ,
-                    lastMessageShort().first,
-                    unreadMessageCount(),
-                    lastMessageDate().shortFormat(),
-                    user.isOnline
+            val chatItem = ChatItem(
+                id,
+                user.avatar,
+                Utils.toInitials(user.firstName, user.lastName) ?: "??",
+                "${user.firstName} ${user.lastName}",
+                lastMessageShort().first,
+                unreadMessageCount(),
+                lastMessageDate()?.shortFormat(),
+                user.isOnline
             )
+            chatItem
         }
         else {
             ChatItem(
@@ -71,7 +68,7 @@ data class Chat(
                     title,
                     lastMessageShort().first,
                     unreadMessageCount(),
-                    lastMessageDate().shortFormat(),
+                    lastMessageDate()!!.shortFormat(),
                 false,
                     ChatType.GROUP,
                     lastMessageShort().second

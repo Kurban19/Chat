@@ -48,7 +48,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     for (document in documents){
                         chatsCollectionRef.document(document["chatId"] as String)
                                 .get().addOnSuccessListener {
-                                    val chat = it.toObject(Chat::class.java) ?: throw KotlinNullPointerException()
+                                    val chat = it.toObject(Chat::class.java)!!
                                     listOfChats.add(chat)
                                 }.addOnSuccessListener { onListen(listOfChats) }
                     }
@@ -91,7 +91,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
                     val newChat = chatsCollectionRef.document()
-                    newChat.set(Chat(newChat.id, newChat.id, mutableListOf(currentUser.uid, otherUserId), null))
+                    newChat.set(Chat(newChat.id, newChat.id, mutableListOf(currentUser.uid, otherUserId), null, false))
 
                     currentUserDocRef
                             .collection("engagedChats")
@@ -111,7 +111,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
         val currentUser = FirebaseAuth.getInstance().currentUser!!
         val newChat = chatsCollectionRef.document()
         listOfUsersIds.add(currentUser.uid)
-        newChat.set(Chat(newChat.id, titleOfChat, listOfUsersIds, null))
+        newChat.set(Chat(newChat.id, titleOfChat, listOfUsersIds, null, false))
 
         listOfUsersIds.forEach {
             fireStoreInstance.collection("users").document(it)
