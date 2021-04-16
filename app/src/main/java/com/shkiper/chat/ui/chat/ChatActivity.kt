@@ -85,14 +85,19 @@ class ChatActivity : AppCompatActivity() {
             if(et_message.text.toString() == ""){
                 return@setOnClickListener
             }
-            val message = TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser())
+
+            val message = if(chat.members.size > 1) {
+                TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser(), true)
+            }
+            else{
+                TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser(), false)
+            }
+
             et_message.setText("")
             chat.lastMessage = message
-
             viewModel.sendMessage(message, chat.id)
-            chat.lastMessage = message
             viewModel.update(chat)
-            viewModel.updateData()
+
         }
 
 

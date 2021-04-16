@@ -13,9 +13,10 @@ class TextMessage(
     isRead: Boolean = false,
     isIncoming: Boolean = false,
     date: Date = Date(),
+    isGroup: Boolean = false,
     override val type: String = "text",
     var text: String = ""
-) : BaseMessage(id, from, isIncoming, isRead, date, type){
+) : BaseMessage(id, from, isIncoming, isRead,isGroup, date, type){
 
 
 
@@ -25,12 +26,13 @@ class TextMessage(
 
     companion object Factory {
         private var lastid : Int = -1
-        fun makeMessage(text: String, from: User) : TextMessage {
+        fun makeMessage(text: String, from: User, isGroup: Boolean) : TextMessage {
             lastid++
             return TextMessage(
                     id = "$lastid",
                     from = from,
-                    text = text
+                    text = text,
+                    isGroup = isGroup
             )
         }
     }

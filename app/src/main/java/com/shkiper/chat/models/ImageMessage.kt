@@ -9,11 +9,12 @@ class ImageMessage(
     from: User,
     isIncoming: Boolean = false,
     isRead: Boolean = false,
+    isGroup: Boolean,
     date: Date = Date(),
     override val type: String = "image",
     var image: String
 
-) : BaseMessage(id, from, isIncoming, isRead, date, type){
+) : BaseMessage(id, from, isIncoming, isRead, isGroup, date, type){
 
     override fun formatMessage(): String = "id $id ${from.firstName} " +
             "${if(isIncoming) "получил" else " отправил"} сообщение \"$image\" ${date.humanizeDiff()}"
