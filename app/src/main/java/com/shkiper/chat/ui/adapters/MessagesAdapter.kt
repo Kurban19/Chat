@@ -115,7 +115,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
         override fun bind(item: BaseMessage, holder: AbstractViewHolder) {
 
             if(item.from.id == FirebaseAuth.getInstance().currentUser!!.uid){
-                holder.message_root.apply {
+                holder.group_message_root.apply {
                     setBackgroundResource(R.drawable.rect_round_blue)
                     val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.END)
                     this!!.layoutParams = lParams
@@ -123,11 +123,14 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
                 }
             }
             else {
-                holder.message_root.apply {
+                holder.group_message_root.apply {
                     setBackgroundResource(R.drawable.rect_round_primary_color)
                     val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.START)
                     this!!.layoutParams = lParams
-                    tv_group_message_author.text = item.from.firstName
+                    tv_group_message_author.apply {
+                        visibility = View.VISIBLE
+                        text = item.from.firstName
+                    }
                 }
             }
 
