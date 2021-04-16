@@ -19,14 +19,14 @@ class MainViewModel @Inject constructor(
     ): ViewModel() {
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->
-        val archived = chats.filter { it.isArchived }
+        val archived = chats.filter { it.archived }
         Log.d("MAinViewModel", chats.toString())
         if (archived.isEmpty()) {
             return@map chats.map { it.toChatItem() }
         } else {
             val listWithArchive = mutableListOf<ChatItem>()
             listWithArchive.add(0, makeArchiveItem(archived))
-            listWithArchive.addAll((chats.filter { !it.isArchived }.map { it.toChatItem() }))
+            listWithArchive.addAll((chats.filter { !it.archived }.map { it.toChatItem() }))
             return@map listWithArchive
         }
     }
@@ -50,12 +50,12 @@ class MainViewModel @Inject constructor(
 
     fun addToArchive(chatId: String) {
         val chat = mainRepository.findChat(chatId)
-        mainRepository.addToArchive(chat.copy(isArchived = true))
+        mainRepository.addToArchive(chat.copy(archived = true))
     }
 
     fun restoreFromArchive(chatId: String){
         val chat = mainRepository.findChat(chatId)
-        mainRepository.update(chat.copy(isArchived = false))
+        mainRepository.update(chat.copy(archived = false))
     }
 
     fun handleSearchQuery(text: String?) {

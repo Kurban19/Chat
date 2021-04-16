@@ -13,7 +13,7 @@ data class Chat(
         var title: String = "",
         val members: List<String> = listOf(),
         var lastMessage: TextMessage? = null,
-        var isArchived: Boolean = false){
+        var archived: Boolean = false){
 
 
     private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
@@ -30,7 +30,7 @@ data class Chat(
                 "title" to title,
                 "members" to members,
                 "lastMessage" to lastMessage,
-                "isArchived" to isArchived)
+                "archived" to archived)
     }
 
 

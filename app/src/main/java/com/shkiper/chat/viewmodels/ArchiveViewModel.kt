@@ -12,9 +12,8 @@ import javax.inject.Inject
 class ArchiveViewModel @Inject constructor(private val mainRepository: MainRepository): ViewModel() {
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->
-        return@map chats.filter{it.isArchived}
+        return@map chats.filter{it.archived}
             .map { it.toChatItem() }
-            .sortedBy { it.id.toInt() }
     }
 
     fun getChats() : LiveData<List<ChatItem>>{
@@ -36,12 +35,12 @@ class ArchiveViewModel @Inject constructor(private val mainRepository: MainRepos
 
     fun addToArchive(chatId: String) {
         val chat = mainRepository.findChat(chatId)
-        mainRepository.update(chat.copy(isArchived = true))
+        mainRepository.update(chat.copy(archived = true))
     }
 
     fun restoreFromArchive(chatId: String){
         val chat = mainRepository.findChat(chatId)
-        mainRepository.update(chat.copy(isArchived = false))
+        mainRepository.update(chat.copy(archived = false))
     }
 
 }

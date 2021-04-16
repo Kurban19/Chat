@@ -60,7 +60,7 @@ class ArchiveActivity : AppCompatActivity() {
             viewModel.restoreFromArchive(it.id)
             val snackBar: Snackbar = Snackbar.make(rv_archive_list, "${it.title} был восстановлен", Snackbar.LENGTH_LONG)
             snackBar.setAction("Undo"){
-                viewModel.restoreFromArchive(id)
+                viewModel.addToArchive(id)
             }
             snackBar.show()
         }

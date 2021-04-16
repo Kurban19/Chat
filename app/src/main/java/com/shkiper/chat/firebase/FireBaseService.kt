@@ -1,5 +1,6 @@
 package com.shkiper.chat.firebase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -49,6 +50,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                         chatsCollectionRef.document(document["chatId"] as String)
                                 .get().addOnSuccessListener {
                                     val chat = it.toObject(Chat::class.java)!!
+                                    Log.d("FirebaseService", chat.toString())
                                     listOfChats.add(chat)
                                 }.addOnSuccessListener { onListen(listOfChats) }
                     }
