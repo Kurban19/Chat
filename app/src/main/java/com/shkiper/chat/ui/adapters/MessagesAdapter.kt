@@ -18,13 +18,12 @@ import kotlinx.android.synthetic.main.item_message.*
 
 class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>()  {
 
-
     companion object{
         private const val SINGLE_TYPE = 1
         private const val GROUP_TYPE = 2
     }
 
-    override fun getItemViewType(position: Int): Int = when(items[position].isGroup){
+    override fun getItemViewType(position: Int): Int = when(items[position].group){
         false -> SINGLE_TYPE
         true -> GROUP_TYPE
     }
@@ -72,8 +71,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
 
     }
 
-   inner class MessagesViewHolder(convertView: View) : AbstractViewHolder(convertView),
-           LayoutContainer {
+   inner class MessagesViewHolder(convertView: View) : AbstractViewHolder(convertView){
 
         override val containerView: View
             get() = itemView
@@ -105,8 +103,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
    }
 
 
-    inner class GroupMessagesViewHolder(convertView: View) : AbstractViewHolder(convertView),
-            LayoutContainer {
+    inner class GroupMessagesViewHolder(convertView: View) : AbstractViewHolder(convertView) {
 
         override val containerView: View
             get() = itemView

@@ -10,8 +10,3 @@ fun String.truncate(i: Int = 16): String{
 
     return "$res..."
 }
-
-
-fun String.replaceGarbage(): String {
-    return this.replace("[", "").replace("]", "")
-}

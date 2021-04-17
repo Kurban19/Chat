@@ -8,7 +8,7 @@ abstract class BaseMessage(
         val from: User = User(),
         val isIncoming: Boolean = false,
         var isRead: Boolean = false,
-        var isGroup: Boolean = false,
+        var group: Boolean = false,
         val date: Date = Date(),
         open val type: String = "text"
 ) {
@@ -17,11 +17,11 @@ abstract class BaseMessage(
     abstract fun formatMessage(): String
     companion object AbstractFactory{
         var lastId = -1
-        fun makeMessage(from: User, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false, isRead: Boolean = false, isGroup: Boolean = false) : BaseMessage{
+        fun makeMessage(from: User, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false, isRead: Boolean = false, group: Boolean = false) : BaseMessage{
             lastId++
             return when(type){
-                "image" -> ImageMessage("$lastId", from, isIncoming = isIncoming, isRead = isRead, date = date, image = payload as String, type = "image", isGroup = isGroup)
-                else -> TextMessage("$lastId", from, isIncoming = isIncoming, date = date, isRead = isRead, text = payload as String, type = type)
+                "image" -> ImageMessage("$lastId", from, isIncoming = isIncoming, isRead = isRead, date = date, image = payload as String, type = "image", isGroup = group)
+                else -> TextMessage("$lastId", from, isIncoming = isIncoming, date = date, isRead = isRead, text = payload as String, type = type, group = group)
             }
         }
     }

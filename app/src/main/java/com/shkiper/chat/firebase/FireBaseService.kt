@@ -49,8 +49,10 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     for (document in documents){
                         chatsCollectionRef.document(document["chatId"] as String)
                                 .get().addOnSuccessListener {
-                                    val chat = it.toObject(Chat::class.java)!!
-                                    listOfChats.add(chat)
+                                    val chat = it.toObject(Chat::class.java)
+                                    if(chat != null){
+                                        listOfChats.add(chat)
+                                    }
                                 }.addOnSuccessListener { onListen(listOfChats) }
                     }
                 }
@@ -71,7 +73,6 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     val items = mutableListOf<TextMessage>()
                     querySnapshot?.documents?.forEach {
                         val message = it.toObject(TextMessage::class.java)
-                        Log.d("FirebaseService", message!!.isGroup.toString() + message.text)
                         if (message != null) {
                             items.add(message)
                         }
