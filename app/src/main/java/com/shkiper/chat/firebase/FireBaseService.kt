@@ -50,7 +50,6 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                         chatsCollectionRef.document(document["chatId"] as String)
                                 .get().addOnSuccessListener {
                                     val chat = it.toObject(Chat::class.java)!!
-                                    Log.d("FirebaseService", chat.toString())
                                     listOfChats.add(chat)
                                 }.addOnSuccessListener { onListen(listOfChats) }
                     }
@@ -72,6 +71,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                     val items = mutableListOf<TextMessage>()
                     querySnapshot?.documents?.forEach {
                         val message = it.toObject(TextMessage::class.java)
+                        Log.d("FirebaseService", message!!.isGroup.toString() + message.text)
                         if (message != null) {
                             items.add(message)
                         }
