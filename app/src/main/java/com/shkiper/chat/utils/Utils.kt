@@ -23,12 +23,12 @@ object Utils {
         return res.replace(" ", divider)
     }
 
-    fun toInitials(firstName: String?, lastName: String? = ""): String? {
+    fun toInitials(firstName: String?, lastName: String? = ""): String {
         val f = firstName?.trim() ?: ""
         val l = lastName?.trim() ?: ""
 
         val result =  if(f.isEmpty() && l.isEmpty()){
-            return null
+            return ""
         }
         else if (f.isEmpty() && l.isNotEmpty()){
             l[0].toString()

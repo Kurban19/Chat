@@ -85,7 +85,6 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
                 Glide.with(itemView)
                     .load(item.avatar)
                     .into(iv_avatar_single)
-
             }
 
             sv_indicator.visibility = if(item.isOnline) View.VISIBLE else View.GONE

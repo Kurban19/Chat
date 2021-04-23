@@ -24,6 +24,7 @@ import com.shkiper.chat.ui.archive.ArchiveActivity
 import com.shkiper.chat.ui.chat.ChatActivity
 import com.shkiper.chat.ui.users.UsersActivity
 import com.shkiper.chat.ui.login.LoginActivity
+import com.shkiper.chat.ui.profile.ProfileActivity
 import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.viewmodels.MainViewModel
 import java.util.*
@@ -81,13 +82,9 @@ class MainActivity : AppCompatActivity(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_profile -> {
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
 
-                AuthUI.getInstance()
-                        .signOut(this@MainActivity)
-                        .addOnCompleteListener {
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                        }
                 true
             }
             else -> {

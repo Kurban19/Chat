@@ -53,15 +53,11 @@ object FireBaseUtils {
         return 1
     }
 
-    fun findUser(userId: String): User? {
-        var user: User? = null
-        fireStoreInstance.collection("users")
-            .document(userId)
-            .get()
-            .addOnSuccessListener {
-                user =  it.toObject(User::class.java)
-            }
-        return user
+    fun getCurrentUser(onComplete: (User) -> Unit) {
+        currentUserDocRef.get()
+                .addOnSuccessListener {
+                    onComplete(it.toObject(User::class.java)!!)
+                }
     }
 
 }
