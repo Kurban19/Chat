@@ -34,6 +34,15 @@ object FireBaseUtils {
         currentUserDocRef.update(userFieldMap)
     }
 
+    fun updateCurrentUser(name: String = "", surname: String = "", imagePath: String? = null){
+        val userFieldMap = mutableMapOf<String, Any>()
+        if (name.isNotBlank()) userFieldMap["firstName"] = name
+        if (surname.isNotBlank()) userFieldMap["lastName"] = surname
+        if (imagePath != null)
+            userFieldMap["avatar"] = imagePath
+        currentUserDocRef.update(userFieldMap)
+    }
+
 
 
     fun getUnreadMessages(chatId: String): Int {
