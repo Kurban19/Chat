@@ -171,8 +171,7 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
     }
 
 
-    inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView),
-        ChatItemTouchHelperCallback.ItemTouchViewHolder {
+    inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView){
 
 
         @SuppressLint("SetTextI18n")
@@ -205,14 +204,7 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
             }
 
         }
-
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
+        
     }
 
 
