@@ -28,6 +28,9 @@ object FireBaseUtils {
     }
 
     fun updateCurrentUser(date: Date, online: Boolean) {
+        if(FirebaseAuth.getInstance().currentUser == null){
+            return
+        }
         val userFieldMap = mutableMapOf<String, Any>()
         userFieldMap["lastVisit"] = date
         userFieldMap["online"] = online
