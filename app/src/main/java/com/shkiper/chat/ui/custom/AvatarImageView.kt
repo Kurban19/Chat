@@ -185,7 +185,8 @@ class AvatarImageView @JvmOverloads constructor(
     fun setInitials(initials: String) {
         Log.e("AvatarImageView", "setInitials : $initials")
         this.initials = initials
-        if (!isAvatarMode) invalidate()
+        invalidate()
+//        if (!isAvatarMode) invalidate()
     }
 
     fun setBorderColor(@ColorInt color: Int) {

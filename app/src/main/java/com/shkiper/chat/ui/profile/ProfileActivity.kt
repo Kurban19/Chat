@@ -72,7 +72,8 @@ class ProfileActivity: AppCompatActivity() {
 
 
     private fun initToolbar(){
-
+        setSupportActionBar(toolbar_profile)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
 
@@ -87,7 +88,6 @@ class ProfileActivity: AppCompatActivity() {
             val outputStream = ByteArrayOutputStream()
             selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
             selectedImageBytes = outputStream.toByteArray()
-
 
 
             GlideApp.with(this)
@@ -108,7 +108,6 @@ class ProfileActivity: AppCompatActivity() {
                 if (!pictureJustChanged && user.avatar != null) {
                     GlideApp.with(this)
                             .load(StorageUtils.pathToReference(user.avatar))
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(iv_profile_avatar)
                 }
                 else{
