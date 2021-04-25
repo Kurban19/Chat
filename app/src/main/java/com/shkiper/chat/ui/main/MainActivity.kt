@@ -4,14 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,9 +20,7 @@ import com.shkiper.chat.ui.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.ui.archive.ArchiveActivity
 import com.shkiper.chat.ui.chat.ChatActivity
 import com.shkiper.chat.ui.users.UsersActivity
-import com.shkiper.chat.ui.login.LoginActivity
 import com.shkiper.chat.ui.profile.ProfileActivity
-import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.viewmodels.MainViewModel
 import java.util.*
 import javax.inject.Inject
@@ -84,7 +79,6 @@ class MainActivity : AppCompatActivity(){
             R.id.action_profile -> {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
-
                 true
             }
             else -> {
@@ -139,19 +133,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar)
-    }
-
-    private fun toggleProgressBar(visible: Boolean){
-        if (visible){
-            rv_chat_list.visibility = View.GONE
-            progress_bar.visibility = View.VISIBLE
-        }
-        else{
-            rv_chat_list.visibility = View.VISIBLE
-            progress_bar.visibility = View.GONE
-        }
-
+        setSupportActionBar(toolbar_main)
     }
 
 

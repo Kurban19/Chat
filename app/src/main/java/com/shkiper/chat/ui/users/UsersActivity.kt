@@ -1,7 +1,6 @@
 package com.shkiper.chat.ui.users
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -9,10 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
@@ -22,7 +19,7 @@ import com.shkiper.chat.models.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
 import com.shkiper.chat.ui.dialogs.GetTitleOfGroupDialog
 import com.shkiper.chat.viewmodels.UsersViewModel
-import kotlinx.android.synthetic.main.activity_group.*
+import kotlinx.android.synthetic.main.activity_users.*
 import javax.inject.Inject
 
 
@@ -36,7 +33,7 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         (applicationContext as App).appComponent.inject(this)
-        setContentView(R.layout.activity_group)
+        setContentView(R.layout.activity_users)
         initToolbar()
         initViews()
         initViewModel() }
@@ -76,7 +73,7 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_main)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
