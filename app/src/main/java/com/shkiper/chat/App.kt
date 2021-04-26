@@ -47,5 +47,4 @@ class App: Application(), LifecycleObserver {
         FireBaseUtils.updateCurrentUser(Date(), false)
     }
 
-
 }

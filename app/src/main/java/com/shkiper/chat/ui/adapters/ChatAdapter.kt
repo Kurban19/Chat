@@ -13,8 +13,10 @@ import kotlinx.android.synthetic.main.item_chat_group.*
 import kotlinx.android.synthetic.main.item_chat_group.tv_title_group
 import kotlinx.android.synthetic.main.item_chat_single.*
 import com.shkiper.chat.R
+import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.models.data.ChatItem
 import com.shkiper.chat.models.data.ChatType
+import com.shkiper.chat.utils.StorageUtils
 import kotlinx.android.synthetic.main.item_chat_archive.*
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
@@ -77,13 +79,13 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
 
         override fun bind(item: ChatItem, listener: (ChatItem)->Unit){
             if(item.avatar == null){
-                Glide.with(itemView)
+                GlideApp.with(itemView)
                     .clear(iv_avatar_single)
-                    iv_avatar_single.setInitials(item.initials)
+                iv_avatar_single.setInitials(item.initials)
             }
             else{
-                Glide.with(itemView)
-                    .load(item.avatar)
+                GlideApp.with(itemView)
+                    .load(StorageUtils.pathToReference(item.avatar))
                     .into(iv_avatar_single)
             }
 

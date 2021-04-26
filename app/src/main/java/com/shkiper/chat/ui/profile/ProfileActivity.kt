@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.shkiper.chat.R
@@ -107,10 +108,10 @@ class ProfileActivity: AppCompatActivity() {
             editText_surname.setText(user.lastName)
                 if (!pictureJustChanged && user.avatar != null) {
                     GlideApp.with(this)
-                            .load(StorageUtils.pathToReference(user.avatar))
+                            .load(StorageUtils.pathToReference(user.avatar!!))
                             .into(iv_profile_avatar)
                 }
-                else{
+                else if(!pictureJustChanged){
                     GlideApp.with(this)
                             .clear(iv_profile_avatar)
                     iv_profile_avatar.setInitials(Utils.toInitials(user.firstName, user.lastName))

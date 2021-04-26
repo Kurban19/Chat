@@ -68,7 +68,8 @@ class MainViewModel @Inject constructor(
 
         val lastChat: Chat =
                 if (archived.none { it.unreadMessageCount() != 0 }) archived.last() else
-                    archived.filter { it.unreadMessageCount() != 0 }.maxBy { it.lastMessageDate()!! }!!
+                    archived.filter { it.unreadMessageCount() != 0 }
+                        .maxByOrNull { it.lastMessageDate()!! }!!
 
         return ChatItem(
                 "-1",

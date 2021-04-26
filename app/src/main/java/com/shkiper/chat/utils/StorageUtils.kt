@@ -32,9 +32,5 @@ object StorageUtils {
                 }
     }
 
-    fun pathToReference(path: String?){
-        if(path != null){
-            storageInstance.getReference(path)
-        }
-    }
+    fun pathToReference(path: String) = storageInstance.getReference(path)
 }
