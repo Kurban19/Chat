@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_user_list.*
 import com.shkiper.chat.R
+import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.models.data.UserItem
+import com.shkiper.chat.utils.StorageUtils
 
 class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private var items: List<UserItem> = listOf()
@@ -44,16 +45,16 @@ class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAd
 
     inner class UserViewHolder(convertView: View) : RecyclerView.ViewHolder(convertView),
         LayoutContainer {
-        override val containerView: View?
+        override val containerView: View
             get() = itemView
 
         fun bind(user: UserItem, listener: (UserItem) -> Unit) {
             if (user.avatar != null) {
-                Glide.with(itemView)
-                    .load(user.avatar)
+                GlideApp.with(itemView)
+                    .load(StorageUtils.pathToReference(user.avatar))
                     .into(iv_avatar_user)
             } else {
-                Glide.with(itemView).clear(iv_avatar_user)
+                GlideApp.with(itemView).clear(iv_avatar_user)
                 iv_avatar_user.setInitials(user.initials)
             }
             sv_indicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE

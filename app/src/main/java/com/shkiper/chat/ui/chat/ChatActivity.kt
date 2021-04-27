@@ -1,21 +1,22 @@
 package com.shkiper.chat.ui.chat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.App
 import kotlinx.android.synthetic.main.activity_chat.*
 import com.shkiper.chat.R
+import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.extensions.toUser
+import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.ui.adapters.MessagesAdapter
 import com.shkiper.chat.ui.main.MainActivity
+import com.shkiper.chat.utils.StorageUtils
 import com.shkiper.chat.viewmodels.ChatViewModel
 import java.util.*
 import javax.inject.Inject
@@ -54,13 +55,14 @@ class ChatActivity : AppCompatActivity() {
 
         with(chatItem) {
             tv_title_chat.text = title
+
             if(avatar == null){
-                Glide.with(this@ChatActivity)
+                GlideApp.with(this@ChatActivity)
                         .clear(iv_avatar_chat)
                 iv_avatar_chat.setInitials(initials)
             } else{
-                Glide.with(this@ChatActivity)
-                        .load(avatar)
+                GlideApp.with(this@ChatActivity)
+                        .load(StorageUtils.pathToReference(avatar))
                         .into(iv_avatar_chat)
             }
         }

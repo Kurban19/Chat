@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.shkiper.chat.R
@@ -32,6 +33,16 @@ class ProfileActivity: AppCompatActivity() {
         initToolbar()
         initViews()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if(item.itemId == android.R.id.home){
+            finish()
+            true
+        }
+        else {
+            return super.onOptionsItemSelected(item)
+        }
     }
 
 
