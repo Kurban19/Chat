@@ -1,6 +1,10 @@
 package com.shkiper.chat.ui.chat
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,16 +16,23 @@ import com.shkiper.chat.R
 import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.glide.GlideApp
+import com.shkiper.chat.models.BaseMessage
+import com.shkiper.chat.models.ImageMessage
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.ui.adapters.MessagesAdapter
 import com.shkiper.chat.ui.main.MainActivity
 import com.shkiper.chat.utils.StorageUtils
 import com.shkiper.chat.viewmodels.ChatViewModel
+import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.inject.Inject
 
 class ChatActivity : AppCompatActivity() {
+
+    companion object {
+        private const val RC_SELECT_IMAGE = 2
+    }
 
     private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
@@ -34,14 +45,13 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         (applicationContext as App).appComponent.inject(this)
-        chat = viewModel.getChat(intent.getStringExtra(MainActivity.CHAT_ID)!!)
-        initToolbar()
         initViews()
         setMessagesListener()
+        initToolbar()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if(item?.itemId == android.R.id.home){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if(item.itemId == android.R.id.home){
             finish()
             true
         }
@@ -51,6 +61,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
+        chat = viewModel.getChat(intent.getStringExtra(MainActivity.CHAT_ID)!!)
         val chatItem = chat.toChatItem()
 
         with(chatItem) {
@@ -99,9 +110,16 @@ class ChatActivity : AppCompatActivity() {
             chat.lastMessage = message
             viewModel.sendMessage(message, chat.id)
             viewModel.update(chat)
-
         }
 
+        fab_select_image.setOnClickListener {
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
+            }
+            startActivityForResult(Intent.createChooser(intent, "Select Image"), RC_SELECT_IMAGE)
+        }
 
     }
 
@@ -109,12 +127,41 @@ class ChatActivity : AppCompatActivity() {
         messagesListenerRegistration = viewModel.addChatMessagesListener(chat.id, this::updateRecyclerView)
     }
 
-    private fun updateRecyclerView(messages: List<TextMessage>){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SELECT_IMAGE && resultCode == Activity.RESULT_OK &&
+                data != null && data.data != null) {
+            val selectedImagePath = data.data
+
+            val selectedImageBmp = MediaStore.Images.Media.getBitmap(contentResolver, selectedImagePath)
+
+            val outputStream = ByteArrayOutputStream()
+
+            selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+            val selectedImageBytes = outputStream.toByteArray()
+
+            StorageUtils.uploadMessageImage(selectedImageBytes) { imagePath ->
+                val imageToSend = if(chat.members.size > 1) {
+                    ImageMessage.makeMessage(imagePath, FirebaseAuth.getInstance().currentUser!!.toUser(), true)
+                }
+                else{
+                    ImageMessage.makeMessage(imagePath, FirebaseAuth.getInstance().currentUser!!.toUser(), false)
+                }
+
+                chat.lastMessage = imageToSend
+                viewModel.sendMessage(imageToSend, chat.id)
+                viewModel.update(chat)
+            }
+        }
+    }
+
+
+    private fun updateRecyclerView(messages: List<BaseMessage>){
         rv_messages.apply{
             layoutManager = LinearLayoutManager(this@ChatActivity)
             adapter = messagesAdapter.apply {
                 updateData(messages)
-                }
+            }
         }
 
         rv_messages.scrollToPosition(rv_messages.adapter!!.itemCount - 1)

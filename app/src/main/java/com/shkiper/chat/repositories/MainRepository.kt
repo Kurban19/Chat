@@ -3,6 +3,7 @@ package com.shkiper.chat.repositories
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.firebase.FireBaseService
+import com.shkiper.chat.models.BaseMessage
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
@@ -21,7 +22,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         fireBaseService.getUsers(this::setUsers)
     }
 
-    fun addMessagesListener(chatId: String, onListen: (List<TextMessage>) -> Unit): ListenerRegistration {
+    fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
         return fireBaseService.setChatMessagesListener(chatId, onListen)
     }
 
@@ -39,11 +40,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         return null
     }
 
-    fun findUsersById(ids: List<String>): List<User> {
-        return users.value!!.filter { ids.contains(it.id) }
-    }
-
-    fun sendMessage(message: TextMessage, chatId: String){
+    fun sendMessage(message: BaseMessage, chatId: String){
         fireBaseService.sendMessage(message, chatId)
     }
 

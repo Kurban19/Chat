@@ -3,6 +3,7 @@ package com.shkiper.chat.models.data
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.App
 import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.models.BaseMessage
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
@@ -12,7 +13,7 @@ data class Chat(
         val id: String = "",
         var title: String = "",
         val members: List<String> = listOf(),
-        var lastMessage: TextMessage? = null,
+        var lastMessage: BaseMessage? = null,
         var archived: Boolean = false){
 
 

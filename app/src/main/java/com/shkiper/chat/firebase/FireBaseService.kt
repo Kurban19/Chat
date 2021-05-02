@@ -6,6 +6,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.interfaces.FireBaseChats
 import com.shkiper.chat.interfaces.FireBaseUsers
+import com.shkiper.chat.models.BaseMessage
+import com.shkiper.chat.models.ImageMessage
 import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
@@ -60,7 +62,7 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
 
     override fun setChatMessagesListener(
             chatId: String,
-            onListen: (List<TextMessage>) -> Unit
+            onListen: (List<BaseMessage>) -> Unit
     ): ListenerRegistration {
         return messagesCollectionRef.document(chatId).collection("messages")
                 .orderBy("date")
@@ -69,12 +71,19 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                         return@addSnapshotListener
                     }
 
-                    val items = mutableListOf<TextMessage>()
+                    val items = mutableListOf<BaseMessage>()
                     querySnapshot?.documents?.forEach {
-                        val message = it.toObject(TextMessage::class.java)
-                        if (message != null) {
-                            items.add(message)
+//                        val message = it.toObject(TextMessage::class.java)
+
+                        val message = if (it["type"] == "text")
+                            it.toObject(TextMessage::class.java)
+                        else
+                            it.toObject(ImageMessage::class.java)
+
+                        message?.let {
+                            items.add(it)
                         }
+
                         return@forEach
                     }
                     onListen(items)
@@ -131,10 +140,15 @@ class FireBaseService @Inject constructor(): FireBaseChats, FireBaseUsers {
                 .update(chat.toMap())
         }
 
-    override fun sendMessage(message: TextMessage, chatId: String) {
+    override fun sendMessage(message: BaseMessage, chatId: String) {
         messagesCollectionRef.document(chatId)
                 .collection("messages")
-                .add(message)
+                .apply {
+                    when(message){
+                        is TextMessage -> add(message)
+                        is ImageMessage -> add(message)
+                    }
+                }
     }
 
 }

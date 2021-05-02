@@ -11,8 +11,13 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.extensions.LayoutContainer
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.models.BaseMessage
+import com.shkiper.chat.models.ImageMessage
 import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.utils.StorageUtils
+import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.item_chat_single.*
 import kotlinx.android.synthetic.main.item_group_message.*
 import kotlinx.android.synthetic.main.item_message.*
 
@@ -29,7 +34,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
     }
 
 
-    private var items: List<TextMessage> = listOf()
+    private var items: List<BaseMessage> = listOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
@@ -46,7 +51,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
         holder.bind(items[position], holder)
     }
 
-    fun updateData(data: List<TextMessage>){
+    fun updateData(data: List<BaseMessage>){
 
         val diffCallback = object : DiffUtil.Callback(){
             override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].id == data[newPos].id
@@ -95,8 +100,19 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
            }
 
            if(item is TextMessage){
+               tv_message_text.visibility = View.VISIBLE
+               iv_message_image.visibility = View.GONE
                tv_message_text.text = item.text
            }
+           else if(item is ImageMessage){
+               tv_message_text.visibility = View.GONE
+               iv_message_image.visibility = View.VISIBLE
+               GlideApp.with(itemView)
+                       .load(StorageUtils.pathToReference(item.image))
+                       .into(iv_message_image)
+           }
+
+
 
            tv_message_time.text = item.date.shortFormat()
        }

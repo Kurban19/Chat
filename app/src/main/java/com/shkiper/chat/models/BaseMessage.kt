@@ -15,14 +15,5 @@ abstract class BaseMessage(
 
 
     abstract fun formatMessage(): String
-    companion object AbstractFactory{
-        var lastId = -1
-        fun makeMessage(from: User, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false, isRead: Boolean = false, group: Boolean = false) : BaseMessage{
-            lastId++
-            return when(type){
-                "image" -> ImageMessage("$lastId", from, isIncoming = isIncoming, isRead = isRead, date = date, image = payload as String, type = "image", isGroup = group)
-                else -> TextMessage("$lastId", from, isIncoming = isIncoming, date = date, isRead = isRead, text = payload as String, type = type, group = group)
-            }
-        }
-    }
+
 }

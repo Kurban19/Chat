@@ -47,4 +47,8 @@ class App: Application(), LifecycleObserver {
         FireBaseUtils.updateCurrentUser(Date(), false)
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private fun onAppDestroyed(){
+        FireBaseUtils.updateCurrentUser(Date(), false)
+    }
 }
