@@ -2,9 +2,8 @@ package com.shkiper.chat.repositories
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.firebase.FireBaseService
+import com.shkiper.chat.firebase.FireBaseServiceImpl
 import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
 import javax.inject.Inject
@@ -12,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
+class MainRepository @Inject constructor(private val fireBaseService: FireBaseServiceImpl) {
 
     val chats = MutableLiveData<List<Chat>>(listOf())
     val users = MutableLiveData<List<User>>(listOf())

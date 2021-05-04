@@ -6,7 +6,9 @@ import com.shkiper.chat.models.TextMessage
 import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.User
 
-interface FireBaseChats {
+interface FireBaseService {
+
+    fun getUsers(onListen: (List<User>) -> Unit)
 
     fun getEngagedChats(onListen: (List<Chat>) -> Unit)
 
