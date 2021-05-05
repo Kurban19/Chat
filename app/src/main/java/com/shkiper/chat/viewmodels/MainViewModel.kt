@@ -11,9 +11,13 @@ import com.shkiper.chat.models.data.Chat
 import com.shkiper.chat.models.data.ChatItem
 import com.shkiper.chat.models.data.ChatType
 import com.shkiper.chat.repositories.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
+//import androidx.hilt.lifecycle.ViewModelInject
+
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository
     ): ViewModel() {

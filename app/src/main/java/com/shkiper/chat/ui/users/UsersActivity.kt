@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -26,13 +27,11 @@ import javax.inject.Inject
 class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogListener {
 
     private lateinit var usersAdapter: UserAdapter
-    @Inject
-    lateinit var viewModel: UsersViewModel
+    private val viewModel: UsersViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        (applicationContext as App).appComponent.inject(this)
         setContentView(R.layout.activity_users)
         initToolbar()
         initViews()

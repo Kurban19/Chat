@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -30,8 +31,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(){
 
     private lateinit var chatAdapter: ChatAdapter
-    @Inject
-    lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     companion object{
         const val CHAT_ID = "chat_id"
@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity(){
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        (applicationContext as App).appComponent.inject(this)
         initToolbar()
         initViews()
         initViewModel()

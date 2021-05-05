@@ -1,36 +1,32 @@
 package com.shkiper.chat.ui.archive
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.shkiper.chat.App
-import kotlinx.android.synthetic.main.activity_archive.*
-import kotlinx.android.synthetic.main.activity_archive.toolbar_main
 import com.shkiper.chat.R
 import com.shkiper.chat.ui.adapters.ArchiveAdapter
 import com.shkiper.chat.ui.adapters.ArchiveItemTouchHelperCallback
 import com.shkiper.chat.ui.chat.ChatActivity
 import com.shkiper.chat.ui.main.MainActivity
 import com.shkiper.chat.viewmodels.ArchiveViewModel
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_archive.*
 
 class ArchiveActivity : AppCompatActivity() {
 
     private lateinit var archiveAdapter: ArchiveAdapter
-    @Inject
-    lateinit var viewModel: ArchiveViewModel
+    private val viewModel: ArchiveViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_archive)
-        (applicationContext as App).appComponent.inject(this)
         initToolbar()
         initViews()
         initViewModel()

@@ -15,14 +15,6 @@ import javax.inject.Singleton
 @Component(modules = [NetworkModule::class])
 interface AppComponent {
 
-    fun inject(activity: MainActivity)
-
-    fun inject(activity: UsersActivity)
-
-    fun inject(activity: ChatActivity)
-
-    fun inject(activity: ArchiveActivity)
-
     fun getMainRepository(): MainRepository {
         return NetworkModule.providesMainRepository(FireBaseServiceImpl())
     }

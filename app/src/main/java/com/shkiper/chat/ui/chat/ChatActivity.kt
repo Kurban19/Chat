@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -37,14 +38,12 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messagesListenerRegistration: ListenerRegistration
     private lateinit var chat: Chat
     private val messagesAdapter: MessagesAdapter = MessagesAdapter()
-    @Inject
-    lateinit var viewModel: ChatViewModel
+    private val viewModel: ChatViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        (applicationContext as App).appComponent.inject(this)
         initViews()
         setMessagesListener()
         initToolbar()

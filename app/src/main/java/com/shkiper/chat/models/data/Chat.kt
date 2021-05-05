@@ -9,6 +9,7 @@ import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
 import java.util.*
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Chat(
         val id: String = "",
         var title: String = "",
@@ -45,10 +46,10 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
 
-//        val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
-        val user = App.getApp().appComponent.
+        val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
 
-//        user ?
+        user ?: throw KotlinNullPointerException()
+
         return if (isSingle()) {
             val chatItem = ChatItem(
                 id,

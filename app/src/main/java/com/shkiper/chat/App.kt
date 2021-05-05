@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.shkiper.chat.di.component.DaggerAppComponent
 import com.shkiper.chat.utils.FireBaseUtils
 import dagger.hilt.android.HiltAndroidApp
 import java.util.*
@@ -19,7 +20,6 @@ class App: Application(), LifecycleObserver {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this);
     }
-
 
     companion object{
         private var instance:App? = null
