@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.models.data.ChatItem
 import com.shkiper.chat.repositories.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
+@HiltViewModel
 class ArchiveViewModel @Inject constructor(private val mainRepository: MainRepository): ViewModel() {
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->

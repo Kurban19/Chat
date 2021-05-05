@@ -45,9 +45,10 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
 
-        val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
+//        val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
+        val user = App.getApp().appComponent.
 
-        user ?: throw KotlinNullPointerException()
+//        user ?
         return if (isSingle()) {
             val chatItem = ChatItem(
                 id,

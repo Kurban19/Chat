@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.interfaces.FireBaseService
+import com.shkiper.chat.interfaces.IFireBaseService
 import com.shkiper.chat.models.BaseMessage
 import com.shkiper.chat.models.ImageMessage
 import com.shkiper.chat.models.TextMessage
@@ -13,7 +13,7 @@ import com.shkiper.chat.models.data.User
 import java.util.*
 import javax.inject.Inject
 
-class FireBaseServiceImpl @Inject constructor(): FireBaseService{
+class FireBaseServiceImpl @Inject constructor(): IFireBaseService{
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
