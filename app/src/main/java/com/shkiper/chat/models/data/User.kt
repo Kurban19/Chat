@@ -26,7 +26,7 @@ data class User (
         return UserItem(
             id,
             "$firstName $lastName",
-            Utils.toInitials(firstName, lastName)!!,
+            Utils.toInitials(firstName, lastName),
             avatar,
             lastActivity,
             false,

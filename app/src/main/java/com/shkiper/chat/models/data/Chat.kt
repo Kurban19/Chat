@@ -54,7 +54,7 @@ data class Chat(
             val chatItem = ChatItem(
                 id,
                 user.avatar,
-                Utils.toInitials(user.firstName, user.lastName) ?: "??",
+                Utils.toInitials(user.firstName, user.lastName),
                 "${user.firstName} ${user.lastName}",
                 lastMessageShort().first,
                 unreadMessageCount(),

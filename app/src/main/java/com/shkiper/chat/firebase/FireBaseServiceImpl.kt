@@ -13,7 +13,7 @@ import com.shkiper.chat.models.data.User
 import java.util.*
 import javax.inject.Inject
 
-class FireBaseServiceImpl @Inject constructor(): IFireBaseService{
+class FireBaseServiceImpl: IFireBaseService{
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
