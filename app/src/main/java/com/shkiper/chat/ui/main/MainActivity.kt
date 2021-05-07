@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity(){
         initToolbar()
         initViews()
         initViewModel()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
@@ -96,6 +95,7 @@ class MainActivity : AppCompatActivity(){
             }
 
         }
+        
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
             val id = it.id

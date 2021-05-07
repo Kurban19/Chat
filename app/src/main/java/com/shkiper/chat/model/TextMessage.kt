@@ -12,8 +12,8 @@ class TextMessage(
     from: User = User(),
     isRead: Boolean = false,
     isIncoming: Boolean = false,
-    date: Date = Date(),
     group: Boolean = false,
+    date: Date = Date(),
     override val type: String = "text",
     var text: String = ""
 ) : BaseMessage(id, from, isIncoming, isRead, group, date, type){

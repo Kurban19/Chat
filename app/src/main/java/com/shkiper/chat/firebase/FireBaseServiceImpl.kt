@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.shkiper.chat.extensions.toChat
 import com.shkiper.chat.interfaces.FireBaseService
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
@@ -37,7 +38,7 @@ class FireBaseServiceImpl: FireBaseService{
                             listOfUsers.add(user)
                         }
                     }
-                }.addOnSuccessListener { onListen(listOfUsers)}
+                }.addOnSuccessListener {onListen(listOfUsers)}
 
     }
 
@@ -48,13 +49,17 @@ class FireBaseServiceImpl: FireBaseService{
                     val listOfChats = mutableListOf<Chat>()
                     for (document in documents){
                         chatsCollectionRef.document(document["chatId"] as String)
-                                .get().addOnSuccessListener {
-                                    Log.d("Firebase", it.get("lastMessage").toString())
+                            .get().addOnSuccessListener {
+                                val message = it.get("lastMessage")
+//                                Log.d("Firebase", it.toObject(Chat::class.java).toString())
 //                                    val chat = it.toObject(Chat::class.java)
-//                                    if(chat != null){
+                                val chat = it.toChat()
+                                listOfChats.add(chat)
+
+//                                    chat?.let {
 //                                        listOfChats.add(chat)
 //                                    }
-                                }.addOnSuccessListener { onListen(listOfChats) }
+                            }.addOnSuccessListener { onListen(listOfChats) }
                     }
                 }
     }

@@ -1,6 +1,7 @@
 package com.shkiper.chat.model.data
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.Exclude
 import com.shkiper.chat.App
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
@@ -16,6 +17,7 @@ data class Chat(
         val members: List<String> = listOf(),
         var lastMessage: BaseMessage? = null,
         var archived: Boolean = false){
+
 
 
     private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
