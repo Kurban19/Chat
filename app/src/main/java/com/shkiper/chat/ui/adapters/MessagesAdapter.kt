@@ -12,12 +12,10 @@ import kotlinx.android.extensions.LayoutContainer
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.glide.GlideApp
-import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.ImageMessage
-import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.ImageMessage
+import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.utils.StorageUtils
-import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.item_chat_single.*
 import kotlinx.android.synthetic.main.item_group_message.*
 import kotlinx.android.synthetic.main.item_message.*
 

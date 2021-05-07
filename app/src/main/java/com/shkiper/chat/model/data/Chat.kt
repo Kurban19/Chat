@@ -1,10 +1,10 @@
-package com.shkiper.chat.models.data
+package com.shkiper.chat.model.data
 
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.App
 import com.shkiper.chat.extensions.shortFormat
-import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.TextMessage
+import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
 import java.util.*

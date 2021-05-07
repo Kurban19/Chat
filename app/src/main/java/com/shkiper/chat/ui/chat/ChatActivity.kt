@@ -11,23 +11,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.App
 import kotlinx.android.synthetic.main.activity_chat.*
 import com.shkiper.chat.R
-import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.glide.GlideApp
-import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.ImageMessage
-import com.shkiper.chat.models.TextMessage
-import com.shkiper.chat.models.data.Chat
+import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.ImageMessage
+import com.shkiper.chat.model.TextMessage
+import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.ui.adapters.MessagesAdapter
 import com.shkiper.chat.ui.main.MainActivity
 import com.shkiper.chat.utils.StorageUtils
 import com.shkiper.chat.viewmodels.ChatViewModel
 import java.io.ByteArrayOutputStream
 import java.util.*
-import javax.inject.Inject
 
 class ChatActivity : AppCompatActivity() {
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
-import com.shkiper.chat.models.data.UserItem
+import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Inject
 

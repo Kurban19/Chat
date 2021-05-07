@@ -1,4 +1,4 @@
-package com.shkiper.chat.models.data
+package com.shkiper.chat.model.data
 
 data class ChatItem (
     val id: String,

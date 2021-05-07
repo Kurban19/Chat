@@ -24,17 +24,17 @@ fun Date.shortFormat(): String{
 }
 
 fun Date.isSameDay(date:Date): Boolean{
-    val day1 = this.time/ DAY
-    val day2 = date.time/ DAY
+    val day1 = this.time / DAY
+    val day2 = date.time / DAY
     return day1 == day2
 }
 
 
 fun Date.humanizeDiff(date: Date = Date()): String{
     var res = ""
-    var sdf = SimpleDateFormat("HH:mm:ss dd:MM:yy", Locale("ru"))
-    var past:Date? = sdf.parse(this.format())
-    var current:Date? = sdf.parse(date.format())
+    val sdf = SimpleDateFormat("HH:mm:ss dd:MM:yy", Locale("ru"))
+    val past:Date? = sdf.parse(this.format())
+    val current:Date? = sdf.parse(date.format())
 
     println(this.format())
 

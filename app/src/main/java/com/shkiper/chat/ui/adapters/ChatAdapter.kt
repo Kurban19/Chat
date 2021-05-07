@@ -7,15 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_chat_group.*
 import kotlinx.android.synthetic.main.item_chat_group.tv_title_group
 import kotlinx.android.synthetic.main.item_chat_single.*
 import com.shkiper.chat.R
 import com.shkiper.chat.glide.GlideApp
-import com.shkiper.chat.models.data.ChatItem
-import com.shkiper.chat.models.data.ChatType
+import com.shkiper.chat.model.data.ChatItem
+import com.shkiper.chat.model.data.ChatType
 import com.shkiper.chat.utils.StorageUtils
 import kotlinx.android.synthetic.main.item_chat_archive.*
 

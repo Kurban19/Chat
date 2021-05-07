@@ -1,7 +1,7 @@
 package com.shkiper.chat.extensions
 
 import com.google.firebase.auth.FirebaseUser
-import com.shkiper.chat.models.data.User
+import com.shkiper.chat.model.data.User
 
 fun FirebaseUser.toUser(): User{
     return User(

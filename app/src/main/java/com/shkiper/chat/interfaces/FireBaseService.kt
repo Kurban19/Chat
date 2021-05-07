@@ -1,12 +1,11 @@
 package com.shkiper.chat.interfaces
 
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.TextMessage
-import com.shkiper.chat.models.data.Chat
-import com.shkiper.chat.models.data.User
+import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.data.Chat
+import com.shkiper.chat.model.data.User
 
-interface IFireBaseService {
+interface FireBaseService {
 
     fun getUsers(onListen: (List<User>) -> Unit)
 

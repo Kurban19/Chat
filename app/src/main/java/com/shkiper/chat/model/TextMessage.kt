@@ -1,8 +1,8 @@
-package com.shkiper.chat.models
+package com.shkiper.chat.model
 
 
 import com.shkiper.chat.extensions.humanizeDiff
-import com.shkiper.chat.models.data.User
+import com.shkiper.chat.model.data.User
 
 
 import java.util.*

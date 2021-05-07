@@ -8,7 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.shkiper.chat.R
-import com.shkiper.chat.models.data.ChatItem
+import com.shkiper.chat.model.data.ChatItem
 
 class ArchiveItemTouchHelperCallback(
     val adapter: ArchiveAdapter,

@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import com.shkiper.chat.App
 import com.shkiper.chat.R
-import com.shkiper.chat.models.data.ChatType
+import com.shkiper.chat.model.data.ChatType
 import com.shkiper.chat.ui.adapters.ChatAdapter
 import com.shkiper.chat.ui.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.ui.archive.ArchiveActivity
@@ -24,7 +23,6 @@ import com.shkiper.chat.ui.users.UsersActivity
 import com.shkiper.chat.ui.profile.ProfileActivity
 import com.shkiper.chat.viewmodels.MainViewModel
 import java.util.*
-import javax.inject.Inject
 
 
 @AndroidEntryPoint

@@ -14,14 +14,12 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.shkiper.chat.App
 import com.shkiper.chat.R
-import com.shkiper.chat.models.data.UserItem
+import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
 import com.shkiper.chat.ui.dialogs.GetTitleOfGroupDialog
 import com.shkiper.chat.viewmodels.UsersViewModel
 import kotlinx.android.synthetic.main.activity_users.*
-import javax.inject.Inject
 
 
 class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogListener {

@@ -1,13 +1,13 @@
-package com.shkiper.chat.models
+package com.shkiper.chat.model
 
-import com.shkiper.chat.models.data.User
+import com.shkiper.chat.model.data.User
 import java.util.*
 
 abstract class BaseMessage(
         val id: String = "",
         val from: User = User(),
         val isIncoming: Boolean = false,
-        var isRead: Boolean = false,
+        var read: Boolean = false,
         var group: Boolean = false,
         val date: Date = Date(),
         open val type: String = "text"

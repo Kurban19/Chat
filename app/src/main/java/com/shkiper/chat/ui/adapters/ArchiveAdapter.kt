@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.item_chat_group.*
 import kotlinx.android.synthetic.main.item_chat_group.tv_title_group
 import kotlinx.android.synthetic.main.item_chat_single.*
 import com.shkiper.chat.R
-import com.shkiper.chat.models.data.ChatItem
-import com.shkiper.chat.models.data.ChatType
+import com.shkiper.chat.model.data.ChatItem
+import com.shkiper.chat.model.data.ChatType
 
 class ArchiveAdapter(val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ArchiveAdapter.ChatItemViewHolder>() {
     companion object{

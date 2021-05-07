@@ -1,19 +1,19 @@
 package com.shkiper.chat.firebase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.interfaces.IFireBaseService
-import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.ImageMessage
-import com.shkiper.chat.models.TextMessage
-import com.shkiper.chat.models.data.Chat
-import com.shkiper.chat.models.data.User
+import com.shkiper.chat.interfaces.FireBaseService
+import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.ImageMessage
+import com.shkiper.chat.model.TextMessage
+import com.shkiper.chat.model.data.Chat
+import com.shkiper.chat.model.data.User
 import java.util.*
-import javax.inject.Inject
 
-class FireBaseServiceImpl: IFireBaseService{
+class FireBaseServiceImpl: FireBaseService{
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
@@ -49,10 +49,11 @@ class FireBaseServiceImpl: IFireBaseService{
                     for (document in documents){
                         chatsCollectionRef.document(document["chatId"] as String)
                                 .get().addOnSuccessListener {
-                                    val chat = it.toObject(Chat::class.java)
-                                    if(chat != null){
-                                        listOfChats.add(chat)
-                                    }
+                                    Log.d("Firebase", it.get("lastMessage").toString())
+//                                    val chat = it.toObject(Chat::class.java)
+//                                    if(chat != null){
+//                                        listOfChats.add(chat)
+//                                    }
                                 }.addOnSuccessListener { onListen(listOfChats) }
                     }
                 }
@@ -72,7 +73,6 @@ class FireBaseServiceImpl: IFireBaseService{
 
                     val items = mutableListOf<BaseMessage>()
                     querySnapshot?.documents?.forEach {
-//                        val message = it.toObject(TextMessage::class.java)
 
                         val message = if (it["type"] == "text")
                             it.toObject(TextMessage::class.java)

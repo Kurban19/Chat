@@ -9,7 +9,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_user_list.*
 import com.shkiper.chat.R
 import com.shkiper.chat.glide.GlideApp
-import com.shkiper.chat.models.data.UserItem
+import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.utils.StorageUtils
 
 class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {

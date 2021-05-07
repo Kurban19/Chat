@@ -2,10 +2,9 @@ package com.shkiper.chat.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.models.BaseMessage
-import com.shkiper.chat.models.TextMessage
-import com.shkiper.chat.models.data.Chat
-import com.shkiper.chat.models.data.User
+import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.data.Chat
+import com.shkiper.chat.model.data.User
 import com.shkiper.chat.repositories.MainRepository
 import javax.inject.Inject
 

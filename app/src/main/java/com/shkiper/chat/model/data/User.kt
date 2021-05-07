@@ -1,4 +1,4 @@
-package com.shkiper.chat.models.data
+package com.shkiper.chat.model.data
 
 
 import com.shkiper.chat.extensions.humanizeDiff
