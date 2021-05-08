@@ -9,8 +9,12 @@ import com.shkiper.chat.model.data.ChatItem
 import com.shkiper.chat.repositories.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+
+
 @HiltViewModel
-class ArchiveViewModel @Inject constructor(private val mainRepository: MainRepository): ViewModel() {
+class ArchiveViewModel @Inject constructor(
+        private val mainRepository: MainRepository
+        ): ViewModel() {
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->
         return@map chats.filter{it.archived}

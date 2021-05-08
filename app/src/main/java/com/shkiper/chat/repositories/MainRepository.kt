@@ -9,7 +9,7 @@ import com.shkiper.chat.model.data.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
+@Singleton
 class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
 
     val chats = MutableLiveData<List<Chat>>(listOf())

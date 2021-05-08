@@ -16,7 +16,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun getMainRepository(): MainRepository {
-        return NetworkModule.providesMainRepository(NetworkModule.providesFireBaseService())
+        return NetworkModule.providesMainRepository(FireBaseServiceImpl())
     }
 
 }

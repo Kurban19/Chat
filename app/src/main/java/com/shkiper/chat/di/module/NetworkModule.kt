@@ -7,21 +7,35 @@ import dagger.hilt.android.components.ViewModelComponent
 import com.shkiper.chat.firebase.FireBaseServiceImpl
 import com.shkiper.chat.interfaces.FireBaseService
 import com.shkiper.chat.repositories.MainRepository
+import dagger.Binds
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.internal.managers.ApplicationComponentManager
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 
-@Module
-@InstallIn(ViewModelComponent::class)
+@Module(includes = [NetworkModule.NetWorkBinds::class])
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
 
-    @Provides
-    fun providesFireBaseService(): FireBaseService = FireBaseServiceImpl()
+//    @Provides
+//    fun providesFireBaseService(): FireBaseService = FireBaseServiceImpl()
 
     @Provides
     @Singleton
     fun providesMainRepository(firebaseService: FireBaseService): MainRepository {
         return MainRepository(firebaseService)
+    }
+
+
+    @Module
+    @InstallIn(ViewModelComponent::class)
+    abstract class NetWorkBinds {
+
+        @Binds
+        abstract fun bindMainRepository(firebaseService: FireBaseServiceImpl): FireBaseService
+
     }
 
 }

@@ -16,8 +16,11 @@ import com.shkiper.chat.ui.adapters.ArchiveItemTouchHelperCallback
 import com.shkiper.chat.ui.chat.ChatActivity
 import com.shkiper.chat.ui.main.MainActivity
 import com.shkiper.chat.viewmodels.ArchiveViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_archive.*
 
+
+@AndroidEntryPoint
 class ArchiveActivity : AppCompatActivity() {
 
     private lateinit var archiveAdapter: ArchiveAdapter

@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.Exclude
 import com.shkiper.chat.App
+import com.shkiper.chat.di.component.DaggerAppComponent
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
@@ -50,11 +51,11 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
 
-        val user = App.getApp().
-        appComponent.getMainRepository()
-            .findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)!!
+        val user = DaggerAppComponent.create()
+                .getMainRepository()
+                .findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)!!
 
-
+//        val user = User()
 
         Log.d("Chat", user.toString())
 

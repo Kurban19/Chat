@@ -11,7 +11,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class UsersViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
+class UsersViewModel @Inject constructor(
+        private val mainRepository: MainRepository
+        ) : ViewModel() {
     private val query = mutableLiveData("")
     private val userItems = mutableLiveData(mainRepository.users.value!!.map{it.toUserItem()})
     private val selectedItems = Transformations.map(userItems){users -> users.filter {it.isSelected}}

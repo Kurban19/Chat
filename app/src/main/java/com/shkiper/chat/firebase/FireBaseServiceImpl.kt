@@ -13,8 +13,9 @@ import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
 import java.util.*
+import javax.inject.Inject
 
-class FireBaseServiceImpl: FireBaseService{
+class FireBaseServiceImpl @Inject constructor() : FireBaseService{
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
