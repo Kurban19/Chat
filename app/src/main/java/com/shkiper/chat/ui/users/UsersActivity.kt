@@ -19,9 +19,10 @@ import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
 import com.shkiper.chat.ui.dialogs.GetTitleOfGroupDialog
 import com.shkiper.chat.viewmodels.UsersViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_users.*
 
-
+@AndroidEntryPoint
 class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogListener {
 
     private lateinit var usersAdapter: UserAdapter

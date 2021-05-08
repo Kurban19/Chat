@@ -1,10 +1,12 @@
 package com.shkiper.chat.model.data
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.Exclude
 import com.shkiper.chat.App
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
+import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.utils.FireBaseUtils
 import com.shkiper.chat.utils.Utils
@@ -40,7 +42,7 @@ data class Chat(
 
     fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
         is TextMessage -> lastMessage.text to lastMessage.from.firstName
-//        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
+        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to  lastMessage.from.firstName
         else -> "Сообщений еще нет" to "undefine"
     }
 
@@ -48,9 +50,14 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
 
-        val user = App.getApp().appComponent.getMainRepository().findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)
+        val user = App.getApp().
+        appComponent.getMainRepository()
+            .findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }!!)!!
 
-        user ?: throw KotlinNullPointerException()
+
+
+        Log.d("Chat", user.toString())
+
 
         return if (isSingle()) {
             val chatItem = ChatItem(
@@ -73,7 +80,7 @@ data class Chat(
                     title,
                     lastMessageShort().first,
                     unreadMessageCount(),
-                    lastMessageDate()!!.shortFormat(),
+                    lastMessageDate()?.shortFormat() ?: "",
                 false,
                     ChatType.GROUP,
                     lastMessageShort().second

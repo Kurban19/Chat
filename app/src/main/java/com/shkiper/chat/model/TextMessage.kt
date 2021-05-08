@@ -3,8 +3,6 @@ package com.shkiper.chat.model
 
 import com.shkiper.chat.extensions.humanizeDiff
 import com.shkiper.chat.model.data.User
-
-
 import java.util.*
 
 class TextMessage(

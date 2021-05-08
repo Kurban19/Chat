@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.repositories.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class UsersViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
     private val query = mutableLiveData("")
     private val userItems = mutableLiveData(mainRepository.users.value!!.map{it.toUserItem()})

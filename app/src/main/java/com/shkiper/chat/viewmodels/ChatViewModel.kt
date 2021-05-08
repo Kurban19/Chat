@@ -6,8 +6,10 @@ import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
 import com.shkiper.chat.repositories.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class ChatViewModel @Inject constructor(
         private val mainRepository: MainRepository
         ) : ViewModel(){
