@@ -1,6 +1,7 @@
 package com.shkiper.chat
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -17,9 +18,24 @@ import java.util.*
 @HiltAndroidApp
 class App: Application(), LifecycleObserver {
 
+
+    val appComponent = DaggerAppComponent.create()
+
     override fun onCreate() {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this);
+    }
+
+    companion object{
+        private var instance:App? = null
+
+        fun applicationContext(): Context {
+            return instance!!.applicationContext
+        }
+    }
+
+    init {
+        instance = this
     }
 
 

@@ -1,10 +1,6 @@
 package com.shkiper.chat.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.data.Chat
@@ -23,7 +19,6 @@ class MainViewModel @Inject constructor(
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->
         val archived = chats.filter { it.archived }
-        Log.d("MAinViewModel", chats.toString())
         if (archived.isEmpty()) {
             return@map chats.map { it.toChatItem() }
         } else {

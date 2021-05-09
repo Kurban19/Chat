@@ -1,6 +1,5 @@
 package com.shkiper.chat.firebase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +14,7 @@ import com.shkiper.chat.model.data.User
 import java.util.*
 import javax.inject.Inject
 
-class FireBaseServiceImpl @Inject constructor() : FireBaseService{
+class FireBaseServiceImpl: FireBaseService{
 
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 

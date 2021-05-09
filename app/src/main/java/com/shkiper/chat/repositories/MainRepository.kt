@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainRepository @Inject constructor(private val fireBaseService: FireBaseService) {
+class MainRepository(private val fireBaseService: FireBaseService) {
 
     val chats = MutableLiveData<List<Chat>>(listOf())
     val users = MutableLiveData<List<User>>(listOf())
@@ -29,7 +29,7 @@ class MainRepository @Inject constructor(private val fireBaseService: FireBaseSe
         fireBaseService.getOrCreateChat(userId)
     }
 
-    fun findUser(userId: String): User?{
+    fun findUser(userId: String?): User?{
         users.value!!.forEach {
             if(userId == it.id){
                 return it

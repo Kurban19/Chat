@@ -14,13 +14,13 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 
-@Module(includes = [NetworkModule.NetWorkBinds::class])
+@Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
 
-//    @Provides
-//    fun providesFireBaseService(): FireBaseService = FireBaseServiceImpl()
+    @Provides
+    fun providesFireBaseService(): FireBaseService = FireBaseServiceImpl()
 
     @Provides
     @Singleton
@@ -28,14 +28,5 @@ object NetworkModule {
         return MainRepository(firebaseService)
     }
 
-
-    @Module
-    @InstallIn(ViewModelComponent::class)
-    abstract class NetWorkBinds {
-
-        @Binds
-        abstract fun bindMainRepository(firebaseService: FireBaseServiceImpl): FireBaseService
-
-    }
 
 }
