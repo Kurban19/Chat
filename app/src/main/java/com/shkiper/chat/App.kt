@@ -1,7 +1,6 @@
 package com.shkiper.chat
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -9,8 +8,6 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.shkiper.chat.di.component.AppComponent
 import com.shkiper.chat.di.component.DaggerAppComponent
 import com.shkiper.chat.utils.FireBaseUtils
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
 import dagger.hilt.android.HiltAndroidApp
 import java.util.*
 
@@ -19,20 +16,24 @@ import java.util.*
 class App: Application(), LifecycleObserver {
 
 
-    val appComponent = DaggerAppComponent.create()
+    val appComponent: AppComponent = DaggerAppComponent.create()
 
     override fun onCreate() {
         super.onCreate()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this);
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     companion object{
         private var instance:App? = null
 
-        fun applicationContext(): Context {
-            return instance!!.applicationContext
+
+        @JvmStatic
+        fun getApp(): App {
+            return instance!!
         }
+
     }
+
 
     init {
         instance = this

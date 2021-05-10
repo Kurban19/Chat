@@ -12,7 +12,6 @@ import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
 import java.util.*
-import javax.inject.Inject
 
 class FireBaseServiceImpl: FireBaseService{
 
@@ -50,15 +49,11 @@ class FireBaseServiceImpl: FireBaseService{
                     for (document in documents){
                         chatsCollectionRef.document(document["chatId"] as String)
                             .get().addOnSuccessListener {
-                                val message = it.get("lastMessage")
-//                                Log.d("Firebase", it.toObject(Chat::class.java).toString())
-//                                    val chat = it.toObject(Chat::class.java)
+
                                 val chat = it.toChat()
                                 listOfChats.add(chat)
 
-//                                    chat?.let {
-//                                        listOfChats.add(chat)
-//                                    }
+
                             }.addOnSuccessListener { onListen(listOfChats) }
                     }
                 }
@@ -77,12 +72,12 @@ class FireBaseServiceImpl: FireBaseService{
                     }
 
                     val items = mutableListOf<BaseMessage>()
-                    querySnapshot?.documents?.forEach {
+                    querySnapshot?.documents?.forEach { documentSnapshot ->
 
-                        val message = if (it["type"] == "text")
-                            it.toObject(TextMessage::class.java)
+                        val message = if (documentSnapshot["type"] == "text")
+                            documentSnapshot.toObject(TextMessage::class.java)
                         else
-                            it.toObject(ImageMessage::class.java)
+                            documentSnapshot.toObject(ImageMessage::class.java)
 
                         message?.let {
                             items.add(it)

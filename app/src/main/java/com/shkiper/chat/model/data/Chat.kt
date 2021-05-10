@@ -1,16 +1,15 @@
 package com.shkiper.chat.model.data
 
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.App
-import com.shkiper.chat.di.component.DaggerAppComponent
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
-import com.shkiper.chat.utils.FireBaseUtils
+import com.shkiper.chat.repositories.MainRepository
 import com.shkiper.chat.utils.Utils
 import java.util.*
+import javax.inject.Inject
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Chat(
@@ -21,8 +20,8 @@ data class Chat(
         var archived: Boolean = false){
 
 
-
-    private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
+    private val repository: MainRepository = App.getApp().appComponent.getMainRepository()
+//    private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
 
     fun unreadMessageCount(): Int = 0
 
@@ -50,27 +49,28 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
 
-//        val user =
-//                .getMainRepository()
-//                .findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }) ?: User()
-
-        val user = User()
-
-        Log.d("Chat", user.toString())
+        Log.d("Chat", repository.users.value!!.size.toString())
 
 
         return if (isSingle()) {
-            val chatItem = ChatItem(
+
+//            val user = App.getApp().appComponent
+//                .getMainRepository()
+//                .findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }) ?: User()
+
+
+            val user = User()
+
+            ChatItem(
                 id,
                 user.avatar,
                 Utils.toInitials(user.firstName, user.lastName),
                 "${user.firstName} ${user.lastName}",
                 lastMessageShort().first,
                 unreadMessageCount(),
-                lastMessageDate()?.shortFormat(),
+                lastMessageDate()?.shortFormat() ?: "",
                 user.isOnline
             )
-            chatItem
         }
         else {
             ChatItem(
