@@ -43,5 +43,5 @@ fun DocumentSnapshot.toChat(): Chat {
     }
 
 
-    return Chat(id, title, members, message, archived)
+    return Chat(id, title, emptyList(), message, archived)
 }

@@ -1,26 +1,22 @@
 package com.shkiper.chat.model.data
 
-import android.util.Log
-import com.shkiper.chat.App
+import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
-import com.shkiper.chat.repositories.MainRepository
 import com.shkiper.chat.utils.Utils
 import java.util.*
-import javax.inject.Inject
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Chat(
         val id: String = "",
         var title: String = "",
-        val members: List<String> = listOf(),
+        val members: List<User> = listOf(),
         var lastMessage: BaseMessage? = null,
         var archived: Boolean = false){
 
 
-    private val repository: MainRepository = App.getApp().appComponent.getMainRepository()
 //    private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
 
     fun unreadMessageCount(): Int = 0
@@ -49,17 +45,9 @@ data class Chat(
 
     fun toChatItem(): ChatItem {
 
-        Log.d("Chat", repository.users.value!!.size.toString())
-
-
         return if (isSingle()) {
 
-//            val user = App.getApp().appComponent
-//                .getMainRepository()
-//                .findUser(members.find { FirebaseAuth.getInstance().currentUser.uid != it }) ?: User()
-
-
-            val user = User()
+            val user = members.find {  FirebaseAuth.getInstance().currentUser.uid != it.id } ?: User()
 
             ChatItem(
                 id,

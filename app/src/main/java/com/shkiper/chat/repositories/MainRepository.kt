@@ -6,7 +6,6 @@ import com.shkiper.chat.interfaces.FireBaseService
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
@@ -25,8 +24,8 @@ class MainRepository(private val fireBaseService: FireBaseService) {
     }
 
 
-    fun createChat(userId: String){
-        fireBaseService.getOrCreateChat(userId)
+    fun createChat(user: User){
+        fireBaseService.getOrCreateChat(user)
     }
 
     fun findUser(userId: String?): User?{
@@ -48,6 +47,12 @@ class MainRepository(private val fireBaseService: FireBaseService) {
         return chats.value!![ind]
     }
 
+
+    fun findUsers(ids: List<String>): MutableList<User> {
+        return users.value!!.filter { ids.contains(it.id) }.toMutableList()
+    }
+
+
     fun update(chat: Chat) {
         fireBaseService.updateChat(chat)
         updateData()
@@ -64,8 +69,8 @@ class MainRepository(private val fireBaseService: FireBaseService) {
     }
 
 
-    fun createGroupChat(listOfUsersIds: MutableList<String>, titleOfGroup: String) {
-        fireBaseService.createGroupChat(listOfUsersIds, titleOfGroup)
+    fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
+        fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
     private fun setUsers(listOfUsers: List<User>){

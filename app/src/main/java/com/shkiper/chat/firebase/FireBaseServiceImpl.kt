@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.extensions.toChat
+import com.shkiper.chat.extensions.toUser
 import com.shkiper.chat.interfaces.FireBaseService
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
@@ -91,9 +92,9 @@ class FireBaseServiceImpl: FireBaseService{
 
 
 
-    override fun getOrCreateChat(otherUserId: String) {
+    override fun getOrCreateChat(otherUser: User) {
         currentUserDocRef.collection("engagedChats")
-                .document(otherUserId).get().addOnSuccessListener {
+                .document(otherUser.id).get().addOnSuccessListener {
                     if (it.exists()) {
                         return@addOnSuccessListener
                     }
@@ -101,14 +102,14 @@ class FireBaseServiceImpl: FireBaseService{
                     val currentUser = FirebaseAuth.getInstance().currentUser!!
 
                     val newChat = chatsCollectionRef.document()
-                    newChat.set(Chat(newChat.id, newChat.id, mutableListOf(currentUser.uid, otherUserId), null, false))
+                    newChat.set(Chat(newChat.id, newChat.id, mutableListOf(currentUser.toUser(), otherUser), null, false))
 
                     currentUserDocRef
                             .collection("engagedChats")
-                            .document(otherUserId)
+                            .document(otherUser.id)
                             .set(mapOf("chatId" to newChat.id))
 
-                    fireStoreInstance.collection("users").document(otherUserId)
+                    fireStoreInstance.collection("users").document(otherUser.id)
                             .collection("engagedChats")
                             .document(currentUser.uid)
                             .set(mapOf("chatId" to newChat.id))
@@ -117,14 +118,14 @@ class FireBaseServiceImpl: FireBaseService{
     }
 
 
-    override fun createGroupChat(listOfUsersIds: MutableList<String>, titleOfChat: String){
-        val currentUser = FirebaseAuth.getInstance().currentUser!!
+    override fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String){
+        val currentUser = FirebaseAuth.getInstance().currentUser!!.toUser()
         val newChat = chatsCollectionRef.document()
-        listOfUsersIds.add(currentUser.uid)
-        newChat.set(Chat(newChat.id, titleOfChat, listOfUsersIds, null, false))
+        listOfUsers.add(currentUser)
+        newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null, false))
 
-        listOfUsersIds.forEach {
-            fireStoreInstance.collection("users").document(it)
+        listOfUsers.forEach {
+            fireStoreInstance.collection("users").document(it.id)
                 .collection("engagedChats")
                 .document(newChat.id)
                 .set(mapOf("chatId" to newChat.id))

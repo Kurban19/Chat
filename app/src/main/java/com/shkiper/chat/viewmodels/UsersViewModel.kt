@@ -57,12 +57,12 @@ class UsersViewModel @Inject constructor(
 
 
     fun handleCreatedChat() {
-        mainRepository.createChat(selectedItems.value!!.first().id)
+        mainRepository.createChat(mainRepository.findUser(selectedItems.value!!.first().id)!!)
         mainRepository.updateData()
     }
 
     fun handleCreatedGroupChat(titleOfGroup: String){
-        mainRepository.createGroupChat(selectedItems.value!!.map { it.id }.toMutableList(), titleOfGroup)
+        mainRepository.createGroupChat(mainRepository.findUsers(selectedItems.value!!.map { it.id }.toMutableList()), titleOfGroup)
         mainRepository.updateData()
     }
 

@@ -11,9 +11,9 @@ interface FireBaseService {
 
     fun getEngagedChats(onListen: (List<Chat>) -> Unit)
 
-    fun getOrCreateChat(otherUserId: String)
+    fun getOrCreateChat(otherUser: User)
 
-    fun createGroupChat(listOfUsersIds: MutableList<String>, titleOfChat: String)
+    fun createGroupChat(listOfUsersIds: MutableList<User>, titleOfChat: String)
 
     fun setChatMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration
 
