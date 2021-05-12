@@ -1,5 +1,6 @@
 package com.shkiper.chat.ui.adapters
 
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -96,6 +97,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
                    this!!.layoutParams = lParams
                }
            }
+
 
            if(item is TextMessage){
                tv_message_text.visibility = View.VISIBLE

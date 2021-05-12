@@ -39,6 +39,7 @@ class MainRepository(private val fireBaseService: FireBaseService) {
 
     fun sendMessage(message: BaseMessage, chatId: String){
         fireBaseService.sendMessage(message, chatId)
+        updateData()
     }
 
 

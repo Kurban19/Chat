@@ -24,13 +24,12 @@ class TextMessage(
 
     companion object Factory {
         private var lastid : Int = -1
-        fun makeMessage(text: String, from: User, group: Boolean) : TextMessage {
+        fun makeMessage(text: String, from: User) : TextMessage {
             lastid++
             return TextMessage(
                     id = "$lastid",
                     from = from,
                     text = text,
-                    group = group
             )
         }
     }

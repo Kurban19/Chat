@@ -16,6 +16,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository
     ): ViewModel() {
+
     private val query = mutableLiveData("")
     private val chats = Transformations.map(mainRepository.chats) { chats ->
         val archived = chats.filter { it.archived }

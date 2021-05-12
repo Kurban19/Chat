@@ -1,20 +1,18 @@
 package com.shkiper.chat.model
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import com.shkiper.chat.extensions.humanizeDiff
 import com.shkiper.chat.model.data.User
 import java.util.*
 
 class ImageMessage(
-    id: String,
-    from: User,
+    id: String = "",
+    from: User = User(),
     isIncoming: Boolean = false,
     isRead: Boolean = false,
-    group: Boolean,
+    group: Boolean = false,
     date: Date = Date(),
     override val type: String = "image",
-    var image: String
+    var image: String = ""
 
 ) : BaseMessage(id, from, isIncoming, isRead, group, date, type){
 

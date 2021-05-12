@@ -23,9 +23,12 @@ import com.shkiper.chat.ui.adapters.MessagesAdapter
 import com.shkiper.chat.ui.main.MainActivity
 import com.shkiper.chat.utils.StorageUtils
 import com.shkiper.chat.viewmodels.ChatViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.util.*
 
+
+@AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
     companion object {
@@ -75,16 +78,14 @@ class ChatActivity : AppCompatActivity() {
         }
 
         if(chat.isSingle()){
-            chat.members.find { it != FirebaseAuth.getInstance().currentUser!!.uid }.apply {
-                tv_last_activity.text = viewModel.findUser(this!!)!!.toUserItem().lastActivity
+            chat.members.find { it.id != FirebaseAuth.getInstance().currentUser!!.uid }?.apply {
+                tv_last_activity.text = viewModel.findUser(this.id)?.toUserItem()?.lastActivity
             }
-
-        }
-        else{
+        } else{
             var concatenatedString = ""
             chat.members.forEach {
-                if(it != FirebaseAuth.getInstance().currentUser!!.uid){
-                    concatenatedString += viewModel.findUser(it)!!.firstName + " "
+                if(it.id != FirebaseAuth.getInstance().currentUser!!.uid){
+                    concatenatedString +=it.firstName + " "
                 }
             }
             tv_last_activity.text = concatenatedString.trim()
@@ -95,11 +96,10 @@ class ChatActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val message = if(chat.members.size > 1) {
-                TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser(), true)
-            }
-            else{
-                TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser(), false)
+            val message = TextMessage.makeMessage(et_message.text.toString(), FirebaseAuth.getInstance().currentUser!!.toUser())
+
+            if (chat.members.size > 2){
+                message.group = true
             }
 
             et_message.setText("")
