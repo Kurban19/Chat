@@ -1,5 +1,6 @@
 package com.shkiper.chat.extensions
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -10,7 +11,7 @@ import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
 import org.json.JSONObject
 
-//I know it's shitty function, I hope no one sees it
+//I know it's shitty function, I hope no one sees that
 fun DocumentSnapshot.toChat(): Chat {
 
     val gson = GsonBuilder()
@@ -42,6 +43,7 @@ fun DocumentSnapshot.toChat(): Chat {
     val jsonMessage = this.get("lastMessage")?.let {
         JSONObject(it as HashMap<*, *>)
     }
+
 
     val message = if(jsonMessage?.get("type")  == "text"){
         gson.fromJson(jsonMessage.toString(), TextMessage::class.java)

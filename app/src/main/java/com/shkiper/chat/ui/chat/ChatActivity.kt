@@ -151,7 +151,6 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-
     private fun updateRecyclerView(messages: List<BaseMessage>){
         rv_messages.apply{
             layoutManager = LinearLayoutManager(this@ChatActivity)

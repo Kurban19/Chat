@@ -83,7 +83,7 @@ class AvatarImageView @JvmOverloads constructor(
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        Log.e("AvatarImageView", "onMeasure")
+        Log.d("AvatarImageView", "onMeasure")
         val initSize = resolveDefaultSize(widthMeasureSpec)
         val maxSize = max(initSize, size)
         setMeasuredDimension(maxSize, maxSize)
@@ -91,7 +91,6 @@ class AvatarImageView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.e("AvatarImageView", "onSizeChanged: ")
         if (w == 0) return
         with(viewRect) {
             left = 0
@@ -103,7 +102,6 @@ class AvatarImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        Log.e("AvatarImageView", "onDraw: ")
         // NOT allocate, ONLY draw
 
         if (drawable != null && isAvatarMode) drawAvatar(canvas)
@@ -119,7 +117,6 @@ class AvatarImageView @JvmOverloads constructor(
     }
 
     override fun onSaveInstanceState(): Parcelable? {
-        Log.e("AvatarImageView", "onSaveInstanceState $id")
         val savedState = SavedState(super.onSaveInstanceState())
         with(savedState) {
             ssIsAvatarMode = isAvatarMode
@@ -130,7 +127,6 @@ class AvatarImageView @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
-        Log.e("AvatarImageView", "onRestoreInstanceState $id")
         super.onRestoreInstanceState(state)
         if (state is SavedState) {
             state.also {
@@ -149,23 +145,19 @@ class AvatarImageView @JvmOverloads constructor(
     override fun setImageBitmap(bm: Bitmap) {
         super.setImageBitmap(bm)
         if (isAvatarMode) prepareShader(width, height)
-        Log.e("AvatarImageView", "setImageBitmap")
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
         if (isAvatarMode) prepareShader(width, height)
-        Log.e("AvatarImageView", "setImageDrawable")
     }
 
     override fun setImageResource(@DrawableRes resId: Int) {
         super.setImageResource(resId)
         if (isAvatarMode) prepareShader(width, height)
-        Log.e("AvatarImageView", "setImageResource")
     }
 
     override fun onLongClick(v: View?): Boolean {
-        Log.e("AvatarImageView", "onLongClick: ");
         val va = ValueAnimator.ofInt(width, width * 2).apply {
             duration = 150
             interpolator = FastOutSlowInInterpolator()
@@ -183,21 +175,18 @@ class AvatarImageView @JvmOverloads constructor(
     }
 
     fun setInitials(initials: String) {
-        Log.e("AvatarImageView", "setInitials : $initials")
         this.initials = initials
         invalidate()
 //        if (!isAvatarMode) invalidate()
     }
 
     fun setBorderColor(@ColorInt color: Int) {
-        Log.e("AvatarImageView", "setBorderColor : $color")
         borderColor = color
         borderPaint.color = borderColor
         invalidate()
     }
 
     fun setBorderWidth(@Dimension width: Int) {
-        Log.e("AvatarImageView", "setBorderColor : $width")
         borderWidth = context.dpToPx(width)
         borderPaint.strokeWidth = borderWidth
         invalidate()
