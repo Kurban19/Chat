@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import com.shkiper.chat.R
+import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.model.data.ChatType
 import com.shkiper.chat.ui.adapters.ChatAdapter
 import com.shkiper.chat.ui.adapters.ChatItemTouchHelperCallback

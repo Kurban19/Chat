@@ -1,6 +1,5 @@
 package com.shkiper.chat.extensions
 
-import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -27,7 +26,7 @@ fun DocumentSnapshot.toChat(): Chat {
 
 
     val id = this["id"].toString()
-    val title = this["field"].toString()
+    val title = this["title"].toString()
     val members = mutableListOf<User>()
     val archived = this["archived"].toString() == "true"
 

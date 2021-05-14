@@ -104,7 +104,6 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
                tv_message_text.text = item.text
            }
            else if(item is ImageMessage){
-               Log.d("Tag ma", item.id)
                tv_message_text.visibility = View.GONE
                iv_message_image.visibility = View.VISIBLE
                GlideApp.with(itemView)
@@ -147,6 +146,19 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
 
             if(item is TextMessage){
                 tv_group_message_text.text = item.text
+            }
+
+            if(item is TextMessage){
+                tv_group_message_text.visibility = View.VISIBLE
+                iv_group_message_image.visibility = View.GONE
+                tv_group_message_text.text = item.text
+            }
+            else if(item is ImageMessage){
+                tv_group_message_text.visibility = View.GONE
+                iv_group_message_image.visibility = View.VISIBLE
+                GlideApp.with(itemView)
+                    .load(StorageUtils.pathToReference(item.image))
+                    .into(iv_message_image)
             }
 
             tv_group_message_time.text = item.date.shortFormat()
