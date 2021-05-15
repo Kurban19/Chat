@@ -2,7 +2,7 @@ package com.shkiper.chat.model.data
 
 
 import com.shkiper.chat.extensions.humanizeDiff
-import com.shkiper.chat.utils.Utils
+import com.shkiper.chat.util.Utils
 import java.util.*
 
 data class User (

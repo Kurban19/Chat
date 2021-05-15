@@ -1,4 +1,4 @@
-package com.shkiper.chat.utils
+package com.shkiper.chat.util
 
 import java.util.*
 

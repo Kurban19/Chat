@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
@@ -13,9 +12,9 @@ import com.shkiper.chat.R
 import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.ui.login.LoginActivity
-import com.shkiper.chat.utils.FireBaseUtils
-import com.shkiper.chat.utils.StorageUtils
-import com.shkiper.chat.utils.Utils
+import com.shkiper.chat.util.FireBaseUtils
+import com.shkiper.chat.util.StorageUtils
+import com.shkiper.chat.util.Utils
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.io.ByteArrayOutputStream
 

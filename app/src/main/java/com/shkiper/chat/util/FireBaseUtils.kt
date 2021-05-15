@@ -1,4 +1,4 @@
-package com.shkiper.chat.utils
+package com.shkiper.chat.util
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference

@@ -15,7 +15,7 @@ import com.shkiper.chat.R
 import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.model.data.ChatItem
 import com.shkiper.chat.model.data.ChatType
-import com.shkiper.chat.utils.StorageUtils
+import com.shkiper.chat.util.StorageUtils
 import kotlinx.android.synthetic.main.item_chat_archive.*
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {

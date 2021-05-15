@@ -21,7 +21,7 @@ import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.ui.adapters.MessagesAdapter
 import com.shkiper.chat.ui.main.MainActivity
-import com.shkiper.chat.utils.StorageUtils
+import com.shkiper.chat.util.StorageUtils
 import com.shkiper.chat.viewmodels.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream

@@ -16,7 +16,7 @@ import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
-import com.shkiper.chat.utils.StorageUtils
+import com.shkiper.chat.util.StorageUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_group_message.*
 import kotlinx.android.synthetic.main.item_message.*

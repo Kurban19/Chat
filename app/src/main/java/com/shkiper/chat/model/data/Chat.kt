@@ -5,7 +5,7 @@ import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
-import com.shkiper.chat.utils.Utils
+import com.shkiper.chat.util.Utils
 import java.util.*
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")

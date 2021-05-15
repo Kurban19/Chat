@@ -11,7 +11,7 @@ import com.firebase.ui.auth.IdpResponse
 import kotlinx.android.synthetic.main.activity_login.*
 import com.shkiper.chat.R
 import com.shkiper.chat.ui.main.MainActivity
-import com.shkiper.chat.utils.FireBaseUtils
+import com.shkiper.chat.util.FireBaseUtils
 
 class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 0
