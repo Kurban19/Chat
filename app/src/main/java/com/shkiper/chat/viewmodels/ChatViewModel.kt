@@ -28,7 +28,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun update(chat: Chat){
-        mainRepository.update(chat)
+        mainRepository.updateChat(chat)
     }
 
     fun findUser(userId: String): User? {

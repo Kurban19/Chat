@@ -1,6 +1,5 @@
 package com.shkiper.chat.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.interfaces.FireBaseService
@@ -55,19 +54,14 @@ class MainRepository(private val fireBaseService: FireBaseService) {
     }
 
 
-    fun update(chat: Chat) {
+    fun updateChat(chat: Chat) {
+//        val copy = chats.value!!.toMutableList()
+//        val index = chats.value!!.indexOfFirst { it.id == chat.id }
+//        if (index == -1) return
+//        copy[index] = chat
+//        chats.value = copy
         fireBaseService.updateChat(chat)
         updateData()
-    }
-
-
-    fun addToArchive(chat: Chat){
-        val copy = chats.value!!.toMutableList()
-        val index = chats.value!!.indexOfFirst { it.id == chat.id }
-        if (index == -1) return
-        copy[index] = chat
-        chats.value = copy
-        update(chat)
     }
 
 

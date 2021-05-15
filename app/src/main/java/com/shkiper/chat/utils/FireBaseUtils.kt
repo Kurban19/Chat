@@ -48,7 +48,7 @@ object FireBaseUtils {
 
 
 
-    fun getUnreadMessages(chatId: String): Int {
+//    fun getUnreadMessages(chatId: String): Int {
 //        val result = mutableListOf<BaseMessage>()
 //        chatsCollectionRef.document(chatId).collection("messages")
 //                .get()
@@ -62,8 +62,8 @@ object FireBaseUtils {
 //                    }
 //                }
 //        return result.filter { !it.isRead }.size
-        return 1
-    }
+//        return 1
+//    }
 
     fun getCurrentUser(onComplete: (User) -> Unit) {
         currentUserDocRef.get()

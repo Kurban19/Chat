@@ -1,6 +1,5 @@
 package com.shkiper.chat.ui.adapters
 
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +8,16 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.extensions.LayoutContainer
 import com.shkiper.chat.R
+import com.shkiper.chat.extensions.gone
 import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.extensions.visible
 import com.shkiper.chat.glide.GlideApp
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.utils.StorageUtils
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_group_message.*
 import kotlinx.android.synthetic.main.item_message.*
 
@@ -99,13 +100,13 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
            }
 
            if(item is TextMessage){
-               tv_message_text.visibility = View.VISIBLE
-               iv_message_image.visibility = View.GONE
+               tv_message_text.visible()
+               iv_message_image.gone()
                tv_message_text.text = item.text
            }
            else if(item is ImageMessage){
-               tv_message_text.visibility = View.GONE
-               iv_message_image.visibility = View.VISIBLE
+               tv_message_text.gone()
+               iv_message_image.visible()
                GlideApp.with(itemView)
                        .load(StorageUtils.pathToReference(item.image))
                        .into(iv_message_image)
@@ -145,17 +146,13 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
             }
 
             if(item is TextMessage){
-                tv_group_message_text.text = item.text
-            }
-
-            if(item is TextMessage){
-                tv_group_message_text.visibility = View.VISIBLE
-                iv_group_message_image.visibility = View.GONE
+                tv_group_message_text.visible()
+                iv_group_message_image.gone()
                 tv_group_message_text.text = item.text
             }
             else if(item is ImageMessage){
-                tv_group_message_text.visibility = View.GONE
-                iv_group_message_image.visibility = View.VISIBLE
+                tv_group_message_text.gone()
+                iv_group_message_image.visible()
                 GlideApp.with(itemView)
                     .load(StorageUtils.pathToReference(item.image))
                     .into(iv_message_image)
