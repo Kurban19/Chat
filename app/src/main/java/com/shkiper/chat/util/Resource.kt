@@ -1,6 +1,6 @@
 package com.shkiper.chat.util
 
-data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
+data class Resource<T>(val status: Status, var data: T?, val message: String?) {
 
     companion object {
 

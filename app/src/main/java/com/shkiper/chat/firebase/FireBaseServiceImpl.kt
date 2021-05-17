@@ -42,6 +42,21 @@ class FireBaseServiceImpl: FireBaseService{
 
     }
 
+    override fun getUsersRx(): Observable<List<User>>{
+        return Observable.create { emitter ->
+            val listOfUsers = mutableListOf<User>()
+            usersCollectionRef.get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents){
+                        val user = document.toObject(User::class.java)
+                        if (user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
+                            listOfUsers.add(user)
+                        }
+                    }
+                }.addOnSuccessListener {emitter.onNext(listOfUsers)}
+        }
+    }
+
 
     override fun getEngagedChats(onListen: (List<Chat>) -> Unit) {
         currentUserDocRef.collection("engagedChats")

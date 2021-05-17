@@ -4,10 +4,13 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
+import io.reactivex.Observable
 
 interface FireBaseService {
 
     fun getUsers(onListen: (List<User>) -> Unit)
+
+    fun getUsersRx(): Observable<List<User>>
 
     fun getEngagedChats(onListen: (List<Chat>) -> Unit)
 

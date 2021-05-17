@@ -15,12 +15,19 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.shkiper.chat.R
+import com.shkiper.chat.extensions.gone
+import com.shkiper.chat.extensions.showToast
+import com.shkiper.chat.extensions.visible
 import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.ui.adapters.UserAdapter
 import com.shkiper.chat.ui.dialogs.GetTitleOfGroupDialog
+import com.shkiper.chat.util.Status
 import com.shkiper.chat.viewmodels.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_users.*
+import kotlinx.android.synthetic.main.activity_users.fab
+import kotlinx.android.synthetic.main.activity_users.toolbar_main
 
 @AndroidEntryPoint
 class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogListener {
@@ -34,7 +41,9 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
         setContentView(R.layout.activity_users)
         initToolbar()
         initViews()
-        initViewModel() }
+        initViewModel()
+        setupObserver()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
         menuInflater.inflate(R.menu.menu_search, menu)
@@ -101,11 +110,42 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
     }
 
     private fun initViewModel() {
-        viewModel.getUsers().observe(this, { usersAdapter.updateData(it) })
-        viewModel.getSelectedData().observe(this, {
-            updateChips(it)
-            toggleFab(it.isNotEmpty())
+//        viewModel.getUsers().observe(this, { usersAdapter.updateData(it) })
+
+    }
+
+    private fun setupObserver(){
+        viewModel.getUsers().observe(this, {
+            when(it.status){
+                Status.SUCCESS -> {
+//                    progress_bar.gone()
+//                    rv_chat_list.visible()
+                    usersAdapter.updateData(it.data!!)
+                }
+                Status.LOADING -> {
+//                    progress_bar.visible()
+//                    rv_chat_list.gone()
+                    showToast("Loading")
+                }
+                Status.ERROR -> {
+//                    progress_bar.gone()
+                    showToast("Something went wrong")
+                }
+            }
         })
+
+
+
+
+
+//        viewModel.getSelectedData().observe(this, {
+//            if (it != null) {
+//                updateChips(it)
+//            }
+//            if (it != null) {
+//                toggleFab(it.isNotEmpty())
+//            }
+//        })
     }
 
     private fun toggleFab(isShow: Boolean) {

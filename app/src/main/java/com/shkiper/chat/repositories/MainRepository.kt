@@ -6,6 +6,8 @@ import com.shkiper.chat.interfaces.FireBaseService
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
+import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Singleton
 
 @Singleton
@@ -18,6 +20,11 @@ class MainRepository(private val fireBaseService: FireBaseService) {
         fireBaseService.getEngagedChats(this::setChats)
         fireBaseService.getUsers(this::setUsers)
     }
+
+    fun getUsers(): Observable<List<User>> {
+        return fireBaseService.getUsersRx()
+    }
+
 
     fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
         return fireBaseService.setChatMessagesListener(chatId, onListen)
