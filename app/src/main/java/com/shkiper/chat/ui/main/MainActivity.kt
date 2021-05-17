@@ -11,18 +11,21 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import com.shkiper.chat.R
+import com.shkiper.chat.extensions.gone
 import com.shkiper.chat.extensions.showToast
+import com.shkiper.chat.extensions.visible
 import com.shkiper.chat.model.data.ChatType
 import com.shkiper.chat.ui.adapters.ChatAdapter
 import com.shkiper.chat.ui.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.ui.archive.ArchiveActivity
 import com.shkiper.chat.ui.chat.ChatActivity
-import com.shkiper.chat.ui.users.UsersActivity
 import com.shkiper.chat.ui.profile.ProfileActivity
+import com.shkiper.chat.ui.users.UsersActivity
+import com.shkiper.chat.util.Status
 import com.shkiper.chat.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
@@ -40,9 +43,10 @@ class MainActivity : AppCompatActivity(){
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         initToolbar()
         initViews()
-        initViewModel()
+        setupObserver()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
@@ -124,10 +128,25 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-    private fun initViewModel()  {
+    private fun setupObserver() {
         viewModel.getChatData().observe(this, {
-            chatAdapter.updateData(it)
+            when(it.status){
+                Status.SUCCESS -> {
+                    progress_bar.gone()
+                    rv_chat_list.visible()
+                    chatAdapter.updateData(it.data!!)
+                }
+                Status.LOADING -> {
+                    progress_bar.visible()
+                    rv_chat_list.gone()
+                }
+                Status.ERROR -> {
+                    progress_bar.gone()
+                    showToast("Something went wrong")
+                }
+            }
         })
+
     }
 
     private fun initToolbar() {

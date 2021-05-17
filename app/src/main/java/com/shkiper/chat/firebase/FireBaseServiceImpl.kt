@@ -1,6 +1,5 @@
 package com.shkiper.chat.firebase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,7 +12,7 @@ import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
-import java.util.*
+import io.reactivex.Observable
 
 class FireBaseServiceImpl: FireBaseService{
 
@@ -55,10 +54,28 @@ class FireBaseServiceImpl: FireBaseService{
                                 val chat = it.toChat()
                                 listOfChats.add(chat)
 
-
                             }.addOnSuccessListener { onListen(listOfChats) }
                     }
                 }
+    }
+
+    fun getEngagedChatsRx(): Observable<Chat> {
+
+        return Observable.create{ emitter ->
+            currentUserDocRef.collection("engagedChats")
+                .get().addOnSuccessListener { documents ->
+                    for (document in documents){
+                        chatsCollectionRef.document(document["chatId"] as String)
+                            .get().addOnSuccessListener {
+
+                                val chat = it.toChat()
+                                emitter.onNext(chat)
+                            }
+                    }
+                }
+
+        }
+
     }
 
 

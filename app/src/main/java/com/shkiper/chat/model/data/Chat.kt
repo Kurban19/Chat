@@ -47,7 +47,7 @@ data class Chat(
 
         return if (isSingle()) {
 
-            val user = members.find {  FirebaseAuth.getInstance().currentUser.uid != it.id } ?: User()
+            val user = members.find {  FirebaseAuth.getInstance().currentUser!!.uid != it.id } ?: User()
 
             ChatItem(
                 id,

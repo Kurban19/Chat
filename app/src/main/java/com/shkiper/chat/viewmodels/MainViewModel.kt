@@ -1,5 +1,6 @@
 package com.shkiper.chat.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.extensions.shortFormat
@@ -7,8 +8,8 @@ import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.ChatItem
 import com.shkiper.chat.model.data.ChatType
 import com.shkiper.chat.repositories.MainRepository
+import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
 import javax.inject.Inject
 
 
@@ -18,27 +19,46 @@ class MainViewModel @Inject constructor(
     ): ViewModel() {
 
     private val query = mutableLiveData("")
-    private val chats = Transformations.map(mainRepository.chats) { chats ->
-        val archived = chats.filter { it.archived }
-        if (archived.isEmpty()) {
-            return@map chats.map { it.toChatItem() }
-        } else {
+    private val chats = MutableLiveData<Resource<List<ChatItem>>>(Resource.loading(null))
+
+
+    init {
+//        chats = Transformations.map(mainRepository.chats) { chats ->
+//            val archived = chats.filter { it.archived }
+//            if (archived.isEmpty()) {
+//                return@map Resource.success(chats.map { it.toChatItem() })
+//            } else {
+//                val listWithArchive = mutableListOf<ChatItem>()
+//                listWithArchive.add(0, makeArchiveItem(archived))
+//                listWithArchive.addAll((chats.filter { !it.archived }.map { it.toChatItem() }))
+//                return@map Resource.success(listWithArchive)
+//            }
+//        } as MutableLiveData<Resource<List<ChatItem>>>
+
+        val chatData = mainRepository.chats
+        val archived = chatData.value?.filter { it.archived } ?: emptyList()
+        if(archived.isEmpty()){
+            chats.postValue(Resource.success(chatData.value!!.map { it.toChatItem() }))
+        }
+        else{
+            Log.d("MAView", chatData.toString())
             val listWithArchive = mutableListOf<ChatItem>()
             listWithArchive.add(0, makeArchiveItem(archived))
-            listWithArchive.addAll((chats.filter { !it.archived }.map { it.toChatItem() }))
-            return@map listWithArchive
+            listWithArchive.addAll((chatData.value!!.filter { !it.archived }.map { it.toChatItem() }))
+            chats.postValue(Resource.success(listWithArchive))
         }
+
     }
 
-    fun getChatData() : LiveData<List<ChatItem>>{
-        val result = MediatorLiveData<List<ChatItem>>()
+    fun getChatData() : MediatorLiveData<Resource<List<ChatItem>>> {
+        val result = MediatorLiveData<Resource<List<ChatItem>>>()
 
         val filterF = {
             val queryStr = query.value!!
-            val users = chats.value!!
+            val chats = chats.value
 
-            result.value = if(queryStr.isEmpty()) users
-            else users.filter { it.title.contains(queryStr,true) }
+            result.value = if(queryStr.isEmpty()) chats
+            else Resource.success(chats!!.data!!.filter { it.title.contains(queryStr,true) })
         }
 
         result.addSource(chats){filterF.invoke()}
