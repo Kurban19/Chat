@@ -139,6 +139,7 @@ class MainActivity : AppCompatActivity(){
                 Status.LOADING -> {
                     progress_bar.visible()
                     rv_chat_list.gone()
+                    showToast("Loading")
                 }
                 Status.ERROR -> {
                     progress_bar.gone()

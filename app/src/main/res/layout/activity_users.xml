@@ -45,7 +45,16 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

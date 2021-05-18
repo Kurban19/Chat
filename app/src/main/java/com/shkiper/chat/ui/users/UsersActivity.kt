@@ -41,7 +41,6 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
         setContentView(R.layout.activity_users)
         initToolbar()
         initViews()
-        initViewModel()
         setupObserver()
     }
 
@@ -97,7 +96,6 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
 
         fab.setOnClickListener{
             if(viewModel.getSizeOfSelectedItems() > 1){
-                //Start dialog for title of group
                 openDialog()
             }
             else{
@@ -109,43 +107,35 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
 
     }
 
-    private fun initViewModel() {
-//        viewModel.getUsers().observe(this, { usersAdapter.updateData(it) })
-
-    }
 
     private fun setupObserver(){
         viewModel.getUsers().observe(this, {
             when(it.status){
                 Status.SUCCESS -> {
-//                    progress_bar.gone()
-//                    rv_chat_list.visible()
+                    progress_bar_users.gone()
+                    rv_user_list.visible()
                     usersAdapter.updateData(it.data!!)
                 }
                 Status.LOADING -> {
-//                    progress_bar.visible()
-//                    rv_chat_list.gone()
-                    showToast("Loading")
+                    progress_bar_users.visible()
+                    rv_user_list.gone()
                 }
                 Status.ERROR -> {
-//                    progress_bar.gone()
+                    progress_bar.gone()
                     showToast("Something went wrong")
                 }
             }
         })
 
 
-
-
-
-//        viewModel.getSelectedData().observe(this, {
-//            if (it != null) {
-//                updateChips(it)
-//            }
-//            if (it != null) {
-//                toggleFab(it.isNotEmpty())
-//            }
-//        })
+        viewModel.getSelectedData().observe(this, {
+            if (it != null) {
+                updateChips(it)
+            }
+            if (it != null) {
+                toggleFab(it.isNotEmpty())
+            }
+        })
     }
 
     private fun toggleFab(isShow: Boolean) {

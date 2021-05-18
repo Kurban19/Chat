@@ -28,21 +28,9 @@ class FireBaseServiceImpl: FireBaseService{
     private val chatsCollectionRef = fireStoreInstance.collection("chats")
     private val messagesCollectionRef = fireStoreInstance.collection("messages")
 
-    override fun getUsers(onListen: (List<User>) -> Unit) {
-        val listOfUsers = mutableListOf<User>()
-        usersCollectionRef.get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents){
-                        val user = document.toObject(User::class.java)
-                        if (user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
-                            listOfUsers.add(user)
-                        }
-                    }
-                }.addOnSuccessListener {onListen(listOfUsers)}
 
-    }
 
-    override fun getUsersRx(): Observable<List<User>>{
+    override fun getUsers(): Observable<List<User>>{
         return Observable.create { emitter ->
             val listOfUsers = mutableListOf<User>()
             usersCollectionRef.get()
@@ -74,9 +62,10 @@ class FireBaseServiceImpl: FireBaseService{
                 }
     }
 
-    fun getEngagedChatsRx(): Observable<Chat> {
+    override fun getEngagedChatsRx(): Observable<List<Chat>> {
 
         return Observable.create{ emitter ->
+            val listOfChats = mutableListOf<Chat>()
             currentUserDocRef.collection("engagedChats")
                 .get().addOnSuccessListener { documents ->
                     for (document in documents){
@@ -84,10 +73,10 @@ class FireBaseServiceImpl: FireBaseService{
                             .get().addOnSuccessListener {
 
                                 val chat = it.toChat()
-                                emitter.onNext(chat)
+                                listOfChats.add(chat)
                             }
                     }
-                }
+                }.addOnSuccessListener {emitter.onNext(listOfChats)}
 
         }
 

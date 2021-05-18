@@ -16,11 +16,12 @@ import javax.inject.Inject
 class UsersViewModel @Inject constructor(
         private val mainRepository: MainRepository
         ) : ViewModel() {
-    private val disposable: CompositeDisposable = CompositeDisposable()
     private val query = mutableLiveData("")
-//    private val userItems = mutableLiveData(mainRepository.users.value!!.map{it.toUserItem()})
     private val userItems by lazy { MutableLiveData<Resource<List<UserItem>>>() }
-    private val selectedItems = Transformations.map(userItems){users -> users.data?.filter {it.isSelected}}
+//    private val selectedItems = Transformations.map(userItems){users -> users.data?.filter {it.isSelected}}
+    private val selectedItems = mutableLiveData(userItems.value!!.data!!.filter { it.isSelected })
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
 
     init {
@@ -45,21 +46,21 @@ class UsersViewModel @Inject constructor(
 
 
     fun getUsers(): MutableLiveData<Resource<List<UserItem>>> {
-//        val result = MediatorLiveData<Resource<List<UserItem>>>()
-//
-//        val filterF = {
-//            val queryStr = query.value!!
-//            val users = userItems.value!!
-//
-//            result.value = if(queryStr.isEmpty()) users
-//            else Resource.success(users.data?.filter { it.fullName.contains(queryStr,true) })
-//        }
-//
-//        result.addSource(userItems){filterF.invoke()}
-//        result.addSource(query){filterF.invoke()}
-//
-//        return result
-        return userItems
+        val result = MediatorLiveData<Resource<List<UserItem>>>()
+
+        val filterF = {
+            val queryStr = query.value!!
+
+            val users = if (userItems.value == null) Resource.loading(null) else userItems.value
+
+            result.value = if(queryStr.isEmpty()) users as Resource<List<UserItem>>?
+            else Resource.success(users?.data?.filter { it.fullName.contains(queryStr,true) })
+        }
+
+        result.addSource(userItems){filterF.invoke()}
+        result.addSource(query){filterF.invoke()}
+
+        return result
     }
 
     fun getSelectedData(): LiveData<List<UserItem>?> = selectedItems

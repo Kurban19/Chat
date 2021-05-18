@@ -7,9 +7,13 @@ import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.ChatItem
 import com.shkiper.chat.model.data.ChatType
+import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.repositories.MainRepository
 import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -19,11 +23,20 @@ class MainViewModel @Inject constructor(
     ): ViewModel() {
 
     private val query = mutableLiveData("")
-    private val chats = MutableLiveData<Resource<List<ChatItem>>>(Resource.loading(null))
+//    private val chats = MutableLiveData<Resource<List<ChatItem>>>(Resource.loading(null))
+    private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
 
 
     init {
-//        chats = Transformations.map(mainRepository.chats) { chats ->
+        fetchChats()
+    }
+
+
+    private fun fetchChats(){
+        //        chats = Transformations.map(mainRepository.chats) { chats ->
 //            val archived = chats.filter { it.archived }
 //            if (archived.isEmpty()) {
 //                return@map Resource.success(chats.map { it.toChatItem() })
@@ -35,36 +48,55 @@ class MainViewModel @Inject constructor(
 //            }
 //        } as MutableLiveData<Resource<List<ChatItem>>>
 
-        val chatData = mainRepository.chats
-        val archived = chatData.value?.filter { it.archived } ?: emptyList()
-        if(archived.isEmpty()){
-            chats.postValue(Resource.success(chatData.value!!.map { it.toChatItem() }))
-        }
-        else{
-            Log.d("MAView", chatData.toString())
-            val listWithArchive = mutableListOf<ChatItem>()
-            listWithArchive.add(0, makeArchiveItem(archived))
-            listWithArchive.addAll((chatData.value!!.filter { !it.archived }.map { it.toChatItem() }))
-            chats.postValue(Resource.success(listWithArchive))
-        }
+//        val chatData = mainRepository.chats
+//        val archived = chatData.value?.filter { it.archived } ?: emptyList()
+//        if(archived.isEmpty()){
+//            chats.postValue(Resource.success(chatData.value!!.map { it.toChatItem() }))
+//        }
+//        else{
+//            Log.d("MAView", chatData.toString())
+//            val listWithArchive = mutableListOf<ChatItem>()
+//            listWithArchive.add(0, makeArchiveItem(archived))
+//            listWithArchive.addAll((chatData.value!!.filter { !it.archived }.map { it.toChatItem() }))
+//            chats.postValue(Resource.success(listWithArchive))
+//        }
 
+
+
+        chats.postValue(Resource.loading(null))
+        disposable.add(
+            mainRepository.getEngagedChats()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { listOfChats -> listOfChats.map { it.toChatItem() } }
+                .subscribe ({
+                    chats.postValue(Resource.success(it))
+                },{
+                    chats.postValue(Resource.error(it.printStackTrace().toString(),null))
+                })
+        )
     }
 
-    fun getChatData() : MediatorLiveData<Resource<List<ChatItem>>> {
-        val result = MediatorLiveData<Resource<List<ChatItem>>>()
+    fun getChatData() : MutableLiveData<Resource<List<ChatItem>>> {
+//        val result = MediatorLiveData<Resource<List<ChatItem>>>()
+//
+//        val filterF = {
+//            val queryStr = query.value!!
+//            val chats = chats.value
+//
+//            result.value = if(queryStr.isEmpty()) chats
+//            else Resource.success(chats!!.data!!.filter { it.title.contains(queryStr,true) })
+//        }
+//
+//        result.addSource(chats){filterF.invoke()}
+//        result.addSource(query){filterF.invoke()}
+//
+//        return result
 
-        val filterF = {
-            val queryStr = query.value!!
-            val chats = chats.value
 
-            result.value = if(queryStr.isEmpty()) chats
-            else Resource.success(chats!!.data!!.filter { it.title.contains(queryStr,true) })
-        }
 
-        result.addSource(chats){filterF.invoke()}
-        result.addSource(query){filterF.invoke()}
+        return chats
 
-        return result
     }
 
     fun addToArchive(chatId: String) {

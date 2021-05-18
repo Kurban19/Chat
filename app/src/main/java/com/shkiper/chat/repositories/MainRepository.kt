@@ -7,7 +7,6 @@ import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
 import io.reactivex.Observable
-import io.reactivex.Single
 import javax.inject.Singleton
 
 @Singleton
@@ -18,11 +17,14 @@ class MainRepository(private val fireBaseService: FireBaseService) {
 
     init {
         fireBaseService.getEngagedChats(this::setChats)
-        fireBaseService.getUsers(this::setUsers)
     }
 
     fun getUsers(): Observable<List<User>> {
-        return fireBaseService.getUsersRx()
+        return fireBaseService.getUsers()
+    }
+
+    fun getEngagedChats(): Observable<List<Chat>> {
+        return fireBaseService.getEngagedChatsRx()
     }
 
 
@@ -76,9 +78,6 @@ class MainRepository(private val fireBaseService: FireBaseService) {
         fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
-    private fun setUsers(listOfUsers: List<User>){
-        users.value = listOfUsers
-    }
 
     private fun setChats(listOfChats: List<Chat>){
         chats.value = listOfChats
@@ -87,6 +86,5 @@ class MainRepository(private val fireBaseService: FireBaseService) {
 
     fun updateData() {
         fireBaseService.getEngagedChats(this::setChats)
-        fireBaseService.getUsers(this::setUsers)
     }
 }

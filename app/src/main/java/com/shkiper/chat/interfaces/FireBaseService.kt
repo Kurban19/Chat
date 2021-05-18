@@ -8,11 +8,11 @@ import io.reactivex.Observable
 
 interface FireBaseService {
 
-    fun getUsers(onListen: (List<User>) -> Unit)
-
-    fun getUsersRx(): Observable<List<User>>
+    fun getUsers(): Observable<List<User>>
 
     fun getEngagedChats(onListen: (List<Chat>) -> Unit)
+
+    fun getEngagedChatsRx(): Observable<List<Chat>>
 
     fun getOrCreateChat(otherUser: User)
 
