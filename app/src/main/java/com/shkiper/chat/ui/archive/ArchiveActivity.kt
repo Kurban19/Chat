@@ -81,7 +81,7 @@ class ArchiveActivity : AppCompatActivity() {
 
 
     private fun initViewModel() {
-        viewModel.getChats().observe(this, Observer { archiveAdapter.updateData(it) })
+        viewModel.getChats().observe(this,  { archiveAdapter.updateData(it) })
     }
 
 }

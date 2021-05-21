@@ -22,6 +22,9 @@ class MainRepository(private val fireBaseService: FireBaseService) {
 
     fun getEngagedChats(): Observable<List<Chat>> {
         return fireBaseService.getEngagedChats()
+            .doOnNext {
+                chats.value = it
+            }
     }
 
 

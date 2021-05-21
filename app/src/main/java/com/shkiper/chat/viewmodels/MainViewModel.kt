@@ -23,7 +23,6 @@ class MainViewModel @Inject constructor(
     ): ViewModel() {
 
     private val query = mutableLiveData("")
-//    private val chats = MutableLiveData<Resource<List<ChatItem>>>(Resource.loading(null))
     private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
 
     private val disposable: CompositeDisposable = CompositeDisposable()
@@ -36,42 +35,21 @@ class MainViewModel @Inject constructor(
 
 
     private fun fetchChats(){
-        //        chats = Transformations.map(mainRepository.chats) { chats ->
-//            val archived = chats.filter { it.archived }
-//            if (archived.isEmpty()) {
-//                return@map Resource.success(chats.map { it.toChatItem() })
-//            } else {
-//                val listWithArchive = mutableListOf<ChatItem>()
-//                listWithArchive.add(0, makeArchiveItem(archived))
-//                listWithArchive.addAll((chats.filter { !it.archived }.map { it.toChatItem() }))
-//                return@map Resource.success(listWithArchive)
-//            }
-//        } as MutableLiveData<Resource<List<ChatItem>>>
-
-//        val chatData = mainRepository.chats
-//        val archived = chatData.value?.filter { it.archived } ?: emptyList()
-//        if(archived.isEmpty()){
-//            chats.postValue(Resource.success(chatData.value!!.map { it.toChatItem() }))
-//        }
-//        else{
-//            Log.d("MAView", chatData.toString())
-//            val listWithArchive = mutableListOf<ChatItem>()
-//            listWithArchive.add(0, makeArchiveItem(archived))
-//            listWithArchive.addAll((chatData.value!!.filter { !it.archived }.map { it.toChatItem() }))
-//            chats.postValue(Resource.success(listWithArchive))
-//        }
-
-
-
         chats.postValue(Resource.loading(null))
         disposable.add(
             mainRepository.getEngagedChats()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { listOfChats -> listOfChats.map { it.toChatItem() } }
-                .subscribe ({
-                    chats.postValue(Resource.success(it))
-                            },{
+                .subscribe ({ data ->
+                    val archived = data.filter { it.archived }
+                    if (archived.isEmpty()) {
+                        chats.postValue(Resource.success(data.map { chat ->  chat.toChatItem() }))
+                    } else {
+                         val listWithArchive = mutableListOf<ChatItem>()
+                        listWithArchive.add(0, makeArchiveItem(archived))
+                        listWithArchive.addAll((data.filter { !it.archived }.map { chat -> chat .toChatItem() }))
+                        chats.postValue(Resource.success(listWithArchive))
+            } },{
                     chats.postValue(Resource.error(it.printStackTrace().toString(),null))
                 })
         )

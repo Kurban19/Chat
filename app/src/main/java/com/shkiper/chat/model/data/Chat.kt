@@ -53,25 +53,27 @@ data class Chat(
                 id,
                 user.avatar,
                 Utils.toInitials(user.firstName, user.lastName),
-                "${user.firstName} ${user.lastName}",
+                title= "${user.firstName} ${user.lastName}",
                 lastMessageShort().first,
                 unreadMessageCount(),
-                lastMessageDate()?.shortFormat() ?: "",
-                user.isOnline
+                lastMessageDate = lastMessageDate()?.shortFormat() ?: "",
+                user.isOnline,
+                archived = archived
             )
         }
         else {
             ChatItem(
-                    id,
-                null,
-                    title[0].toString() ,
-                    title,
-                    lastMessageShort().first,
-                    unreadMessageCount(),
-                    lastMessageDate()?.shortFormat() ?: "",
-                false,
-                    ChatType.GROUP,
-                    lastMessageShort().second
+                id,
+                avatar = null,
+                title[0].toString() ,
+                title,
+                lastMessageShort().first,
+                unreadMessageCount(),
+                lastMessageDate = lastMessageDate()?.shortFormat() ?: "",
+                isOnline = false,
+                ChatType.GROUP,
+                lastMessageShort().second,
+                archived = archived
             )
         }
     }
