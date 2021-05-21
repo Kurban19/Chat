@@ -2,6 +2,7 @@ package com.shkiper.chat.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -139,7 +140,6 @@ class MainActivity : AppCompatActivity(){
                 Status.LOADING -> {
                     progress_bar.visible()
                     rv_chat_list.gone()
-                    showToast("Loading")
                 }
                 Status.ERROR -> {
                     progress_bar.gone()

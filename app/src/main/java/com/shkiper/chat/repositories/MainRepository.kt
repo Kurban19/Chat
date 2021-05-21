@@ -15,16 +15,13 @@ class MainRepository(private val fireBaseService: FireBaseService) {
     val chats = MutableLiveData<List<Chat>>(listOf())
     val users = MutableLiveData<List<User>>(listOf())
 
-    init {
-        fireBaseService.getEngagedChats(this::setChats)
-    }
 
     fun getUsers(): Observable<List<User>> {
         return fireBaseService.getUsers()
     }
 
     fun getEngagedChats(): Observable<List<Chat>> {
-        return fireBaseService.getEngagedChatsRx()
+        return fireBaseService.getEngagedChats()
     }
 
 
@@ -48,7 +45,6 @@ class MainRepository(private val fireBaseService: FireBaseService) {
 
     fun sendMessage(message: BaseMessage, chatId: String){
         fireBaseService.sendMessage(message, chatId)
-        updateData()
     }
 
 
@@ -70,7 +66,6 @@ class MainRepository(private val fireBaseService: FireBaseService) {
 //        copy[index] = chat
 //        chats.value = copy
         fireBaseService.updateChat(chat)
-        updateData()
     }
 
 
@@ -78,13 +73,4 @@ class MainRepository(private val fireBaseService: FireBaseService) {
         fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
-
-    private fun setChats(listOfChats: List<Chat>){
-        chats.value = listOfChats
-    }
-
-
-    fun updateData() {
-        fireBaseService.getEngagedChats(this::setChats)
-    }
 }

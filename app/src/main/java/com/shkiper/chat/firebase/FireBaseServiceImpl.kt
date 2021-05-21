@@ -1,5 +1,6 @@
 package com.shkiper.chat.firebase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,37 +34,19 @@ class FireBaseServiceImpl: FireBaseService{
     override fun getUsers(): Observable<List<User>>{
         return Observable.create { emitter ->
             val listOfUsers = mutableListOf<User>()
-            usersCollectionRef.get()
-                .addOnSuccessListener { documents ->
+            usersCollectionRef.get().addOnSuccessListener { documents ->
                     for (document in documents){
                         val user = document.toObject(User::class.java)
                         if (user.id != FirebaseAuth.getInstance().currentUser!!.uid) {
                             listOfUsers.add(user)
                         }
                     }
-                }.addOnSuccessListener {emitter.onNext(listOfUsers)}
+                }.addOnSuccessListener { emitter.onNext(listOfUsers) }
         }
     }
 
 
-    override fun getEngagedChats(onListen: (List<Chat>) -> Unit) {
-        currentUserDocRef.collection("engagedChats")
-                .get().addOnSuccessListener { documents ->
-                    val listOfChats = mutableListOf<Chat>()
-                    for (document in documents){
-                        chatsCollectionRef.document(document["chatId"] as String)
-                            .get().addOnSuccessListener {
-
-                                val chat = it.toChat()
-                                listOfChats.add(chat)
-
-                            }.addOnSuccessListener { onListen(listOfChats) }
-                    }
-                }
-    }
-
-    override fun getEngagedChatsRx(): Observable<List<Chat>> {
-
+    override fun getEngagedChats(): Observable<List<Chat>> {
         return Observable.create{ emitter ->
             val listOfChats = mutableListOf<Chat>()
             currentUserDocRef.collection("engagedChats")
@@ -71,15 +54,13 @@ class FireBaseServiceImpl: FireBaseService{
                     for (document in documents){
                         chatsCollectionRef.document(document["chatId"] as String)
                             .get().addOnSuccessListener {
-
                                 val chat = it.toChat()
                                 listOfChats.add(chat)
-                            }
+                            }.addOnSuccessListener { emitter.onNext(listOfChats) }
                     }
-                }.addOnSuccessListener {emitter.onNext(listOfChats)}
+                }
 
         }
-
     }
 
 

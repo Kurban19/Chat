@@ -1,13 +1,13 @@
 package com.shkiper.chat.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.ChatItem
 import com.shkiper.chat.model.data.ChatType
-import com.shkiper.chat.model.data.UserItem
 import com.shkiper.chat.repositories.MainRepository
 import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,37 +66,32 @@ class MainViewModel @Inject constructor(
         chats.postValue(Resource.loading(null))
         disposable.add(
             mainRepository.getEngagedChats()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { listOfChats -> listOfChats.map { it.toChatItem() } }
                 .subscribe ({
                     chats.postValue(Resource.success(it))
-                },{
+                            },{
                     chats.postValue(Resource.error(it.printStackTrace().toString(),null))
                 })
         )
     }
 
     fun getChatData() : MutableLiveData<Resource<List<ChatItem>>> {
-//        val result = MediatorLiveData<Resource<List<ChatItem>>>()
-//
-//        val filterF = {
-//            val queryStr = query.value!!
-//            val chats = chats.value
-//
-//            result.value = if(queryStr.isEmpty()) chats
-//            else Resource.success(chats!!.data!!.filter { it.title.contains(queryStr,true) })
-//        }
-//
-//        result.addSource(chats){filterF.invoke()}
-//        result.addSource(query){filterF.invoke()}
-//
-//        return result
+        val result = MediatorLiveData<Resource<List<ChatItem>>>()
 
+        val filterF = {
+            val queryStr = query.value!!
+            val chats = if (chats.value == null) Resource.loading(null) else chats.value
 
+            result.value = if(queryStr.isEmpty()) chats as Resource<List<ChatItem>>?
+            else Resource.success(chats?.data?.filter { it.title.contains(queryStr,true) })
+        }
 
-        return chats
+        result.addSource(chats){filterF.invoke()}
+        result.addSource(query){filterF.invoke()}
 
+        return result
     }
 
     fun addToArchive(chatId: String) {
@@ -136,5 +131,9 @@ class MainViewModel @Inject constructor(
         )
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
+    }
 
 }

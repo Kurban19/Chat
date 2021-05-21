@@ -1,6 +1,5 @@
 package com.shkiper.chat.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.model.data.UserItem
@@ -16,10 +15,10 @@ import javax.inject.Inject
 class UsersViewModel @Inject constructor(
         private val mainRepository: MainRepository
         ) : ViewModel() {
+
     private val query = mutableLiveData("")
     private val userItems by lazy { MutableLiveData<Resource<List<UserItem>>>() }
-//    private val selectedItems = Transformations.map(userItems){users -> users.data?.filter {it.isSelected}}
-    private val selectedItems = mutableLiveData(userItems.value!!.data!!.filter { it.isSelected })
+    private val selectedItems = Transformations.map(userItems){users -> users.data?.filter {it.isSelected}}
 
     private val disposable: CompositeDisposable = CompositeDisposable()
 
@@ -32,7 +31,7 @@ class UsersViewModel @Inject constructor(
         userItems.postValue(Resource.loading(null))
         disposable.add(
             mainRepository.getUsers()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { listOfUsers -> listOfUsers.map { it.toUserItem() } }
                 .subscribe ({
@@ -44,13 +43,11 @@ class UsersViewModel @Inject constructor(
     }
 
 
-
     fun getUsers(): MutableLiveData<Resource<List<UserItem>>> {
         val result = MediatorLiveData<Resource<List<UserItem>>>()
 
         val filterF = {
             val queryStr = query.value!!
-
             val users = if (userItems.value == null) Resource.loading(null) else userItems.value
 
             result.value = if(queryStr.isEmpty()) users as Resource<List<UserItem>>?
@@ -66,7 +63,7 @@ class UsersViewModel @Inject constructor(
     fun getSelectedData(): LiveData<List<UserItem>?> = selectedItems
 
     fun handleSelectedItem(userId: String){
-        userItems.value!!.data = userItems.value!!.data!!.map {
+        userItems.value?.data = userItems.value?.data!!.map {
             if(it.id == userId) it.copy(isSelected = !it.isSelected)
             else it
         }
@@ -86,12 +83,10 @@ class UsersViewModel @Inject constructor(
 
     fun handleCreatedChat() {
         mainRepository.createChat(mainRepository.findUser(selectedItems.value!!.first().id)!!)
-        mainRepository.updateData()
     }
 
     fun handleCreatedGroupChat(titleOfGroup: String){
         mainRepository.createGroupChat(mainRepository.findUsers(selectedItems.value!!.map { it.id }.toMutableList()), titleOfGroup)
-        mainRepository.updateData()
     }
 
     fun getSizeOfSelectedItems(): Int {
