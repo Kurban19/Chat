@@ -1,5 +1,7 @@
 package com.shkiper.chat.model.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
@@ -8,13 +10,16 @@ import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.util.Utils
 import java.util.*
 
+
+@Entity(tableName = "Chats")
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Chat(
-        val id: String = "",
-        var title: String = "",
-        val members: List<User> = listOf(),
-        var lastMessage: BaseMessage? = null,
-        var archived: Boolean = false){
+    @PrimaryKey
+    val id: String = "",
+    var title: String = "",
+    val members: List<User> = listOf(),
+    var lastMessage: BaseMessage? = null,
+    var archived: Boolean = false){
 
 
 //    private fun unreadableMessageCount(): Int = FireBaseUtils.getUnreadMessages(id)
