@@ -1,24 +1,23 @@
 package com.shkiper.chat.di.module
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.shkiper.chat.room.Database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RoomModule(private val application: Application) {
+class RoomModule {
 
-    @Singleton
     @Provides
-    fun providesRoomDatabase(): Database {
-        return Room.databaseBuilder(application, Database::class.java, "dataBase")
-            .build()
-    }
-
+    @Singleton
+    fun providesRoomDatabase(@ApplicationContext context: Context): Database
+            = Room.databaseBuilder(context, Database::class.java,"Database").build()
 }
