@@ -3,8 +3,10 @@ package com.shkiper.chat.model.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.shkiper.chat.extensions.humanizeDiff
 import com.shkiper.chat.util.Utils
+import com.shkiper.chat.util.converters.DateConverter
 import java.util.*
 
 @Entity(tableName = "Users")
@@ -14,6 +16,7 @@ data class User (
     var firstName:String = "",
     var lastName:String = "",
     var avatar:String? = null,
+    @TypeConverters(DateConverter::class)
     var lastVisit: Date? = null,
     var isOnline:Boolean = false,
     var email: String = ""

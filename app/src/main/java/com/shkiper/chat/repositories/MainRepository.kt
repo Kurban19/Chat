@@ -6,11 +6,12 @@ import com.shkiper.chat.interfaces.FireBaseService
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
+import com.shkiper.chat.room.Database
 import io.reactivex.Observable
 import javax.inject.Singleton
 
 @Singleton
-class MainRepository(private val fireBaseService: FireBaseService) {
+class MainRepository(private val fireBaseService: FireBaseService, private val database: Database) {
 
     val chats = MutableLiveData<List<Chat>>(listOf())
     val users = MutableLiveData<List<User>>(listOf())

@@ -2,12 +2,14 @@ package com.shkiper.chat.model.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.model.BaseMessage
 import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.util.Utils
+import com.shkiper.chat.util.converters.MembersConverter
 import java.util.*
 
 
@@ -17,6 +19,7 @@ data class Chat(
     @PrimaryKey
     val id: String = "",
     var title: String = "",
+    @TypeConverters(MembersConverter::class)
     val members: List<User> = listOf(),
     var lastMessage: BaseMessage? = null,
     var archived: Boolean = false){
