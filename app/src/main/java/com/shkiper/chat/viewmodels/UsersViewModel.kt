@@ -82,7 +82,7 @@ class UsersViewModel @Inject constructor(
 
 
     fun handleCreatedChat() {
-        mainRepository.createChat(mainRepository.findUser(selectedItems.value!!.first().id)!!)
+        mainRepository.createChat(mainRepository.findUserById(selectedItems.value!!.first().id)!!)
     }
 
     fun handleCreatedGroupChat(titleOfGroup: String){

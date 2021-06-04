@@ -79,7 +79,7 @@ class ChatActivity : AppCompatActivity() {
 
         if(chat.isSingle()){
             chat.members.find { it.id != FirebaseAuth.getInstance().currentUser!!.uid }?.apply {
-                tv_last_activity.text = viewModel.findUser(this.id)?.toUserItem()?.lastActivity
+                tv_last_activity.text = viewModel.findUserById(this.id).toUserItem().lastActivity
             }
         } else{
             var concatenatedString = ""

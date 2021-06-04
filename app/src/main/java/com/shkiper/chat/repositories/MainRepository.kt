@@ -38,13 +38,14 @@ class MainRepository(private val fireBaseService: FireBaseService, private val d
         fireBaseService.getOrCreateChat(user)
     }
 
-    fun findUser(userId: String?): User?{
-        users.value!!.forEach {
-            if(userId == it.id){
-                return it
-            }
-        }
-        return null
+    fun findUserById(userId: String): User{
+//        users.value!!.forEach {
+//            if(userId == it.id){
+//                return it
+//            }
+//        }
+//        return null
+        return users.value!!.find { it.id == userId }!!
     }
 
     fun sendMessage(message: BaseMessage, chatId: String){
@@ -52,7 +53,7 @@ class MainRepository(private val fireBaseService: FireBaseService, private val d
     }
 
 
-    fun findChat(chatId: String): Chat {
+    fun findChatById(chatId: String): Chat {
         val ind = chats.value!!.indexOfFirst { it.id == chatId}
         return chats.value!![ind]
     }

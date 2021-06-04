@@ -10,7 +10,6 @@ import com.shkiper.chat.model.data.Chat
 import com.shkiper.chat.model.data.User
 import org.json.JSONObject
 
-//I know it's shitty function, I hope no one sees that
 fun DocumentSnapshot.toChat(): Chat {
 
     val gson = GsonBuilder()
