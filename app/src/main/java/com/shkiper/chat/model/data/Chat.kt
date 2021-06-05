@@ -10,6 +10,7 @@ import com.shkiper.chat.model.ImageMessage
 import com.shkiper.chat.model.TextMessage
 import com.shkiper.chat.util.Utils
 import com.shkiper.chat.util.converters.MembersConverter
+import com.shkiper.chat.util.converters.MessageConverter
 import java.util.*
 
 
@@ -21,6 +22,7 @@ data class Chat(
     var title: String = "",
     @TypeConverters(MembersConverter::class)
     val members: List<User> = listOf(),
+    @TypeConverters(MessageConverter::class)
     var lastMessage: BaseMessage? = null,
     var archived: Boolean = false){
 

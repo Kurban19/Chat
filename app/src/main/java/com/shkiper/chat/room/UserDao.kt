@@ -12,7 +12,7 @@ import io.reactivex.Observable
 interface UserDao {
 
     @Query("SELECT * FROM Users")
-    fun getUsers(): Observable<List<Chat>>
+    fun getUsers(): Observable<List<User>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: User)
