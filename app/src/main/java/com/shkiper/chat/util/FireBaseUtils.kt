@@ -3,7 +3,7 @@ package com.shkiper.chat.util
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.shkiper.chat.model.data.User
+import com.shkiper.chat.domain.entities.data.User
 import java.util.*
 
 object FireBaseUtils {

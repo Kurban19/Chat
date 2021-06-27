@@ -4,10 +4,10 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
-import com.shkiper.chat.model.ImageMessage
-import com.shkiper.chat.model.TextMessage
-import com.shkiper.chat.model.data.Chat
-import com.shkiper.chat.model.data.User
+import com.shkiper.chat.domain.entities.ImageMessage
+import com.shkiper.chat.domain.entities.TextMessage
+import com.shkiper.chat.domain.entities.data.Chat
+import com.shkiper.chat.domain.entities.data.User
 import org.json.JSONObject
 
 fun DocumentSnapshot.toChat(): Chat {

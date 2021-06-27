@@ -3,10 +3,9 @@ package com.shkiper.chat.util.converters
 import androidx.room.TypeConverter
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import com.shkiper.chat.model.BaseMessage
-import com.shkiper.chat.model.ImageMessage
-import com.shkiper.chat.model.TextMessage
-import com.shkiper.chat.model.data.User
+import com.shkiper.chat.domain.entities.BaseMessage
+import com.shkiper.chat.domain.entities.ImageMessage
+import com.shkiper.chat.domain.entities.TextMessage
 import org.json.JSONObject
 
 class MessageConverter {

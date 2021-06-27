@@ -1,9 +1,8 @@
 package com.shkiper.chat.di.module
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.shkiper.chat.room.Database
+import com.shkiper.chat.data.local.Database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

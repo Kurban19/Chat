@@ -1,9 +1,9 @@
 package com.shkiper.chat.di.module
 
-import com.shkiper.chat.firebase.FireBaseServiceImpl
-import com.shkiper.chat.interfaces.FireBaseService
-import com.shkiper.chat.repositories.MainRepository
-import com.shkiper.chat.room.Database
+import com.shkiper.chat.data.remote.FireBaseServiceImpl
+import com.shkiper.chat.data.remote.FireBaseService
+import com.shkiper.chat.data.repository.RepositoryImpl
+import com.shkiper.chat.data.local.Database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,8 +21,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesMainRepository(firebaseService: FireBaseService, database: Database): MainRepository {
-        return MainRepository(firebaseService, database)
+    fun providesMainRepository(firebaseService: FireBaseService, database: Database): RepositoryImpl {
+        return RepositoryImpl(firebaseService, database)
     }
 
 
