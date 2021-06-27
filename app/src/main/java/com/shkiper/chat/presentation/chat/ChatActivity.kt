@@ -14,7 +14,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.activity_chat.*
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.toUser
-import com.shkiper.chat.glide.GlideApp
+import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage

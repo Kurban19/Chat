@@ -1,4 +1,4 @@
-package com.shkiper.chat.glide
+package com.shkiper.chat.presentation.glide
 
 import android.content.Context
 import com.bumptech.glide.Glide

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.showToast
-import com.shkiper.chat.glide.GlideApp
+import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.presentation.login.LoginActivity
 import com.shkiper.chat.util.FireBaseUtils
 import com.shkiper.chat.util.StorageUtils

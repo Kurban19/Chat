@@ -12,7 +12,7 @@ import com.shkiper.chat.R
 import com.shkiper.chat.extensions.gone
 import com.shkiper.chat.extensions.shortFormat
 import com.shkiper.chat.extensions.visible
-import com.shkiper.chat.glide.GlideApp
+import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage
