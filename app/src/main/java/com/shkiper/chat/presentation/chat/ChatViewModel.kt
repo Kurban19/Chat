@@ -5,13 +5,13 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.data.Chat
 import com.shkiper.chat.domain.entities.data.User
-import com.shkiper.chat.data.repository.RepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import com.shkiper.chat.domain.repository.Repository
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-        private val repository: RepositoryImpl
+        private val repository: Repository
         ) : ViewModel(){
 
 

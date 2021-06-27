@@ -49,46 +49,41 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
 
 
 
-    fun findUserById(userId: String): User {
+    override fun findUserById(userId: String): User {
         return users.value!!.find { it.id == userId }!!
     }
 
 
-    fun findChatById(chatId: String): Chat {
+    override fun findChatById(chatId: String): Chat {
         val ind = chats.value!!.indexOfFirst { it.id == chatId}
         return chats.value!![ind]
     }
 
-    fun findUsers(ids: List<String>): MutableList<User> {
+    override fun findUsers(ids: List<String>): MutableList<User> {
         return users.value!!.filter { ids.contains(it.id) }.toMutableList()
     }
 
-    fun createChat(user: User){
+    override fun createChat(user: User){
         fireBaseService.getOrCreateChat(user)
     }
 
 
-    fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
+    override fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
         fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
 
-    fun updateChat(chat: Chat) {
-//        val copy = chats.value!!.toMutableList()
-//        val index = chats.value!!.indexOfFirst { it.id == chat.id }
-//        if (index == -1) return
-//        copy[index] = chat
-//        chats.value = copy
+    override fun updateChat(chat: Chat) {
         fireBaseService.updateChat(chat)
     }
 
 
-    fun sendMessage(message: BaseMessage, chatId: String){
+    override fun sendMessage(message: BaseMessage, chatId: String){
         fireBaseService.sendMessage(message, chatId)
     }
 
 
-    fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
+    override fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
         return fireBaseService.setChatMessagesListener(chatId, onListen)
     }
 }

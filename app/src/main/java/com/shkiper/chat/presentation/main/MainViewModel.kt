@@ -9,6 +9,7 @@ import com.shkiper.chat.domain.entities.data.Chat
 import com.shkiper.chat.domain.entities.data.ChatItem
 import com.shkiper.chat.domain.entities.data.ChatType
 import com.shkiper.chat.data.repository.RepositoryImpl
+import com.shkiper.chat.domain.interactors.ChatsInteractor
 import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: RepositoryImpl
+    private val chatsInteractor: ChatsInteractor
     ): ViewModel() {
 
     private val query = mutableLiveData("")
@@ -37,7 +38,7 @@ class MainViewModel @Inject constructor(
     private fun fetchChats(){
         chats.postValue(Resource.loading(null))
         disposable.add(
-            repository.getEngagedChats()
+            chatsInteractor.getChats()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ data ->
@@ -73,13 +74,13 @@ class MainViewModel @Inject constructor(
     }
 
     fun addToArchive(chatId: String) {
-        val chat = repository.findChatById(chatId)
-        repository.updateChat(chat.copy(archived = true))
+        val chat = chatsInteractor.findChatById(chatId)
+        chatsInteractor.updateChat(chat.copy(archived = true))
     }
 
     fun restoreFromArchive(chatId: String){
-        val chat = repository.findChatById(chatId)
-        repository.updateChat(chat.copy(archived = false))
+        val chat = chatsInteractor.findChatById(chatId)
+        chatsInteractor.updateChat(chat.copy(archived = false))
     }
 
     fun handleSearchQuery(text: String?) {

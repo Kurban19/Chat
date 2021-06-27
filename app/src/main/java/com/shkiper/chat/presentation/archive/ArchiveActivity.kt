@@ -10,12 +10,18 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.shkiper.chat.R
+import com.shkiper.chat.extensions.gone
+import com.shkiper.chat.extensions.showToast
+import com.shkiper.chat.extensions.visible
 import com.shkiper.chat.presentation.adapters.ArchiveAdapter
 import com.shkiper.chat.presentation.adapters.ArchiveItemTouchHelperCallback
 import com.shkiper.chat.presentation.chat.ChatActivity
 import com.shkiper.chat.presentation.main.MainActivity
+import com.shkiper.chat.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_archive.*
+import kotlinx.android.synthetic.main.activity_archive.toolbar_main
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 @AndroidEntryPoint
@@ -79,7 +85,19 @@ class ArchiveActivity : AppCompatActivity() {
 
 
     private fun initViewModel() {
-        viewModel.getChats().observe(this,  { archiveAdapter.updateData(it) })
+        viewModel.getChatData().observe(this, {
+            when(it.status){
+                Status.SUCCESS -> {
+                    archiveAdapter.updateData(it.data!!)
+                }
+                Status.LOADING -> {
+                    //TODO
+                }
+                Status.ERROR -> {
+                    showToast("Something went wrong")
+                }
+            }
+        })
     }
 
 }

@@ -1,35 +1,55 @@
 package com.shkiper.chat.presentation.archive
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.shkiper.chat.extensions.mutableLiveData
 import com.shkiper.chat.domain.entities.data.ChatItem
-import com.shkiper.chat.data.repository.RepositoryImpl
+import com.shkiper.chat.domain.interactors.ChatsInteractor
+import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ArchiveViewModel @Inject constructor(
-        private val repository: RepositoryImpl
+        private val interactor: ChatsInteractor
         ): ViewModel() {
     private val query = mutableLiveData("")
-    private val chats = Transformations.map(repository.chats) { chats ->
-        return@map chats.filter{it.archived}
-            .map { it.toChatItem() }
+    private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
+
+    init {
+        fetchChats()
     }
 
-    fun getChats() : LiveData<List<ChatItem>>{
-        val result = MediatorLiveData<List<ChatItem>>()
+
+    private fun fetchChats(){
+        chats.postValue(Resource.loading(null))
+        disposable.add(
+            interactor.getChats()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({ data ->
+                    chats.postValue(Resource.success(data.filter{it.archived}.map { chat ->  chat.toChatItem() }))},
+                    {
+                    chats.postValue(Resource.error(it.printStackTrace().toString(),null))
+                })
+        )
+    }
+
+    fun getChatData() : MutableLiveData<Resource<List<ChatItem>>> {
+        val result = MediatorLiveData<Resource<List<ChatItem>>>()
 
         val filterF = {
             val queryStr = query.value!!
-            val users = chats.value!!
+            val chats = if (chats.value == null) Resource.loading(null) else chats.value
 
-            result.value = if(queryStr.isEmpty()) users
-            else users.filter { it.title.contains(queryStr,true) }
+            result.value = if(queryStr.isEmpty()) chats as Resource<List<ChatItem>>?
+            else Resource.success(chats?.data?.filter { it.title.contains(queryStr,true) })
         }
 
         result.addSource(chats){filterF.invoke()}
@@ -39,13 +59,13 @@ class ArchiveViewModel @Inject constructor(
     }
 
     fun addToArchive(chatId: String) {
-        val chat = repository.findChatById(chatId)
-        repository.updateChat(chat.copy(archived = true))
+        val chat = interactor.findChatById(chatId)
+        interactor.updateChat(chat.copy(archived = true))
     }
 
     fun restoreFromArchive(chatId: String){
-        val chat = repository.findChatById(chatId)
-        repository.updateChat(chat.copy(archived = false))
+        val chat = interactor.findChatById(chatId)
+        interactor.updateChat(chat.copy(archived = false))
     }
 
 }
