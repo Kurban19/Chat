@@ -11,7 +11,6 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.shkiper.chat.R
 
-
 class GetTitleOfGroupDialog : DialogFragment() {
 
     private var editTextTitleGroup: EditText? = null

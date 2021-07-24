@@ -7,16 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_chat_group.*
-import kotlinx.android.synthetic.main.item_chat_group.tv_title_group
-import kotlinx.android.synthetic.main.item_chat_single.*
 import com.shkiper.chat.R
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.data.ChatItem
 import com.shkiper.chat.domain.entities.data.ChatType
 import com.shkiper.chat.util.StorageUtils
-import kotlinx.android.synthetic.main.item_chat_archive.*
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object{

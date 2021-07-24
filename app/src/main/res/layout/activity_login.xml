@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_sign_up"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -19,7 +19,6 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <Button
         android:id="@+id/btn_sigh_up"
@@ -29,7 +28,5 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_up_btn"
         />
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

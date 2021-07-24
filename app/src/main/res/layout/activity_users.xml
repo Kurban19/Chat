@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_main"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:popupTheme="@style/AppTheme.PopupOverlay"/>
@@ -49,7 +49,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/progress_bar_users"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

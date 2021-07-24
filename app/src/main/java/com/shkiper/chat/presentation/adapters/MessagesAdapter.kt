@@ -9,17 +9,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.R
-import com.shkiper.chat.extensions.gone
-import com.shkiper.chat.extensions.shortFormat
-import com.shkiper.chat.extensions.visible
-import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage
+import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.util.StorageUtils
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_group_message.*
-import kotlinx.android.synthetic.main.item_message.*
 
 class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>()  {
 

@@ -5,8 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_user_list.*
 import com.shkiper.chat.R
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.data.UserItem

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ActivityMainBinding
 import com.shkiper.chat.extensions.gone
 import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.extensions.visible
@@ -24,24 +25,26 @@ import com.shkiper.chat.presentation.profile.ProfileActivity
 import com.shkiper.chat.presentation.users.UsersActivity
 import com.shkiper.chat.util.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var chatAdapter: ChatAdapter
+
     private val viewModel: MainViewModel by viewModels()
 
-    companion object{
+    private lateinit var binding: ActivityMainBinding
+
+    companion object {
         const val CHAT_ID = "chat_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         initToolbar()
         initViews()
@@ -104,8 +107,12 @@ class MainActivity : AppCompatActivity(){
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
             val id = it.id
             viewModel.addToArchive(it.id)
-            val snackBar: Snackbar = Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG)
-            snackBar.setAction("Отмена"){
+            val snackBar: Snackbar = Snackbar.make(
+                binding.rvChatList,
+                "Вы точно хотите добавить ${it.title} в архив?",
+                Snackbar.LENGTH_LONG
+            )
+            snackBar.setAction("Отмена") {
                 viewModel.restoreFromArchive(id)
             }
             snackBar.show()
@@ -113,14 +120,14 @@ class MainActivity : AppCompatActivity(){
 
 
         val touchHelper = ItemTouchHelper(touchCallback)
-        touchHelper.attachToRecyclerView(rv_chat_list)
+        touchHelper.attachToRecyclerView(binding.rvChatList)
 
-        with(rv_chat_list){
+        with(binding.rvChatList) {
             adapter = chatAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(divider)
         }
-        fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             val intent = Intent(this, UsersActivity::class.java)
             startActivity(intent)
         }
@@ -131,16 +138,16 @@ class MainActivity : AppCompatActivity(){
         viewModel.getChatData().observe(this, {
             when(it.status){
                 Status.SUCCESS -> {
-                    progress_bar.gone()
-                    rv_chat_list.visible()
+                    binding.progressBar.gone()
+                    binding.rvChatList.visible()
                     chatAdapter.updateData(it.data!!)
                 }
                 Status.LOADING -> {
-                    progress_bar.visible()
-                    rv_chat_list.gone()
+                    binding.progressBar.visible()
+                    binding.rvChatList.gone()
                 }
                 Status.ERROR -> {
-                    progress_bar.gone()
+                    binding.progressBar.gone()
                     showToast("Something went wrong")
                 }
             }
@@ -149,8 +156,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar_main)
+        setSupportActionBar(binding.toolbar)
     }
-
 
 }

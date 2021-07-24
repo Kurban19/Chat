@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
-import kotlinx.android.synthetic.main.activity_login.*
 import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ActivityLoginBinding
 import com.shkiper.chat.presentation.main.MainActivity
 import com.shkiper.chat.util.FireBaseUtils
 
@@ -17,30 +17,35 @@ class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 0
 
     private val signInProviders =
-            listOf(AuthUI.IdpConfig.EmailBuilder()
-                    .setAllowNewAccounts(true)
-                    .setRequireName(true)
-                    .build())
+        listOf(
+            AuthUI.IdpConfig.EmailBuilder()
+                .setAllowNewAccounts(true)
+                .setRequireName(true)
+                .build()
+        )
+
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         initToolbar()
 
-        btn_sigh_up.setOnClickListener{
+        binding.btnSighUp.setOnClickListener {
             val intent = AuthUI.getInstance().createSignInIntentBuilder()
-                    .setAvailableProviders(signInProviders)
-                    .setLogo(R.mipmap.ic_launcher)
-                    .build()
-            startActivityForResult(intent,RC_SIGN_IN)
+                .setAvailableProviders(signInProviders)
+                .setLogo(R.mipmap.ic_launcher)
+                .build()
+            startActivityForResult(intent, RC_SIGN_IN)
         }
 
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar_sign_up)
+        setSupportActionBar(binding.toolbar)
     }
 
 

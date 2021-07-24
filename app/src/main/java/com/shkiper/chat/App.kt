@@ -13,12 +13,10 @@ import java.util.*
 @HiltAndroidApp
 class App: Application(), LifecycleObserver {
 
-
     override fun onCreate() {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
-
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun onAppForegrounded() {
@@ -34,4 +32,5 @@ class App: Application(), LifecycleObserver {
     private fun onAppDestroyed(){
         FireBaseUtils.updateCurrentUser(Date(), false)
     }
+
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ActivityUsersBinding
 import com.shkiper.chat.extensions.gone
 import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.extensions.visible
@@ -23,21 +24,22 @@ import com.shkiper.chat.presentation.adapters.UserAdapter
 import com.shkiper.chat.presentation.dialogs.GetTitleOfGroupDialog
 import com.shkiper.chat.util.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_users.*
-import kotlinx.android.synthetic.main.activity_users.fab
-import kotlinx.android.synthetic.main.activity_users.toolbar_main
 
 @AndroidEntryPoint
 class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogListener {
 
     private lateinit var usersAdapter: UserAdapter
+
     private val viewModel: UsersViewModel by viewModels()
+
+    private lateinit var binding: ActivityUsersBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        binding = ActivityUsersBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_users)
+
         initToolbar()
         initViews()
         setupObserver()
@@ -78,7 +80,7 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar_main)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -87,17 +89,16 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
             viewModel.handleSelectedItem(it.id)
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        with(rv_user_list){
+        with(binding.rvUserList) {
             adapter = usersAdapter
             layoutManager = LinearLayoutManager(this@UsersActivity)
             addItemDecoration(divider)
         }
 
-        fab.setOnClickListener{
-            if(viewModel.getSizeOfSelectedItems() > 1){
+        binding.fab.setOnClickListener {
+            if (viewModel.getSizeOfSelectedItems() > 1) {
                 openDialog()
-            }
-            else{
+            } else {
                 viewModel.handleCreatedChat()
                 finish()
             }
@@ -111,16 +112,16 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
         viewModel.getUsers().observe(this, {
             when(it.status){
                 Status.SUCCESS -> {
-                    progress_bar_users.gone()
-                    rv_user_list.visible()
+                    binding.progressBar.gone()
+                    binding.rvUserList.visible()
                     usersAdapter.updateData(it.data!!)
                 }
                 Status.LOADING -> {
-                    progress_bar_users.visible()
-                    rv_user_list.gone()
+                    binding.progressBar.visible()
+                    binding.rvUserList.gone()
                 }
                 Status.ERROR -> {
-                    progress_bar.gone()
+                    binding.progressBar.gone()
                     showToast("Something went wrong")
                 }
             }
@@ -138,8 +139,8 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
     }
 
     private fun toggleFab(isShow: Boolean) {
-        if(isShow) fab.show()
-        else fab.hide()
+        if (isShow) binding.fab.show()
+        else binding.fab.hide()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -155,18 +156,18 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
             setTextColor(Color.WHITE)
         }
         chip.setOnCloseIconClickListener { viewModel.handleRemoveChip(it.tag.toString()) }
-        chip_group.addView(chip)
+        binding.chipGroup.addView(chip)
     }
 
     private fun updateChips(listUsers: List<UserItem>){
-        chip_group.visibility = if(listUsers.isEmpty()) View.GONE else View.VISIBLE
+        binding.chipGroup.visibility = if (listUsers.isEmpty()) View.GONE else View.VISIBLE
         val users = listUsers.associateBy { user -> user.id }
             .toMutableMap()
 
-        val views = chip_group.children.associateBy { view -> view.tag }
+        val views = binding.chipGroup.children.associateBy { view -> view.tag }
 
         for((k, v) in views){
-            if(users.containsKey(k)) chip_group.removeView(v)
+            if (users.containsKey(k)) binding.chipGroup.removeView(v)
             else users.remove(k)
         }
         users.forEach{ (_, v) ->addChipToGroup(v)}

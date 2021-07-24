@@ -9,29 +9,33 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ActivityProfileBinding
 import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.presentation.login.LoginActivity
 import com.shkiper.chat.util.FireBaseUtils
 import com.shkiper.chat.util.StorageUtils
 import com.shkiper.chat.util.Utils
-import kotlinx.android.synthetic.main.activity_profile.*
 import java.io.ByteArrayOutputStream
 
 class ProfileActivity: AppCompatActivity() {
 
     private val RC_SELECT_IMAGE = 2
+
     private lateinit var selectedImageBytes: ByteArray
+
     private var pictureJustChanged = false
 
+    private lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        setContentView(binding.root)
+
         initToolbar()
         initViews()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -44,10 +48,9 @@ class ProfileActivity: AppCompatActivity() {
         }
     }
 
-
     private fun initViews(){
 
-        iv_profile_avatar.setOnClickListener {
+        binding.ivProfileAvatar.setOnClickListener {
             val intent = Intent().apply {
                 type = "image/*"
                 action = Intent.ACTION_GET_CONTENT
@@ -57,36 +60,37 @@ class ProfileActivity: AppCompatActivity() {
         }
 
 
-        btn_save.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             if (::selectedImageBytes.isInitialized)
                 StorageUtils.uploadProfilePhoto(selectedImageBytes) { imagePath ->
-                    FireBaseUtils.updateCurrentUser(editText_name.text.toString(),
-                            editText_surname.text.toString(), imagePath)
+                    FireBaseUtils.updateCurrentUser(
+                        binding.editTextName.text.toString(),
+                        binding.editTextSurname.text.toString(), imagePath
+                    )
                 }
             else
-                FireBaseUtils.updateCurrentUser(editText_name.text.toString(),
-                        editText_surname.text.toString(), null)
+                FireBaseUtils.updateCurrentUser(
+                    binding.editTextName.text.toString(),
+                    binding.editTextSurname.text.toString(), null
+                )
 
             showToast("Saving")
         }
 
-
-        btn_sign_out.setOnClickListener {
+        binding.btnSignOut.setOnClickListener {
             AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener {
-                        startActivity(Intent(this, LoginActivity::class.java))
-                    }
+                .signOut(this)
+                .addOnCompleteListener {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
         }
 
     }
 
-
     private fun initToolbar(){
-        setSupportActionBar(toolbar_profile)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -102,33 +106,29 @@ class ProfileActivity: AppCompatActivity() {
 
 
             GlideApp.with(this)
-                    .load(selectedImageBytes)
-                    .into(iv_profile_avatar)
+                .load(selectedImageBytes)
+                .into(binding.ivProfileAvatar)
 
             pictureJustChanged = true
         }
     }
 
-
-
     override fun onStart() {
         super.onStart()
         FireBaseUtils.getCurrentUser { user ->
-            editText_name.setText(user.firstName)
-            editText_surname.setText(user.lastName)
-                if (!pictureJustChanged && user.avatar != null) {
-                    GlideApp.with(this)
-                            .load(StorageUtils.pathToReference(user.avatar!!))
-                            .into(iv_profile_avatar)
-                }
-                else if(!pictureJustChanged){
-                    GlideApp.with(this)
-                            .clear(iv_profile_avatar)
-                    iv_profile_avatar.setInitials(Utils.toInitials(user.firstName, user.lastName))
-                }
+            binding.editTextName.setText(user.firstName)
+            binding.editTextSurname.setText(user.lastName)
+            if (!pictureJustChanged && user.avatar != null) {
+                GlideApp.with(this)
+                    .load(StorageUtils.pathToReference(user.avatar!!))
+                    .into(binding.ivProfileAvatar)
+            } else if (!pictureJustChanged) {
+                GlideApp.with(this)
+                    .clear(binding.ivProfileAvatar)
+                binding.ivProfileAvatar.setInitials(Utils.toInitials(user.firstName, user.lastName))
+            }
 
         }
     }
-
 
 }
