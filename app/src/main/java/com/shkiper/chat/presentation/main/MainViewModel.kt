@@ -1,5 +1,6 @@
 package com.shkiper.chat.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,23 +18,20 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val chatsInteractor: ChatsInteractor
     ): ViewModel() {
 
     private val query = mutableLiveData("")
+
     private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
 
     private val disposable: CompositeDisposable = CompositeDisposable()
 
-
-
     init {
         fetchChats()
     }
-
 
     private fun fetchChats(){
         chats.postValue(Resource.loading(null))
@@ -44,14 +42,18 @@ class MainViewModel @Inject constructor(
                 .subscribe ({ data ->
                     val archived = data.filter { it.archived }
                     if (archived.isEmpty()) {
-                        chats.postValue(Resource.success(data.map { chat ->  chat.toChatItem() }))
+                        chats.postValue(Resource.success(data.map { chat -> chat.toChatItem() }))
+                        Log.d("Kurban", chats.toString())
                     } else {
                          val listWithArchive = mutableListOf<ChatItem>()
                         listWithArchive.add(0, makeArchiveItem(archived))
                         listWithArchive.addAll((data.filter { !it.archived }.map { chat -> chat .toChatItem() }))
                         chats.postValue(Resource.success(listWithArchive))
+                        Log.d("Kurban", chats.toString())
             } },{
-                    chats.postValue(Resource.error(it.printStackTrace().toString(),null))
+                    chats.postValue(Resource.error(it.printStackTrace().toString(), null))
+                    Log.d("Kurban", it.toString())
+                    Log.d("Kurban", chats.toString())
                 })
         )
     }
@@ -60,7 +62,7 @@ class MainViewModel @Inject constructor(
         val result = MediatorLiveData<Resource<List<ChatItem>>>()
 
         val filterF = {
-            val queryStr = query.value!!
+            val queryStr = query.value.orEmpty()
             val chats = if (chats.value == null) Resource.loading(null) else chats.value
 
             result.value = if(queryStr.isEmpty()) chats as Resource<List<ChatItem>>?
@@ -86,7 +88,6 @@ class MainViewModel @Inject constructor(
     fun handleSearchQuery(text: String?) {
         query.value = text
     }
-
 
     private fun makeArchiveItem(archived: List<Chat>): ChatItem {
         val count = archived.fold(0) { acc, chat -> acc + chat.unreadMessageCount() }

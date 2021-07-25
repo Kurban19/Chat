@@ -18,18 +18,16 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
     val chats = MutableLiveData<List<Chat>>(listOf())
     val users = MutableLiveData<List<User>>(listOf())
 
-
     override fun getUsers(): Observable<List<User>> {
         return fireBaseService.getUsers()
     }
 
-
     override fun getEngagedChats(): Observable<List<Chat>> {
-        return Observable.concat(
-            getChatsFromDb(),
-            getChatsFromApi())
+//        return Observable.concat(
+//            getChatsFromDb(),
+//            getChatsFromApi())
+        return getChatsFromApi()
     }
-
 
     private fun getChatsFromDb(): Observable<List<Chat>> {
         return database.chatDao().getChats().filter { it.isNotEmpty() }
@@ -37,25 +35,21 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
 
     private fun getChatsFromApi(): Observable<List<Chat>> {
         return fireBaseService.getEngagedChats()
-            .doOnNext {
-                storeChatsInDb(it)
-            }
+//            .doOnNext {
+//                storeChatsInDb(it)
+//            }
     }
-
 
     private fun storeChatsInDb(chats: List<Chat>) {
         database.chatDao().insertAllChats(chats)
     }
 
-
-
     override fun findUserById(userId: String): User {
         return users.value!!.find { it.id == userId }!!
     }
 
-
     override fun findChatById(chatId: String): Chat {
-        val ind = chats.value!!.indexOfFirst { it.id == chatId}
+        val ind = chats.value?.indexOfFirst { it.id == chatId } ?: 0
         return chats.value!![ind]
     }
 
@@ -67,21 +61,17 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
         fireBaseService.getOrCreateChat(user)
     }
 
-
     override fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
         fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
-
 
     override fun updateChat(chat: Chat) {
         fireBaseService.updateChat(chat)
     }
 
-
     override fun sendMessage(message: BaseMessage, chatId: String){
         fireBaseService.sendMessage(message, chatId)
     }
-
 
     override fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
         return fireBaseService.setChatMessagesListener(chatId, onListen)
