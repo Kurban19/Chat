@@ -14,7 +14,6 @@
         android:layout_marginEnd="@dimen/spacing_normal_16"
         android:layout_alignParentStart="true"/>
 
-
     <TextView
         android:id="@+id/tv_title_archive"
         android:layout_width="match_parent"

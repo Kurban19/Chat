@@ -7,11 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.shkiper.chat.R
 import com.shkiper.chat.extensions.showToast
-import com.shkiper.chat.presentation.adapters.ArchiveAdapter
 import com.shkiper.chat.presentation.adapters.ArchiveItemTouchHelperCallback
 import com.shkiper.chat.presentation.chat.ChatActivity
 import com.shkiper.chat.presentation.main.MainActivity

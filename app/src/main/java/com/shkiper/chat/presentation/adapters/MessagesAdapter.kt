@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ItemGroupMessageBinding
+import com.shkiper.chat.databinding.ItemMessageBinding
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage
+import com.shkiper.chat.extensions.gone
 import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.extensions.visible
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.util.StorageUtils
 
@@ -28,15 +33,24 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
         true -> GROUP_TYPE
     }
 
-
     private var items: List<BaseMessage> = listOf()
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return when(viewType){
-            SINGLE_TYPE -> MessagesViewHolder(inflater.inflate(R.layout.item_message, parent, false))
-            else -> GroupMessagesViewHolder(inflater.inflate(R.layout.item_group_message, parent, false))
+        return when (viewType) {
+            SINGLE_TYPE -> MessagesViewHolder(
+                ItemMessageBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> GroupMessagesViewHolder(
+                ItemGroupMessageBinding.inflate(
+                    LayoutInflater.from(
+                        parent.context
+                    ), parent, false
+                )
+            )
         }
     }
 
@@ -63,97 +77,103 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
         diffResult.dispatchUpdatesTo(this)
     }
 
-    abstract inner class AbstractViewHolder(convertView: View) : RecyclerView.ViewHolder(convertView), LayoutContainer{
-        override val containerView: View?
-            get() = itemView
+    abstract inner class AbstractViewHolder(binding: ViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         abstract fun bind(item: BaseMessage, holder: AbstractViewHolder)
 
     }
 
-   inner class MessagesViewHolder(convertView: View) : AbstractViewHolder(convertView){
-
-        override val containerView: View
-            get() = itemView
-
-
-       override fun bind(item: BaseMessage, holder: AbstractViewHolder) {
-
-           if(item.from.id == FirebaseAuth.getInstance().currentUser!!.uid){
-               holder.message_root.apply {
-                   setBackgroundResource(R.drawable.rect_round_blue)
-                   val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.END)
-                   this!!.layoutParams = lParams
-               }
-           }
-           else {
-               holder.message_root.apply {
-                   setBackgroundResource(R.drawable.rect_round_primary_color)
-                   val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.START)
-                   this!!.layoutParams = lParams
-               }
-           }
-
-           if(item is TextMessage){
-               tv_message_text.visible()
-               iv_message_image.gone()
-               tv_message_text.text = item.text
-           }
-           else if(item is ImageMessage){
-               tv_message_text.gone()
-               iv_message_image.visible()
-               GlideApp.with(itemView)
-                       .load(StorageUtils.pathToReference(item.image))
-                       .into(iv_message_image)
-           }
-
-           tv_message_time.text = item.date.shortFormat()
-       }
-   }
-
-
-    inner class GroupMessagesViewHolder(convertView: View) : AbstractViewHolder(convertView) {
-
-        override val containerView: View
-            get() = itemView
-
+    inner class MessagesViewHolder(private val binding: ItemMessageBinding) :
+        AbstractViewHolder(binding) {
 
         override fun bind(item: BaseMessage, holder: AbstractViewHolder) {
 
-            if(item.from.id == FirebaseAuth.getInstance().currentUser!!.uid){
-                holder.group_message_root.apply {
+            if (item.from.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
+                binding.messageRoot.apply {
                     setBackgroundResource(R.drawable.rect_round_blue)
-                    val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.END)
-                    this!!.layoutParams = lParams
-                    tv_group_message_author.visibility = View.GONE
+                    val lParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.END
+                    )
+                    this.layoutParams = lParams
                 }
-            }
-            else {
-                holder.group_message_root.apply {
+            } else {
+                holder.itemView.findViewById<View>(R.id.message_root).apply {
                     setBackgroundResource(R.drawable.rect_round_primary_color)
-                    val lParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.START)
+                    val lParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.START
+                    )
                     this!!.layoutParams = lParams
-                    tv_group_message_author.apply {
+                }
+           }
+
+           if(item is TextMessage) {
+               binding.tvMessageText.visible()
+               binding.ivMessageImage.gone()
+               binding.tvMessageText.text = item.text
+           }
+           else if(item is ImageMessage) {
+               binding.tvMessageText.gone()
+               binding.ivMessageImage.visible()
+               GlideApp.with(itemView)
+                   .load(StorageUtils.pathToReference(item.image))
+                   .into(binding.ivMessageImage)
+           }
+
+            binding.tvMessageTime.text = item.date.shortFormat()
+       }
+   }
+
+    inner class GroupMessagesViewHolder(private val binding: ItemGroupMessageBinding) :
+        AbstractViewHolder(binding) {
+
+        override fun bind(item: BaseMessage, holder: AbstractViewHolder) {
+
+            if (item.from.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
+                binding.groupMessageRoot.apply {
+                    setBackgroundResource(R.drawable.rect_round_blue)
+                    val lParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.END
+                    )
+                    this.layoutParams = lParams
+                    binding.tvGroupMessageAuthor.visibility = View.GONE
+                }
+            } else {
+                binding.groupMessageRoot.apply {
+                    setBackgroundResource(R.drawable.rect_round_primary_color)
+                    val lParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.START
+                    )
+                    this.layoutParams = lParams
+                    binding.tvGroupMessageAuthor.apply {
                         visibility = View.VISIBLE
                         text = item.from.firstName
                     }
                 }
             }
 
-            if(item is TextMessage){
-                tv_group_message_text.visible()
-                iv_group_message_image.gone()
-                tv_group_message_text.text = item.text
+            if(item is TextMessage) {
+                binding.tvGroupMessageText.visible()
+                binding.ivGroupMessageImage.gone()
+                binding.tvGroupMessageText.text = item.text
             }
-            else if(item is ImageMessage){
-                tv_group_message_text.gone()
-                iv_group_message_image.visible()
+            else if(item is ImageMessage) {
+                binding.tvGroupMessageText.gone()
+                binding.ivGroupMessageImage.visible()
                 GlideApp.with(itemView)
                     .load(StorageUtils.pathToReference(item.image))
-                    .into(iv_message_image)
+                    .into(binding.ivGroupMessageImage)
             }
 
-            tv_group_message_time.text = item.date.shortFormat()
+            binding.tvGroupMessageTime.text = item.date.shortFormat()
         }
     }
 

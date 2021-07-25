@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ItemUserListBinding
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.data.UserItem
 import com.shkiper.chat.util.StorageUtils
@@ -14,9 +14,9 @@ class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAd
     private var items: List<UserItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.UserViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val convertView = inflater.inflate(R.layout.item_user_list, parent, false)
-        return UserViewHolder(convertView)
+        val binding =
+            ItemUserListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return UserViewHolder(binding)
     }
 
     override fun getItemCount(): Int = items.size
@@ -41,27 +41,26 @@ class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAd
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class UserViewHolder(convertView: View) : RecyclerView.ViewHolder(convertView),
-        LayoutContainer {
-        override val containerView: View
-            get() = itemView
+    inner class UserViewHolder(val binding: ItemUserListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: UserItem, listener: (UserItem) -> Unit) {
             if (user.avatar != null) {
                 GlideApp.with(itemView)
                     .load(StorageUtils.pathToReference(user.avatar))
-                    .into(iv_avatar_user)
+                    .into(binding.ivAvatarUser)
             } else {
-                GlideApp.with(itemView).clear(iv_avatar_user)
-                iv_avatar_user.setInitials(user.initials)
+                GlideApp.with(itemView).clear(binding.ivAvatarUser)
+                binding.ivAvatarUser.setInitials(user.initials)
             }
-            sv_indicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE
-            tv_user_name.text = user.fullName
-            tv_last_activity.text = user.lastActivity
-            iv_selected.visibility = if (user.isSelected) View.VISIBLE else View.GONE
+            binding.svIndicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE
+            binding.tvUserName.text = user.fullName
+            binding.tvLastActivity.text = user.lastActivity
+            binding.ivSelected.visibility = if (user.isSelected) View.VISIBLE else View.GONE
             itemView.setOnClickListener { listener.invoke(user) }
         }
     }
+
 }
 
 
