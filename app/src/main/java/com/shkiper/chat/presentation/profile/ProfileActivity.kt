@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
-import com.shkiper.chat.R
 import com.shkiper.chat.databinding.ActivityProfileBinding
 import com.shkiper.chat.extensions.showToast
 import com.shkiper.chat.presentation.glide.GlideApp
@@ -29,7 +28,6 @@ class ProfileActivity: AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -120,7 +118,7 @@ class ProfileActivity: AppCompatActivity() {
             binding.editTextSurname.setText(user.lastName)
             if (!pictureJustChanged && user.avatar != null) {
                 GlideApp.with(this)
-                    .load(StorageUtils.pathToReference(user.avatar!!))
+                    .load(StorageUtils.pathToReference(user.avatar.orEmpty()))
                     .into(binding.ivProfileAvatar)
             } else if (!pictureJustChanged) {
                 GlideApp.with(this)

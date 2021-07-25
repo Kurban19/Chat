@@ -64,19 +64,22 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-database:20.0.1'
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-core:19.0.0'
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.google.firebase:firebase-firestore:23.0.3'
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 
     //Firebase Storage
     implementation platform('com.google.firebase:firebase-bom:27.1.0')
     implementation 'com.google.firebase:firebase-storage-ktx'
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.35.1'
-    implementation 'com.google.dagger:dagger-android-support:2.35.1'
-    kapt 'com.google.dagger:dagger-android-processor:2.35.1'
-    kapt 'com.google.dagger:dagger-compiler:2.35.1'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

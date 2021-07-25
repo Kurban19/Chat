@@ -44,7 +44,6 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         super.onCreate(savedInstanceState)

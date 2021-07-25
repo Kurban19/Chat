@@ -7,36 +7,39 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.shkiper.chat.R
+import com.shkiper.chat.databinding.ActivityArchiveBinding
 import com.shkiper.chat.extensions.showToast
-import com.shkiper.chat.presentation.adapters.ArchiveItemTouchHelperCallback
+import com.shkiper.chat.presentation.adapters.ChatAdapter
+import com.shkiper.chat.presentation.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.presentation.chat.ChatActivity
 import com.shkiper.chat.presentation.main.MainActivity
 import com.shkiper.chat.util.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_archive.*
-import kotlinx.android.synthetic.main.activity_archive.toolbar
-import kotlinx.android.synthetic.main.activity_main.*
-
 
 @AndroidEntryPoint
 class ArchiveActivity : AppCompatActivity() {
 
-    private lateinit var archiveAdapter: ArchiveAdapter
+    private lateinit var chatAdapter: ChatAdapter
+
     private val viewModel: ArchiveViewModel by viewModels()
 
+    private lateinit var binding: ActivityArchiveBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+        binding = ActivityArchiveBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_archive)
+
         initToolbar()
         initViews()
         initViewModel()
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.title_archive)
     }
@@ -53,38 +56,41 @@ class ArchiveActivity : AppCompatActivity() {
 
     private fun initViews(){
 
-        archiveAdapter = ArchiveAdapter{
+        chatAdapter = ChatAdapter {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(MainActivity.CHAT_ID, it.id)
             startActivity(intent)
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        val touchCallback = ArchiveItemTouchHelperCallback(archiveAdapter){
+        val touchCallback = ChatItemTouchHelperCallback(chatAdapter) {
             val id = it.id
             viewModel.restoreFromArchive(it.id)
-            val snackBar: Snackbar = Snackbar.make(rv_archive_list, "${it.title} был восстановлен", Snackbar.LENGTH_LONG)
-            snackBar.setAction("Undo"){
+            val snackBar: Snackbar = Snackbar.make(
+                binding.rvArchiveList,
+                "${it.title} был восстановлен",
+                Snackbar.LENGTH_LONG
+            )
+            snackBar.setAction("Undo") {
                 viewModel.addToArchive(id)
             }
             snackBar.show()
         }
 
         val touchHelper = ItemTouchHelper(touchCallback)
-        touchHelper.attachToRecyclerView(rv_archive_list)
+        touchHelper.attachToRecyclerView(binding.rvArchiveList)
 
-        with(rv_archive_list){
-            adapter = archiveAdapter
+        with(binding.rvArchiveList) {
+            adapter = chatAdapter
             layoutManager = LinearLayoutManager(this@ArchiveActivity)
             addItemDecoration(divider)
         }
     }
 
-
     private fun initViewModel() {
         viewModel.getChatData().observe(this, {
             when(it.status){
                 Status.SUCCESS -> {
-                    archiveAdapter.updateData(it.data!!)
+                    chatAdapter.updateData(it.data.orEmpty())
                 }
                 Status.LOADING -> {
                     //TODO
