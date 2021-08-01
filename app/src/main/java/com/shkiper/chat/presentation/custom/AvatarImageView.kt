@@ -83,7 +83,6 @@ class AvatarImageView @JvmOverloads constructor(
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        Log.d("AvatarImageView", "onMeasure")
         val initSize = resolveDefaultSize(widthMeasureSpec)
         val maxSize = max(initSize, size)
         setMeasuredDimension(maxSize, maxSize)

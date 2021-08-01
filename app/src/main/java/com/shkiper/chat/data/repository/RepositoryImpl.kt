@@ -20,6 +20,9 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
 
     override fun getUsers(): Observable<List<User>> {
         return fireBaseService.getUsers()
+            .doOnNext {
+                users.value = it
+            }
     }
 
     override fun getEngagedChats(): Observable<List<Chat>> {
@@ -35,9 +38,10 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
 
     private fun getChatsFromApi(): Observable<List<Chat>> {
         return fireBaseService.getEngagedChats()
-//            .doOnNext {
-//                storeChatsInDb(it)
-//            }
+            .doOnNext() {
+                storeChatsInDb(it)
+                chats.value = it
+            }
     }
 
     private fun storeChatsInDb(chats: List<Chat>) {

@@ -42,17 +42,13 @@ class MainViewModel @Inject constructor(
                     val archived = data.filter { it.archived }
                     if (archived.isEmpty()) {
                         chats.postValue(Resource.success(data.map { chat -> chat.toChatItem() }))
-                        Log.d("Kurban", chats.toString())
                     } else {
                          val listWithArchive = mutableListOf<ChatItem>()
                         listWithArchive.add(0, makeArchiveItem(archived))
                         listWithArchive.addAll((data.filter { !it.archived }.map { chat -> chat .toChatItem() }))
                         chats.postValue(Resource.success(listWithArchive))
-                        Log.d("Kurban", chats.toString())
             } },{
                     chats.postValue(Resource.error(it.printStackTrace().toString(), null))
-                    Log.d("Kurban", it.toString())
-                    Log.d("Kurban", chats.toString())
                 })
         )
     }
