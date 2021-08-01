@@ -1,4 +1,4 @@
-package com.shkiper.chat.extensions
+package com.shkiper.chat.util.extensions
 
 import android.content.Context
 

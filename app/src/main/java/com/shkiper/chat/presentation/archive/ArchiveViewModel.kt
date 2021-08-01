@@ -1,7 +1,7 @@
 package com.shkiper.chat.presentation.archive
 
 import androidx.lifecycle.*
-import com.shkiper.chat.extensions.mutableLiveData
+import com.shkiper.chat.util.extensions.mutableLiveData
 import com.shkiper.chat.domain.entities.data.ChatItem
 import com.shkiper.chat.domain.interactors.ChatsInteractor
 import com.shkiper.chat.util.Resource

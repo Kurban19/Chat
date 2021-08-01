@@ -18,7 +18,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.shkiper.chat.R
-import com.shkiper.chat.extensions.dpToPx
+import com.shkiper.chat.util.extensions.dpToPx
 import kotlin.math.max
 
 class AvatarImageView @JvmOverloads constructor(

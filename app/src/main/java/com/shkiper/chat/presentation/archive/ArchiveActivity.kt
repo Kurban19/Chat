@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.shkiper.chat.R
 import com.shkiper.chat.databinding.ActivityArchiveBinding
-import com.shkiper.chat.extensions.showToast
+import com.shkiper.chat.util.extensions.showToast
 import com.shkiper.chat.presentation.adapters.ChatAdapter
 import com.shkiper.chat.presentation.adapters.ChatItemTouchHelperCallback
 import com.shkiper.chat.presentation.chat.ChatActivity

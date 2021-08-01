@@ -1,7 +1,7 @@
 package com.shkiper.chat.domain.entities
 
 
-import com.shkiper.chat.extensions.humanizeDiff
+import com.shkiper.chat.util.extensions.humanizeDiff
 import com.shkiper.chat.domain.entities.data.User
 import java.util.*
 

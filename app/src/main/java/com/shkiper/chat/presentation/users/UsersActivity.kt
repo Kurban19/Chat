@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.shkiper.chat.R
 import com.shkiper.chat.databinding.ActivityUsersBinding
-import com.shkiper.chat.extensions.gone
-import com.shkiper.chat.extensions.showToast
-import com.shkiper.chat.extensions.visible
+import com.shkiper.chat.util.extensions.gone
+import com.shkiper.chat.util.extensions.showToast
+import com.shkiper.chat.util.extensions.visible
 import com.shkiper.chat.domain.entities.data.UserItem
 import com.shkiper.chat.presentation.adapters.UserAdapter
 import com.shkiper.chat.presentation.dialogs.GetTitleOfGroupDialog

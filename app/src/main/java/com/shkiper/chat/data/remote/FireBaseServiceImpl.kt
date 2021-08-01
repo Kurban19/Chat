@@ -4,8 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.extensions.toChat
-import com.shkiper.chat.extensions.toUser
+import com.shkiper.chat.util.extensions.toChat
+import com.shkiper.chat.util.extensions.toUser
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage

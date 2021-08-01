@@ -4,12 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shkiper.chat.extensions.mutableLiveData
-import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.util.extensions.mutableLiveData
+import com.shkiper.chat.util.extensions.shortFormat
 import com.shkiper.chat.domain.entities.data.Chat
 import com.shkiper.chat.domain.entities.data.ChatItem
 import com.shkiper.chat.domain.entities.data.ChatType
-import com.shkiper.chat.data.repository.RepositoryImpl
 import com.shkiper.chat.domain.interactors.ChatsInteractor
 import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -4,7 +4,7 @@ package com.shkiper.chat.domain.entities.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.shkiper.chat.extensions.humanizeDiff
+import com.shkiper.chat.util.extensions.humanizeDiff
 import com.shkiper.chat.util.Utils
 import com.shkiper.chat.util.converters.DateConverter
 import java.util.*

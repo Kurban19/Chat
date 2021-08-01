@@ -1,4 +1,4 @@
-package com.shkiper.chat.extensions
+package com.shkiper.chat.util.extensions
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.ExclusionStrategy

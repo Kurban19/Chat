@@ -1,9 +1,8 @@
 package com.shkiper.chat.presentation.users
 
 import androidx.lifecycle.*
-import com.shkiper.chat.extensions.mutableLiveData
+import com.shkiper.chat.util.extensions.mutableLiveData
 import com.shkiper.chat.domain.entities.data.UserItem
-import com.shkiper.chat.data.repository.RepositoryImpl
 import com.shkiper.chat.domain.repository.Repository
 import com.shkiper.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -9,7 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.shkiper.chat.databinding.ActivityProfileBinding
-import com.shkiper.chat.extensions.showToast
+import com.shkiper.chat.util.extensions.showToast
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.presentation.login.LoginActivity
 import com.shkiper.chat.util.FireBaseUtils

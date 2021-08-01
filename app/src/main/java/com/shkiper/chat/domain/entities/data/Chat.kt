@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.google.firebase.auth.FirebaseAuth
-import com.shkiper.chat.extensions.shortFormat
+import com.shkiper.chat.util.extensions.shortFormat
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage

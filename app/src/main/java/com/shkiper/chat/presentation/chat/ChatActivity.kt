@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
-import com.shkiper.chat.R
 import com.shkiper.chat.databinding.ActivityChatBinding
-import com.shkiper.chat.extensions.toUser
+import com.shkiper.chat.util.extensions.toUser
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage

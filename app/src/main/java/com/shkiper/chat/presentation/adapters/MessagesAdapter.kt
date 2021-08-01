@@ -15,9 +15,9 @@ import com.shkiper.chat.databinding.ItemMessageBinding
 import com.shkiper.chat.domain.entities.BaseMessage
 import com.shkiper.chat.domain.entities.ImageMessage
 import com.shkiper.chat.domain.entities.TextMessage
-import com.shkiper.chat.extensions.gone
-import com.shkiper.chat.extensions.shortFormat
-import com.shkiper.chat.extensions.visible
+import com.shkiper.chat.util.extensions.gone
+import com.shkiper.chat.util.extensions.shortFormat
+import com.shkiper.chat.util.extensions.visible
 import com.shkiper.chat.presentation.glide.GlideApp
 import com.shkiper.chat.util.StorageUtils
 
