@@ -22,5 +22,4 @@ interface FireBaseService {
 
     fun sendMessage(message: BaseMessage, chatId: String)
 
-
 }

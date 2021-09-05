@@ -81,14 +81,14 @@ class ChatActivity : AppCompatActivity() {
         }
 
         if (chat.isSingle()) {
-            chat.members.find { it.id != FirebaseAuth.getInstance().currentUser!!.uid }?.apply {
+            chat.members.find { it.id != FirebaseAuth.getInstance().currentUser?.uid }?.apply {
                 binding.tvLastActivity.text =
                     viewModel.findUserById(this.id).toUserItem().lastActivity
             }
         } else {
             var concatenatedString = ""
             chat.members.forEach {
-                if (it.id != FirebaseAuth.getInstance().currentUser!!.uid) {
+                if (it.id != FirebaseAuth.getInstance().currentUser?.uid) {
                     concatenatedString += it.firstName + " "
                 }
             }

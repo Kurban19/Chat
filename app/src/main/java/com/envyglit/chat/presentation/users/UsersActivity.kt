@@ -106,14 +106,15 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
 
     }
 
-
     private fun setupObserver(){
         viewModel.getUsers().observe(this, {
             when(it.status){
                 Status.SUCCESS -> {
-                    binding.progressBar.gone()
-                    binding.rvUserList.visible()
-                    usersAdapter.updateData(it.data!!)
+                    it.data?.let { data ->
+                        binding.progressBar.gone()
+                        binding.rvUserList.visible()
+                        usersAdapter.updateData(data)
+                    }
                 }
                 Status.LOADING -> {
                     binding.progressBar.visible()
@@ -125,7 +126,6 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
                 }
             }
         })
-
 
         viewModel.getSelectedData().observe(this, {
             if (it != null) {

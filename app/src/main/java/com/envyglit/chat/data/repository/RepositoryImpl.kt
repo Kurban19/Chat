@@ -1,18 +1,18 @@
-    package com.envyglit.chat.data.repository
+package com.envyglit.chat.data.repository
 
-    import androidx.lifecycle.MutableLiveData
-    import com.google.firebase.firestore.ListenerRegistration
-    import com.envyglit.chat.data.remote.FireBaseService
-    import com.envyglit.chat.domain.repository.Repository
-    import com.envyglit.chat.domain.entities.BaseMessage
-    import com.envyglit.chat.domain.entities.data.Chat
-    import com.envyglit.chat.domain.entities.data.User
-    import com.envyglit.chat.data.local.Database
-    import io.reactivex.Observable
-    import javax.inject.Singleton
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.ListenerRegistration
+import com.envyglit.chat.data.remote.FireBaseService
+import com.envyglit.chat.domain.repository.Repository
+import com.envyglit.chat.domain.entities.BaseMessage
+import com.envyglit.chat.domain.entities.data.Chat
+import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.data.local.Database
+import io.reactivex.Observable
+import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl(private val fireBaseService: FireBaseService, private val database: Database):
+class RepositoryImpl(private val fireBaseService: FireBaseService, private val database: Database) :
     Repository {
 
     val chats = MutableLiveData<List<Chat>>(listOf())
@@ -49,19 +49,23 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
     }
 
     override fun findUserById(userId: String): User {
-        return users.value!!.find { it.id == userId }!!
+        val user = users.value?.find { it.id == userId }
+        user ?: throw KotlinNullPointerException("User not found")
+        return user
     }
 
     override fun findChatById(chatId: String): Chat {
         val ind = chats.value?.indexOfFirst { it.id == chatId } ?: 0
-        return chats.value!![ind]
+        val chat = chats.value?.get(ind)
+        chat ?: throw KotlinNullPointerException("Chat not found")
+        return chat
     }
 
     override fun findUsers(ids: List<String>): MutableList<User> {
         return users.value!!.filter { ids.contains(it.id) }.toMutableList()
     }
 
-    override fun createChat(user: User){
+    override fun createChat(user: User) {
         fireBaseService.getOrCreateChat(user)
     }
 
@@ -73,11 +77,14 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
         fireBaseService.updateChat(chat)
     }
 
-    override fun sendMessage(message: BaseMessage, chatId: String){
+    override fun sendMessage(message: BaseMessage, chatId: String) {
         fireBaseService.sendMessage(message, chatId)
     }
 
-    override fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
+    override fun addMessagesListener(
+        chatId: String,
+        onListen: (List<BaseMessage>) -> Unit
+    ): ListenerRegistration {
         return fireBaseService.setChatMessagesListener(chatId, onListen)
     }
 }

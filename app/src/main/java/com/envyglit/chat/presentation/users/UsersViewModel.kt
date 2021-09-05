@@ -22,7 +22,6 @@ class UsersViewModel @Inject constructor(
 
     private val disposable: CompositeDisposable = CompositeDisposable()
 
-
     init {
         fetchUsers()
     }
@@ -41,7 +40,6 @@ class UsersViewModel @Inject constructor(
                 })
         )
     }
-
 
     fun getUsers(): MutableLiveData<Resource<List<UserItem>>> {
         val result = MediatorLiveData<Resource<List<UserItem>>>()
