@@ -39,7 +39,7 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
     private fun getChatsFromApi(): Observable<List<Chat>> {
         return fireBaseService.getEngagedChats()
             .doOnNext() {
-                storeChatsInDb(it)
+//                storeChatsInDb(it)
                 chats.value = it
             }
     }

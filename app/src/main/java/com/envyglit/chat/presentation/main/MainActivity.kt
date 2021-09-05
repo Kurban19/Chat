@@ -36,16 +36,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    companion object {
-        const val CHAT_ID = "chat_id"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        super.onCreate(savedInstanceState)
+        setSupportActionBar(binding.toolbar)
 
-        initToolbar()
         initViews()
         setupObserver()
     }
@@ -101,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-        
+
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
             val id = it.id
@@ -137,9 +133,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.getChatData().observe(this, {
             when(it.status){
                 Status.SUCCESS -> {
-                    binding.progressBar.gone()
-                    binding.rvChatList.visible()
-                    chatAdapter.updateData(it.data!!)
+                    it.data?.let { chats ->
+                        binding.progressBar.gone()
+                        binding.rvChatList.visible()
+                        chatAdapter.updateData(chats)
+                    }
                 }
                 Status.LOADING -> {
                     binding.progressBar.visible()
@@ -154,8 +152,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initToolbar() {
-        setSupportActionBar(binding.toolbar)
+    companion object {
+        const val CHAT_ID = "chat_id"
     }
 
 }

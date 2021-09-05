@@ -161,7 +161,7 @@ class FireBaseServiceImpl : FireBaseService {
         private const val USERS = "users"
         private const val CHATS = "chats"
         private const val ENGAGED_CHATS = "engagedChats"
-        private const val CHAT_ID = "chat_id"
+        private const val CHAT_ID = "chatId"
         private const val MESSAGES = "messages"
 
         private const val DATE = "date"

@@ -1,6 +1,5 @@
 package com.envyglit.chat.util.extensions
 
-
 fun String.truncate(i: Int = 16): String{
     if(this.length < 16){
         return this

@@ -23,15 +23,14 @@ fun DocumentSnapshot.toChat(): Chat {
             }
         }).create()
 
-
     val id = this["id"].toString()
     val title = this["title"].toString()
     val members = mutableListOf<User>()
     val archived = this["archived"].toString() == "true"
 
-    val jsonMembers = this["members"]?.let {
-        it as ArrayList<*>
-        it.map { JSONObject(it as HashMap<*, *>) }
+    val jsonMembers = this["members"]?.let { jsonMember ->
+        jsonMember as ArrayList<*>
+        jsonMember.map { JSONObject(it as HashMap<*, *>) }
     }
 
     jsonMembers?.forEach {
@@ -49,7 +48,6 @@ fun DocumentSnapshot.toChat(): Chat {
     else {
         gson.fromJson(jsonMessage.toString(), ImageMessage::class.java)
     }
-
 
     return Chat(id, title, members, message, archived)
 }

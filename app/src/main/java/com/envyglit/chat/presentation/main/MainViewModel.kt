@@ -14,6 +14,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,29 +29,43 @@ class MainViewModel @Inject constructor(
 
     private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
 
+    private val _uiState = MutableStateFlow(MainUiState(loading = true))
+    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     init {
         fetchChats()
     }
 
-    private fun fetchChats(){
-        chats.postValue(Resource.loading(null))
+    private fun fetchChats() {
+//        chats.postValue(Resource.loading(null))
+        _uiState.update { it.copy(loading = true) }
         disposable.add(
             chatsInteractor.getChats()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe ({ data ->
+                .subscribe({ data ->
                     val archived = data.filter { it.archived }
                     if (archived.isEmpty()) {
-                        chats.postValue(Resource.success(data.map { chat -> chat.toChatItem() }))
+                        _uiState.update {
+                            it.copy(
+                                chatItems = data.map { chat -> chat.toChatItem() },
+                                loading = false
+                            )
+                        }
+                        //chats.postValue(Resource.success(data.map { chat -> chat.toChatItem() }))
                     } else {
-                         val listWithArchive = mutableListOf<ChatItem>()
+                        val listWithArchive = mutableListOf<ChatItem>()
                         listWithArchive.add(0, makeArchiveItem(archived))
-                        listWithArchive.addAll((data.filter { !it.archived }.map { chat -> chat .toChatItem() }))
-                        chats.postValue(Resource.success(listWithArchive))
-            } },{
-                    chats.postValue(Resource.error(it.printStackTrace().toString(), null))
+                        listWithArchive.addAll((data.filter { !it.archived }
+                            .map { chat -> chat.toChatItem() }))
+                        _uiState.update { it.copy(chatItems = listWithArchive, loading = false) }
+//                        chats.postValue(Resource.success(listWithArchive))
+                    }
+                }, { throwable ->
+                    _uiState.update { it.copy(errorMessage = throwable.message, loading = false) }
+//                    chats.postValue(Resource.error(it.printStackTrace().toString(), null))
                 })
         )
     }
