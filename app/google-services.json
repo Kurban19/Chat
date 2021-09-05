@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:925083672367:android:4facdf97c50c278d07cbda",
+        "mobilesdk_app_id": "1:925083672367:android:bb96414fbf12acfc07cbda",
         "android_client_info": {
-          "package_name": "ru.skillbranch.devintensive"
+          "package_name": "com.envyglit.chat"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "925083672367-prl0nlt14ml3edsjmflro6ocnd6rbst6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ru.skillbranch.devintensive",
-            "certificate_hash": "e173594f80f5c02f8f6b01d4c4aedecd9347d262"
-          }
-        },
         {
           "client_id": "925083672367-72gv33ip4b2jad9k04ci17gsl9vqqo9a.apps.googleusercontent.com",
           "client_type": 3
