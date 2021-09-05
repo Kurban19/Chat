@@ -11,7 +11,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-
 @HiltViewModel
 class ArchiveViewModel @Inject constructor(
         private val interactor: ChatsInteractor

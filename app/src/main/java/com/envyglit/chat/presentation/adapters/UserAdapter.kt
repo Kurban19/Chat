@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.envyglit.chat.databinding.ItemUserListBinding
-//import com.envyglit.chat.presentation.glide.GlideApp
+import com.envyglit.chat.presentation.glide.GlideApp
 import com.envyglit.chat.domain.entities.data.UserItem
 import com.envyglit.chat.util.StorageUtils
 
@@ -46,11 +46,11 @@ class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAd
 
         fun bind(user: UserItem, listener: (UserItem) -> Unit) {
             if (user.avatar != null) {
-//                GlideApp.with(itemView)
-//                    .load(StorageUtils.pathToReference(user.avatar))
-//                    .into(binding.ivAvatarUser)
+                GlideApp.with(itemView)
+                    .load(StorageUtils.pathToReference(user.avatar))
+                    .into(binding.ivAvatarUser)
             } else {
-//                GlideApp.with(itemView).clear(binding.ivAvatarUser)
+                GlideApp.with(itemView).clear(binding.ivAvatarUser)
                 binding.ivAvatarUser.setInitials(user.initials)
             }
             binding.svIndicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE
