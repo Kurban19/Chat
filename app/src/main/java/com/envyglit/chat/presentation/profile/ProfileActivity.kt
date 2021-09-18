@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.envyglit.chat.databinding.ActivityProfileBinding
 import com.envyglit.chat.util.extensions.showToast
-import com.envyglit.chat.presentation.glide.GlideApp
+//import com.envyglit.chat.presentation.glide.GlideApp
 import com.envyglit.chat.presentation.login.LoginActivity
 import com.envyglit.chat.util.FireBaseUtils
 import com.envyglit.chat.util.StorageUtils
@@ -103,9 +103,9 @@ class ProfileActivity: AppCompatActivity() {
             selectedImageBytes = outputStream.toByteArray()
 
 
-            GlideApp.with(this)
-                .load(selectedImageBytes)
-                .into(binding.ivProfileAvatar)
+//            GlideApp.with(this)
+//                .load(selectedImageBytes)
+//                .into(binding.ivProfileAvatar)
 
             pictureJustChanged = true
         }
@@ -117,13 +117,13 @@ class ProfileActivity: AppCompatActivity() {
             binding.editTextName.setText(user.firstName)
             binding.editTextSurname.setText(user.lastName)
             if (!pictureJustChanged && user.avatar != null) {
-                GlideApp.with(this)
-                    .load(StorageUtils.pathToReference(user.avatar.orEmpty()))
-                    .into(binding.ivProfileAvatar)
+//                GlideApp.with(this)
+//                    .load(StorageUtils.pathToReference(user.avatar.orEmpty()))
+//                    .into(binding.ivProfileAvatar)
             } else if (!pictureJustChanged) {
-                GlideApp.with(this)
-                    .clear(binding.ivProfileAvatar)
-                binding.ivProfileAvatar.setInitials(Utils.toInitials(user.firstName, user.lastName))
+//                GlideApp.with(this)
+//                    .clear(binding.ivProfileAvatar)
+//                binding.ivProfileAvatar.setInitials(Utils.toInitials(user.firstName, user.lastName))
             }
 
         }
