@@ -1,8 +1,8 @@
-package com.envyglit.chat.domain.entities
+package com.envyglit.chat.domain.entities.message
 
 
 import com.envyglit.chat.util.extensions.humanizeDiff
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import java.util.*
 
 class TextMessage(

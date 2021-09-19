@@ -3,16 +3,17 @@ package com.envyglit.chat.domain.entities.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.envyglit.chat.domain.entities.chat.ChatItem
 import com.google.firebase.auth.FirebaseAuth
 import com.envyglit.chat.util.extensions.shortFormat
-import com.envyglit.chat.domain.entities.BaseMessage
-import com.envyglit.chat.domain.entities.ImageMessage
-import com.envyglit.chat.domain.entities.TextMessage
+import com.envyglit.chat.domain.entities.message.BaseMessage
+import com.envyglit.chat.domain.entities.message.ImageMessage
+import com.envyglit.chat.domain.entities.message.TextMessage
+import com.envyglit.chat.domain.entities.user.User
 import com.envyglit.chat.util.Utils
 import com.envyglit.chat.util.converters.MembersConverter
 import com.envyglit.chat.util.converters.MessageConverter
 import java.util.*
-
 
 @Entity(tableName = "Chats")
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -43,7 +44,6 @@ data class Chat(
                 "lastMessage" to lastMessage,
                 "archived" to archived)
     }
-
 
     fun lastMessageShort(): Pair<String, String> = when(val lastMessage = lastMessage){
         is TextMessage -> lastMessage.text to lastMessage.from.firstName

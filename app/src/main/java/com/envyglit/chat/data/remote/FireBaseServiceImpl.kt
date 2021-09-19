@@ -6,11 +6,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.envyglit.chat.util.extensions.toChat
 import com.envyglit.chat.util.extensions.toUser
-import com.envyglit.chat.domain.entities.BaseMessage
-import com.envyglit.chat.domain.entities.ImageMessage
-import com.envyglit.chat.domain.entities.TextMessage
+import com.envyglit.chat.domain.entities.message.BaseMessage
+import com.envyglit.chat.domain.entities.message.ImageMessage
+import com.envyglit.chat.domain.entities.message.TextMessage
 import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import io.reactivex.Observable
 
 class FireBaseServiceImpl : FireBaseService {

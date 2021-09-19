@@ -4,10 +4,10 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
-import com.envyglit.chat.domain.entities.ImageMessage
-import com.envyglit.chat.domain.entities.TextMessage
+import com.envyglit.chat.domain.entities.message.ImageMessage
+import com.envyglit.chat.domain.entities.message.TextMessage
 import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import org.json.JSONObject
 
 fun DocumentSnapshot.toChat(): Chat {

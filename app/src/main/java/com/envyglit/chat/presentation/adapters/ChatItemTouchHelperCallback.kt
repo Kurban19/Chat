@@ -8,11 +8,11 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.envyglit.chat.R
-import com.envyglit.chat.domain.entities.data.ChatItem
+import com.envyglit.chat.domain.entities.chat.ChatItem
 
 class ChatItemTouchHelperCallback(
-    val adapter: ChatAdapter,
-    val swipeListener: (ChatItem)->Unit): ItemTouchHelper.Callback() {
+    private val adapter: ChatAdapter,
+    private val swipeListener: (ChatItem)->Unit): ItemTouchHelper.Callback() {
 
     private val bgRect = RectF()
     private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG)

@@ -2,9 +2,9 @@ package com.envyglit.chat.presentation.chat
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration
-import com.envyglit.chat.domain.entities.BaseMessage
+import com.envyglit.chat.domain.entities.message.BaseMessage
 import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.envyglit.chat.domain.repository.Repository
 import javax.inject.Inject

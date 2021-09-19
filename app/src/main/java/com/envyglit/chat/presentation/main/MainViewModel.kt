@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.envyglit.chat.util.extensions.mutableLiveData
 import com.envyglit.chat.util.extensions.shortFormat
 import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.data.ChatItem
+import com.envyglit.chat.domain.entities.chat.ChatItem
 import com.envyglit.chat.domain.entities.data.ChatType
 import com.envyglit.chat.domain.interactors.ChatsInteractor
 import com.envyglit.chat.util.Resource

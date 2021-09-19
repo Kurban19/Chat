@@ -1,9 +1,9 @@
 package com.envyglit.chat.domain.repository
 
 import com.google.firebase.firestore.ListenerRegistration
-import com.envyglit.chat.domain.entities.BaseMessage
+import com.envyglit.chat.domain.entities.message.BaseMessage
 import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import io.reactivex.Observable
 
 interface Repository {

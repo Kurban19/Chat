@@ -1,7 +1,7 @@
 package com.envyglit.chat.util.extensions
 
 import com.google.firebase.auth.FirebaseUser
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 
 fun FirebaseUser.toUser(): User {
     return User(

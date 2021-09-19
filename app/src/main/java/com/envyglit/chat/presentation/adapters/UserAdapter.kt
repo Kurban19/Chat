@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.envyglit.chat.databinding.ItemUserListBinding
-//import com.envyglit.chat.presentation.glide.GlideApp
-import com.envyglit.chat.domain.entities.data.UserItem
+import com.envyglit.chat.presentation.glide.GlideApp
+import com.envyglit.chat.domain.entities.user.UserItem
 import com.envyglit.chat.util.StorageUtils
 
-class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private var items: List<UserItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.UserViewHolder {
@@ -41,17 +41,17 @@ class UserAdapter(val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAd
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class UserViewHolder(val binding: ItemUserListBinding) :
+    inner class UserViewHolder(private val binding: ItemUserListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: UserItem, listener: (UserItem) -> Unit) {
             if (user.avatar != null) {
-//                GlideApp.with(itemView)
-//                    .load(StorageUtils.pathToReference(user.avatar))
-//                    .into(binding.ivAvatarUser)
+                GlideApp.with(itemView)
+                    .load(StorageUtils.pathToReference(user.avatar))
+                    .into(binding.ivAvatarUser)
             } else {
-//                GlideApp.with(itemView).clear(binding.ivAvatarUser)
-//                binding.ivAvatarUser.setInitials(user.initials)
+                GlideApp.with(itemView).clear(binding.ivAvatarUser)
+                binding.ivAvatarUser.setInitials(user.initials)
             }
             binding.svIndicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE
             binding.tvUserName.text = user.fullName

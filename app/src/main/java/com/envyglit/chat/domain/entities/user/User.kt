@@ -1,5 +1,4 @@
-package com.envyglit.chat.domain.entities.data
-
+package com.envyglit.chat.domain.entities.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -22,7 +21,6 @@ data class User (
     var email: String = ""
 ) {
 
-
     fun toUserItem(): UserItem {
         val lastActivity = when{
             lastVisit == null -> "Еще ниразу не заходил"
@@ -40,6 +38,5 @@ data class User (
             isOnline
         )
     }
-
 
 }

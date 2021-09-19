@@ -1,4 +1,4 @@
-package com.envyglit.chat.domain.entities.data
+package com.envyglit.chat.domain.entities.user
 
 data class UserItem (
     val id: String,

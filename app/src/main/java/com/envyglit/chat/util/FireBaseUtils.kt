@@ -3,7 +3,7 @@ package com.envyglit.chat.util
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import java.util.*
 
 object FireBaseUtils {

@@ -1,4 +1,6 @@
-package com.envyglit.chat.domain.entities.data
+package com.envyglit.chat.domain.entities.chat
+
+import com.envyglit.chat.domain.entities.data.ChatType
 
 data class ChatItem (
     val id: String,

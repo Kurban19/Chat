@@ -13,10 +13,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
 import com.envyglit.chat.databinding.ActivityChatBinding
 import com.envyglit.chat.util.extensions.toUser
-//import com.envyglit.chat.presentation.glide.GlideApp
-import com.envyglit.chat.domain.entities.BaseMessage
-import com.envyglit.chat.domain.entities.ImageMessage
-import com.envyglit.chat.domain.entities.TextMessage
+import com.envyglit.chat.presentation.glide.GlideApp
+import com.envyglit.chat.domain.entities.message.BaseMessage
+import com.envyglit.chat.domain.entities.message.ImageMessage
+import com.envyglit.chat.domain.entities.message.TextMessage
 import com.envyglit.chat.domain.entities.data.Chat
 import com.envyglit.chat.presentation.adapters.MessagesAdapter
 import com.envyglit.chat.presentation.main.MainActivity
@@ -70,13 +70,13 @@ class ChatActivity : AppCompatActivity() {
             binding.tvTitleChat.text = title
 
             if (avatar == null) {
-//                GlideApp.with(this@ChatActivity)
-//                    .clear(binding.ivAvatarChat)
-//                binding.ivAvatarChat.setInitials(initials)
+                GlideApp.with(this@ChatActivity)
+                    .clear(binding.ivAvatarChat)
+                binding.ivAvatarChat.setInitials(initials)
             } else {
-//                GlideApp.with(this@ChatActivity)
-//                    .load(StorageUtils.pathToReference(avatar))
-//                    .into(binding.ivAvatarChat)
+                GlideApp.with(this@ChatActivity)
+                    .load(StorageUtils.pathToReference(avatar))
+                    .into(binding.ivAvatarChat)
             }
         }
 

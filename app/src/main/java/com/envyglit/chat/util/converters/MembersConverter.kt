@@ -3,7 +3,7 @@ package com.envyglit.chat.util.converters
 import androidx.room.TypeConverter
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 
 
 class MembersConverter {

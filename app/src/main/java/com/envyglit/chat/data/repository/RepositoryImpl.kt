@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.ListenerRegistration
 import com.envyglit.chat.data.remote.FireBaseService
 import com.envyglit.chat.domain.repository.Repository
-import com.envyglit.chat.domain.entities.BaseMessage
+import com.envyglit.chat.domain.entities.message.BaseMessage
 import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.data.User
+import com.envyglit.chat.domain.entities.user.User
 import com.envyglit.chat.data.local.Database
 import io.reactivex.Observable
 import javax.inject.Singleton

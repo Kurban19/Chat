@@ -2,7 +2,7 @@ package com.envyglit.chat.presentation.users
 
 import androidx.lifecycle.*
 import com.envyglit.chat.util.extensions.mutableLiveData
-import com.envyglit.chat.domain.entities.data.UserItem
+import com.envyglit.chat.domain.entities.user.UserItem
 import com.envyglit.chat.domain.repository.Repository
 import com.envyglit.chat.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

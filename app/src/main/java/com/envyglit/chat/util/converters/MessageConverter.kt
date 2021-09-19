@@ -3,9 +3,9 @@ package com.envyglit.chat.util.converters
 import androidx.room.TypeConverter
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import com.envyglit.chat.domain.entities.BaseMessage
-import com.envyglit.chat.domain.entities.ImageMessage
-import com.envyglit.chat.domain.entities.TextMessage
+import com.envyglit.chat.domain.entities.message.BaseMessage
+import com.envyglit.chat.domain.entities.message.ImageMessage
+import com.envyglit.chat.domain.entities.message.TextMessage
 import org.json.JSONObject
 
 class MessageConverter {

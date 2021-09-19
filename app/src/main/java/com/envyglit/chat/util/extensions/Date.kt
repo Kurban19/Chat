@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat
 
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
@@ -79,7 +80,7 @@ enum class TimeUnits{
         var number = input
 
         var str = java.lang.Long.toString(number) + " "
-        number = Math.abs(number)
+        number = abs(number)
 
         if (number % 10 == 1L && number % 100 != 11L) {
             str += times[0]
