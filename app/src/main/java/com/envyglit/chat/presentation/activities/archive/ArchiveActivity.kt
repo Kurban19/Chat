@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.archive
+package com.envyglit.chat.presentation.activities.archive
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,8 +14,8 @@ import com.envyglit.chat.databinding.ActivityArchiveBinding
 import com.envyglit.chat.util.extensions.showToast
 import com.envyglit.chat.presentation.adapters.ChatAdapter
 import com.envyglit.chat.presentation.adapters.ChatItemTouchHelperCallback
-import com.envyglit.chat.presentation.chat.ChatActivity
-import com.envyglit.chat.presentation.main.MainActivity
+import com.envyglit.chat.presentation.activities.chat.ChatActivity
+import com.envyglit.chat.presentation.activities.main.MainActivity
 import com.envyglit.chat.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 

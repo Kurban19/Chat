@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.profile
+package com.envyglit.chat.presentation.activities.profile
 
 import android.app.Activity
 import android.content.Intent
@@ -11,7 +11,7 @@ import com.firebase.ui.auth.AuthUI
 import com.envyglit.chat.databinding.ActivityProfileBinding
 import com.envyglit.chat.util.extensions.showToast
 import com.envyglit.chat.presentation.glide.GlideApp
-import com.envyglit.chat.presentation.login.LoginActivity
+import com.envyglit.chat.presentation.activities.login.LoginActivity
 import com.envyglit.chat.util.FireBaseUtils
 import com.envyglit.chat.util.StorageUtils
 import com.envyglit.chat.util.Utils

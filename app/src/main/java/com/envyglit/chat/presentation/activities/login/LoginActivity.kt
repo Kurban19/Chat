@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.login
+package com.envyglit.chat.presentation.activities.login
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,7 @@ import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ActivityLoginBinding
-import com.envyglit.chat.presentation.main.MainActivity
+import com.envyglit.chat.presentation.activities.main.MainActivity
 import com.envyglit.chat.util.FireBaseUtils
 
 class LoginActivity : AppCompatActivity() {

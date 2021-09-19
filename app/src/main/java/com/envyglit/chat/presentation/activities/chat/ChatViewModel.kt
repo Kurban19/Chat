@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.chat
+package com.envyglit.chat.presentation.activities.chat
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration

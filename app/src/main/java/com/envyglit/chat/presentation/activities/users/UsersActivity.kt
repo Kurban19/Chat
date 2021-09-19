@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.users
+package com.envyglit.chat.presentation.activities.users
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList

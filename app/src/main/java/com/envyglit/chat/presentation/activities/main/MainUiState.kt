@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.main
+package com.envyglit.chat.presentation.activities.main
 
 import com.envyglit.chat.domain.entities.chat.ChatItem
 

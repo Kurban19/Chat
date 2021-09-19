@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.chat
+package com.envyglit.chat.presentation.activities.chat
 
 import android.app.Activity
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.envyglit.chat.domain.entities.message.ImageMessage
 import com.envyglit.chat.domain.entities.message.TextMessage
 import com.envyglit.chat.domain.entities.data.Chat
 import com.envyglit.chat.presentation.adapters.MessagesAdapter
-import com.envyglit.chat.presentation.main.MainActivity
+import com.envyglit.chat.presentation.activities.main.MainActivity
 import com.envyglit.chat.util.StorageUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream

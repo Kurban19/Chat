@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.envyglit.chat.presentation.chat.ChatActivity"
+    tools:context=".presentation.activities.chat.ChatActivity"
     android:background="#EEEEEE">
 
     <com.google.android.material.appbar.AppBarLayout

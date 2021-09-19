@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.main
+package com.envyglit.chat.presentation.activities.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,10 +17,10 @@ import com.envyglit.chat.util.extensions.showToast
 import com.envyglit.chat.domain.entities.data.ChatType
 import com.envyglit.chat.presentation.adapters.ChatAdapter
 import com.envyglit.chat.presentation.adapters.ChatItemTouchHelperCallback
-import com.envyglit.chat.presentation.archive.ArchiveActivity
-import com.envyglit.chat.presentation.chat.ChatActivity
-import com.envyglit.chat.presentation.profile.ProfileActivity
-import com.envyglit.chat.presentation.users.UsersActivity
+import com.envyglit.chat.presentation.activities.archive.ArchiveActivity
+import com.envyglit.chat.presentation.activities.chat.ChatActivity
+import com.envyglit.chat.presentation.activities.profile.ProfileActivity
+import com.envyglit.chat.presentation.activities.users.UsersActivity
 import com.envyglit.chat.util.Status
 import com.envyglit.chat.util.extensions.gone
 import com.envyglit.chat.util.extensions.visible

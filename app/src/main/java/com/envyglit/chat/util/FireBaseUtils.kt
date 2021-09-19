@@ -46,8 +46,6 @@ object FireBaseUtils {
         currentUserDocRef.update(userFieldMap)
     }
 
-
-
 //    fun getUnreadMessages(chatId: String): Int {
 //        val result = mutableListOf<BaseMessage>()
 //        chatsCollectionRef.document(chatId).collection("messages")

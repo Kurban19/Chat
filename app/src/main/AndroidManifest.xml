@@ -12,19 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.envyglit.chat.presentation.splash.SplashActivity">
+        <activity android:name="com.envyglit.chat.presentation.activities.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.envyglit.chat.presentation.login.LoginActivity" />
-        <activity android:name="com.envyglit.chat.presentation.chat.ChatActivity" />
-        <activity android:name="com.envyglit.chat.presentation.main.MainActivity" />
-        <activity android:name="com.envyglit.chat.presentation.users.UsersActivity" />
-        <activity android:name="com.envyglit.chat.presentation.archive.ArchiveActivity" />
-        <activity android:name="com.envyglit.chat.presentation.profile.ProfileActivity" />
+        <activity android:name="com.envyglit.chat.presentation.activities.login.LoginActivity" />
+        <activity android:name="com.envyglit.chat.presentation.activities.chat.ChatActivity" />
+        <activity android:name="com.envyglit.chat.presentation.activities.main.MainActivity" />
+        <activity android:name="com.envyglit.chat.presentation.activities.users.UsersActivity" />
+        <activity android:name="com.envyglit.chat.presentation.activities.archive.ArchiveActivity" />
+        <activity android:name="com.envyglit.chat.presentation.activities.profile.ProfileActivity" />
     </application>
 
 </manifest>

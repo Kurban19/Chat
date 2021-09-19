@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.main
+package com.envyglit.chat.presentation.activities.main
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData

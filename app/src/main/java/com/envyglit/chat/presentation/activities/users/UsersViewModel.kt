@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.users
+package com.envyglit.chat.presentation.activities.users
 
 import androidx.lifecycle.*
 import com.envyglit.chat.util.extensions.mutableLiveData
