@@ -35,6 +35,7 @@ fun MainScreen(
     val scrollState = rememberLazyListState()
     Scaffold(
         scaffoldState = scaffoldState,
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             val title = stringResource(id = R.string.app_name)
             ToolBar(
