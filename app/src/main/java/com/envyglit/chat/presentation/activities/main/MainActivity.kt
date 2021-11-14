@@ -2,6 +2,7 @@ package com.envyglit.chat.presentation.activities.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -21,6 +22,7 @@ import com.envyglit.chat.presentation.activities.archive.ArchiveActivity
 import com.envyglit.chat.presentation.activities.chat.ChatActivity
 import com.envyglit.chat.presentation.activities.profile.ProfileActivity
 import com.envyglit.chat.presentation.activities.users.UsersActivity
+import com.envyglit.chat.util.DataGenerator
 import com.envyglit.chat.util.Status
 import com.envyglit.chat.util.extensions.gone
 import com.envyglit.chat.util.extensions.visible
@@ -43,7 +45,13 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         initViews()
-        setupObserver()
+//        setupObserver()
+
+        val chats = DataGenerator.stabChats
+
+        Log.d("Kurban", chats.toString())
+        chatAdapter.updateData(chats.map { it.toChatItem() })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
@@ -130,8 +138,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        viewModel.getChatData().observe(this, {
-            when(it.status){
+        viewModel.getChatData().observe(this) {
+            when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { chats ->
                         binding.progressBar.gone()
@@ -148,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                     showToast("Something went wrong")
                 }
             }
-        })
+        }
 
     }
 

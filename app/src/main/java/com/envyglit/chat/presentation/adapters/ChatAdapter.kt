@@ -96,7 +96,8 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
                 binding.ivAvatarSingle.setInitials(item.initials)
             } else {
                 GlideApp.with(itemView)
-                    .load(StorageUtils.pathToReference(item.avatar))
+//                    .load(StorageUtils.pathToReference(item.avatar))
+                    .load(item.avatar)
                     .into(binding.ivAvatarSingle)
             }
 
