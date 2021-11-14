@@ -1,63 +1,59 @@
 package com.envyglit.chat.presentation.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.envyglit.chat.R
 import com.envyglit.chat.presentation.theme.ChatTheme
-import com.envyglit.chat.presentation.theme.elevatedSurface
 
 @Composable
 fun ToolBar(
     modifier: Modifier = Modifier,
-    onNavIconPressed: () -> Unit = { },
-    title: @Composable RowScope.() -> Unit,
-    actions: @Composable RowScope.() -> Unit = {}
+    title: String,
+    onBackPressed: () -> Unit = { },
+    elevation: Dp = 0.dp
 ) {
-
-    val backgroundColor = MaterialTheme.colors.elevatedSurface(3.dp)
-    Column(
-        Modifier.background(backgroundColor.copy(alpha = 0.95f))
-    ) {
-        TopAppBar(
-            modifier = modifier,
-            backgroundColor = Color.Transparent,
-            elevation = 0.dp, // No shadow needed
-            contentColor = MaterialTheme.colors.onSurface,
-            actions = actions,
-            title = { Row { title() } },
-            navigationIcon = {
-                Image(
+    TopAppBar(
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(
+                onClick = onBackPressed
+            ) {
+                Icon(
                     painter = painterResource(id = R.drawable.ic_arrow),
-                    contentDescription = "Back",
-                    modifier = Modifier
-                        .clickable(onClick = onNavIconPressed)
-                        .padding(horizontal = 16.dp)
+                    contentDescription = null,
+                    tint = Color.White
                 )
             }
-        )
-        Divider()
-    }
+        },
+        title = {
+            Text(
+                text = title,
+                style = TextStyle(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            )
+        },
+        backgroundColor = colorResource(id = R.color.color_primary),
+        elevation = elevation
+    )
 }
 
 @Preview
 @Composable
 fun ToolBarPreview() {
     ChatTheme {
-        ToolBar(title = { Text("Preview!") })
+        ToolBar(title = "Preview!")
     }
 }

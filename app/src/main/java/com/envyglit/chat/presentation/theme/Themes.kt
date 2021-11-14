@@ -37,6 +37,10 @@ private val Blue800 = Color(0xFF001CCF)
 private val Red300 = Color(0xFFEA6D7E)
 private val Red800 = Color(0xFFD00036)
 
+private val Primary = Color(0xFF2A1956)
+
+private val PrimaryDark = Color(0xFF1C0E42)
+
 private val JetchatDarkPalette = darkColors(
     primary = Blue200,
     primaryVariant = Blue400,
@@ -50,9 +54,9 @@ private val JetchatDarkPalette = darkColors(
 )
 
 private val JetchatLightPalette = lightColors(
-    primary = Blue500,
+    primary = Primary,
     primaryVariant = Blue800,
-    onPrimary = Color.White,
+    onPrimary = Primary,
     secondary = Yellow700,
     secondaryVariant = Yellow800,
     onSecondary = Color.Black,
@@ -71,7 +75,7 @@ fun ChatTheme(
     val myColors = colors ?: if (isDarkTheme) JetchatDarkPalette else JetchatLightPalette
 
     MaterialTheme(
-        colors = myColors,
+        colors = JetchatLightPalette,
         content = content,
         typography = Typography,
         shapes = Shapes

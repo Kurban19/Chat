@@ -1,6 +1,7 @@
 package com.envyglit.chat
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -15,6 +16,7 @@ class App: Application(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("Time-App", Date().time.toString())
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 

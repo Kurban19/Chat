@@ -25,13 +25,13 @@
         android:id="@+id/tv_title_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="chat title"
-        android:textColor="@color/color_primary"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="14sp"
-        android:layout_toRightOf="@id/iv_avatar_single"
         android:layout_marginLeft="@dimen/spacing_normal_16"
-        android:layout_marginRight="@dimen/spacing_normal_16"/>
+        android:layout_marginRight="@dimen/spacing_normal_16"
+        android:layout_toRightOf="@id/iv_avatar_single"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/color_primary"
+        android:textSize="14sp"
+        tools:text="chat title" />
 
     <TextView
         android:id="@+id/tv_message_single"

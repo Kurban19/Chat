@@ -10,42 +10,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import com.envyglit.chat.R
+import com.envyglit.chat.domain.entities.chat.ChatItem
 import com.envyglit.chat.presentation.components.ToolBar
-
-//@Composable
-//fun MainScreen(
-//    mainViewModel: MainViewModel,
-//    navigateToChat: (String) -> Unit,
-//    scaffoldState: ScaffoldState = rememberScaffoldState()
-//) {
-//    // UiState of the HomeScreen
-//    val uiState by mainViewModel.uiState.collectAsState()
-//
-//    MainScreen(
-//        uiState = uiState,
-//        scaffoldState = scaffoldState
-//    )
-//}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(list: List<ChatItem>) {
 
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            val title = stringResource(id = R.string.app_name)
+            val title = "LazyColomn"
             ToolBar(
-                modifier = Modifier
-                    .fillMaxSize(),
-                title = { Text(title) }
+                title = title
             )
         }
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-
+        LazyColumn() {
+            items(list.size) { index ->
+                ComposeChatItem(list[index])
+            }
         }
     }
 

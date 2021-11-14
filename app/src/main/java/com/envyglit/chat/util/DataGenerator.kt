@@ -341,8 +341,8 @@ object DataGenerator {
         "https://skill-branch.ru/resources/dev-intensive-2019/avatars/woman9.png"
     )
 
-    val stabUsers = generateUsers(20)
-    val stabChats = generateStabChats(45)
+    val stabUsers = generateUsers(50)
+    val stabChats = generateStabChats()
 
     private fun generateUsers(count: Int): List<User> {
         val list = mutableListOf<User>()
@@ -363,7 +363,7 @@ object DataGenerator {
         return list
     }
 
-    private fun generateStabChats(count: Int): List<Chat> {
+    private fun generateStabChats(): List<Chat> {
         val list = mutableListOf<Chat>()
         val isMale: Boolean = Random.nextBoolean()
         for (user in stabUsers) {
@@ -376,17 +376,17 @@ object DataGenerator {
 //            singleChat.messages = generateRandomMessages(singleChat, listOf(user))
             list.add(singleChat)
         }
-        for (i in 0 until count) {
-            val members = stabUsers.randomSublist(5, 2)
-            Log.e("DataGenerator", "$members")
-            val groupChat = Chat(
-                "${list.size}",
-                title = members.map { it.firstName }.joinToString(", "),
-                members
-            )
-//            groupChat.messages = generateRandomMessages(groupChat, members)
-            list.add(groupChat)
-        }
+//        for (i in 0 until count) {
+//            val members = stabUsers.randomSublist(5, 2)
+//            Log.e("DataGenerator", "$members")
+//            val groupChat = Chat(
+//                "${list.size}",
+//                title = members.map { it.firstName }.joinToString(", "),
+//                members
+//            )
+////            groupChat.messages = generateRandomMessages(groupChat, members)
+//            list.add(groupChat)
+//        }
         return list
     }
 
