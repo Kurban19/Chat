@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -12,6 +13,7 @@ import com.envyglit.chat.databinding.*
 import com.envyglit.chat.presentation.glide.GlideApp
 import com.envyglit.chat.domain.entities.chat.ChatItem
 import com.envyglit.chat.domain.entities.data.ChatType
+import com.envyglit.chat.presentation.activities.main.ComposeChatItem
 import com.envyglit.chat.util.StorageUtils
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
@@ -32,27 +34,9 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatItemViewHolder {
         return when (viewType) {
-            SINGLE_TYPE -> SingleViewHolder(
-                ItemChatSingleBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
-            GROUP_TYPE -> GroupViewHolder(
-                ItemChatGroupBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
-            else -> ArchiveViewHolder(
-                ItemChatArchiveBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
+            SINGLE_TYPE -> SingleViewHolder(ComposeView(parent.context))
+            GROUP_TYPE -> GroupViewHolder(ComposeView(parent.context))
+            else -> ArchiveViewHolder(ComposeView(parent.context))
         }
     }
 
@@ -79,51 +63,56 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
         diffResult.dispatchUpdatesTo(this)
     }
 
-    abstract inner class ChatItemViewHolder(binding: ViewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    abstract inner class ChatItemViewHolder(composeView: ComposeView) :
+        RecyclerView.ViewHolder(composeView) {
 
         abstract fun bind(item: ChatItem, listener: (ChatItem) -> Unit)
     }
 
-    inner class SingleViewHolder(private val binding: ItemChatSingleBinding) :
-        ChatItemViewHolder(binding),
+    inner class SingleViewHolder(private val composeView: ComposeView) :
+        ChatItemViewHolder(composeView),
         ChatItemTouchHelperCallback.ItemTouchViewHolder {
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            if (item.avatar == null) {
-                GlideApp.with(itemView)
-                    .clear(binding.ivAvatarSingle)
-                binding.ivAvatarSingle.setInitials(item.initials)
-            } else {
-                GlideApp.with(itemView)
-//                    .load(StorageUtils.pathToReference(item.avatar))
-                    .load(item.avatar)
-                    .into(binding.ivAvatarSingle)
+
+            composeView.setContent {
+                ComposeChatItem(item)
             }
 
-            binding.svIndicator.visibility = if (item.isOnline) View.VISIBLE else View.GONE
-
-            with(binding.tvDateSingle) {
-                if (item.lastMessageDate != null) {
-                    visibility = View.VISIBLE
-                    text = item.lastMessageDate
-                } else {
-                    visibility = View.GONE
-                }
-
-            }
-
-            with(binding.tvCounterSingle) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.messageCount.toString()
-            }
-
-            binding.tvMessageSingle.text = item.shortDescription
-            binding.tvTitleSingle.text = item.title
-
-            itemView.setOnClickListener {
-                listener.invoke(item)
-            }
+//            if (item.avatar == null) {
+//                GlideApp.with(itemView)
+//                    .clear(binding.ivAvatarSingle)
+//                binding.ivAvatarSingle.setInitials(item.initials)
+//            } else {
+//                GlideApp.with(itemView)
+////                    .load(StorageUtils.pathToReference(item.avatar))
+//                    .load(item.avatar)
+//                    .into(binding.ivAvatarSingle)
+//            }
+//
+//            binding.svIndicator.visibility = if (item.isOnline) View.VISIBLE else View.GONE
+//
+//            with(binding.tvDateSingle) {
+//                if (item.lastMessageDate != null) {
+//                    visibility = View.VISIBLE
+//                    text = item.lastMessageDate
+//                } else {
+//                    visibility = View.GONE
+//                }
+//
+//            }
+//
+//            with(binding.tvCounterSingle) {
+//                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
+//                text = item.messageCount.toString()
+//            }
+//
+//            binding.tvMessageSingle.text = item.shortDescription
+//            binding.tvTitleSingle.text = item.title
+//
+//            itemView.setOnClickListener {
+//                listener.invoke(item)
+//            }
 
         }
 
@@ -136,42 +125,42 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
         }
     }
 
-    inner class GroupViewHolder(private val binding: ItemChatGroupBinding) :
-        ChatItemViewHolder(binding),
+    inner class GroupViewHolder(private val composeView: ComposeView) :
+        ChatItemViewHolder(composeView),
         ChatItemTouchHelperCallback.ItemTouchViewHolder {
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
 
-            binding.ivAvatarGroup.setInitials(item.title[0].toString())
-
-            with(binding.tvDateGroup) {
-                if (item.lastMessageDate != null) {
-                    visibility = View.VISIBLE
-                    text = item.lastMessageDate
-                } else {
-                    visibility = View.GONE
-                }
-
-            }
-
-            with(binding.tvCounterGroup) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.messageCount.toString()
-            }
-
-            binding.tvTitleGroup.text = item.title
-            binding.tvMessageGroup.text = item.shortDescription
-            with(binding.tvMessageAuthor) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = "${item.author} :"
-            }
-
-
-            itemView.setOnClickListener {
-                listener.invoke(item)
-
-            }
+//            binding.ivAvatarGroup.setInitials(item.title[0].toString())
+//
+//            with(binding.tvDateGroup) {
+//                if (item.lastMessageDate != null) {
+//                    visibility = View.VISIBLE
+//                    text = item.lastMessageDate
+//                } else {
+//                    visibility = View.GONE
+//                }
+//
+//            }
+//
+//            with(binding.tvCounterGroup) {
+//                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
+//                text = item.messageCount.toString()
+//            }
+//
+//            binding.tvTitleGroup.text = item.title
+//            binding.tvMessageGroup.text = item.shortDescription
+//            with(binding.tvMessageAuthor) {
+//                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
+//                text = "${item.author} :"
+//            }
+//
+//
+//            itemView.setOnClickListener {
+//                listener.invoke(item)
+//
+//            }
 
         }
 
@@ -185,37 +174,37 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
     }
 
 
-    inner class ArchiveViewHolder(private val binding: ItemChatArchiveBinding) :
-        ChatItemViewHolder(binding) {
+    inner class ArchiveViewHolder(private val composeView: ComposeView) :
+        ChatItemViewHolder(composeView) {
 
         @SuppressLint("SetTextI18n")
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
+//            with(binding.tvDateArchive) {
+//                if (item.lastMessageDate != null) {
+//                    visibility = View.VISIBLE
+//                    text = item.lastMessageDate
+//                } else {
+//                    visibility = View.GONE
+//                }
+//
+//            }
+//
+//            with(binding.tvCounterArchive) {
+//                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
+//                text = item.messageCount.toString()
+//            }
+//            binding.tvTitleArchive.text = item.title
+//            binding.tvMessageArchive.text = item.shortDescription
+//
+//            itemView.setOnClickListener {
+//                listener.invoke(item)
+//            }
+//
+//            with(binding.tvMessageAuthorArchive) {
+//                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
+//                text = "@${item.author}"
+//            }
 
-            with(binding.tvDateArchive) {
-                if (item.lastMessageDate != null) {
-                    visibility = View.VISIBLE
-                    text = item.lastMessageDate
-                } else {
-                    visibility = View.GONE
-                }
-
-            }
-
-            with(binding.tvCounterArchive) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.messageCount.toString()
-            }
-            binding.tvTitleArchive.text = item.title
-            binding.tvMessageArchive.text = item.shortDescription
-
-            itemView.setOnClickListener {
-                listener.invoke(item)
-            }
-
-            with(binding.tvMessageAuthorArchive) {
-                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
-                text = "@${item.author}"
-            }
 
         }
         

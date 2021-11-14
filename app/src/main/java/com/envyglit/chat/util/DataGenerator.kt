@@ -341,7 +341,7 @@ object DataGenerator {
         "https://skill-branch.ru/resources/dev-intensive-2019/avatars/woman9.png"
     )
 
-    val stabUsers = generateUsers(50)
+    val stabUsers = generateUsers(200)
     val stabChats = generateStabChats()
 
     private fun generateUsers(count: Int): List<User> {
