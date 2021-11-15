@@ -132,6 +132,10 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
         @SuppressLint("SetTextI18n")
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
 
+            composeView.setContent {
+                ComposeChatItem(item)
+            }
+
 //            binding.ivAvatarGroup.setInitials(item.title[0].toString())
 //
 //            with(binding.tvDateGroup) {
