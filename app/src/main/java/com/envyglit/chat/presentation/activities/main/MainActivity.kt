@@ -43,22 +43,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//        setSupportActionBar(binding.toolbar)
-//
-//        initViews()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+
+        initViews()
 //        setupObserver()
-//        actionBar?.title = "RecyclerView"
 
         val chats = DataGenerator.stabChats
-//        chatAdapter.updateData(chats.map { it.toChatItem() })
+        chatAdapter.updateData(chats.map { it.toChatItem() })
 
-        setContent{
-            MaterialTheme {
-                MainScreen(chats.map { it.toChatItem() })
-            }
-        }
+//        setContent{
+//            MaterialTheme {
+//                MainScreen(chats.map { it.toChatItem() })
+//            }
+//        }
         Log.d("Time-Main", Date().time.toString())
     }
 
