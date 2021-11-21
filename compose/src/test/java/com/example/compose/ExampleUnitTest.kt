@@ -1,4 +1,4 @@
-package com.example.core_compose
+package com.example.compose
 
 import org.junit.Test
 

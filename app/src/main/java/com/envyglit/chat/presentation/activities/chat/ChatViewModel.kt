@@ -16,7 +16,7 @@ class ChatViewModel @Inject constructor(
 
 
     fun getChat(chatId: String): Chat {
-        return repository.findChatById(chatId)
+        return repository.findChatById(chatId)!!
     }
 
     fun addChatMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
@@ -32,7 +32,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun findUserById(userId: String): User {
-        return repository.findUserById(userId)
+        return repository.findUserById(userId)!!
     }
 
 }

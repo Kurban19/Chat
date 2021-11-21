@@ -63,8 +63,6 @@ data class Chat(
 //            val user = members.find {  FirebaseAuth.getInstance().currentUser!!.uid != it.id } ?: User()
             val user = User("3452354", "John", "Doe")
 
-            Log.d("Krab", avatar!!)
-
             ChatItem(
                 id,
                 avatar,

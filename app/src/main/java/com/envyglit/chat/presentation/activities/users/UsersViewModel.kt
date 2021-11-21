@@ -84,11 +84,11 @@ class UsersViewModel @Inject constructor(
     }
 
     fun handleCreatedGroupChat(titleOfGroup: String){
-        repository.createGroupChat(repository.findUsers(selectedItems.value!!.map { it.id }.toMutableList()), titleOfGroup)
+        repository.createGroupChat(repository.findUsers(selectedItems.value!!.map { it.id }.toMutableList())!!, titleOfGroup)
     }
 
     fun getSizeOfSelectedItems(): Int {
-        return selectedItems.value!!.size
+        return selectedItems.value?.size ?: 0
     }
 
     override fun onCleared() {

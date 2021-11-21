@@ -10,10 +10,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.envyglit.chat.Application
 import com.envyglit.chat.presentation.theme.ChatTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.launch
 
 @Composable
 fun ChatApp() {
@@ -37,18 +37,9 @@ fun ChatApp() {
             val currentRoute = navBackStackEntry?.destination?.route ?: MainDestinations.HOME_ROUTE
             Scaffold(
                 scaffoldState = scaffoldState,
-                drawerContent = {
-                    AppDrawer(
-                        currentRoute = currentRoute,
-                        navigateToHome = { navController.navigate(MainDestinations.HOME_ROUTE) },
-                        navigateToInterests = { navController.navigate(MainDestinations.INTERESTS_ROUTE) },
-                        closeDrawer = { coroutineScope.launch { scaffoldState.drawerState.close() } }
-                    )
-                }
             ) {
                 ChatNavGraph(
                     navController = navController,
-                    scaffoldState = scaffoldState
                 )
             }
         }

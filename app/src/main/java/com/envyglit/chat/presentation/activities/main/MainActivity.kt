@@ -9,14 +9,17 @@ import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.envyglit.chat.Application
 import com.google.android.material.snackbar.Snackbar
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ActivityMainBinding
 import com.envyglit.chat.util.extensions.showToast
 import com.envyglit.chat.domain.entities.data.ChatType
+import com.envyglit.chat.presentation.ChatApp
 import com.envyglit.chat.presentation.adapters.ChatAdapter
 import com.envyglit.chat.presentation.adapters.ChatItemTouchHelperCallback
 import com.envyglit.chat.presentation.activities.archive.ArchiveActivity
@@ -40,20 +43,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+//        binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//        setSupportActionBar(binding.toolbar)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
 
 //        initViews()
 //        setupObserver()
 
-//        chatAdapter.updateData(chats.map { it.toChatItem() })
-
-        setContent{
-            MaterialTheme {
-                MainScreen()
-            }
+        setContent {
+            ChatApp()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{

@@ -1,8 +1,10 @@
 package com.envyglit.chat.presentation.activities.main
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.envyglit.chat.util.extensions.mutableLiveData
 import com.envyglit.chat.util.extensions.shortFormat
 import com.envyglit.chat.domain.entities.data.Chat
@@ -20,21 +22,29 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+data class HomeUiState(
+    val chatItems: List<ChatItem> = emptyList(),
+    val loading: Boolean = false,
+    val errorMessage: String? = null
+)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val chatsInteractor: ChatsInteractor
-    ): ViewModel() {
+) : ViewModel() {
 
     private val query = mutableLiveData("")
 
     private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
 
-    private val _uiState = MutableStateFlow(MainUiState(loading = true))
-    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(HomeUiState(loading = true))
+    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     init {
+        Log.d("ViewModel- Log", "got here")
+
         fetchChats()
     }
 
@@ -46,6 +56,8 @@ class HomeViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data ->
+                    Log.d("ViewModel- Log", data.toString())
+
                     val archived = data.filter { it.archived }
                     if (archived.isEmpty()) {
                         _uiState.update {
@@ -70,19 +82,19 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun getChatData() : MutableLiveData<Resource<List<ChatItem>>> {
+    fun getChatData(): MutableLiveData<Resource<List<ChatItem>>> {
         val result = MediatorLiveData<Resource<List<ChatItem>>>()
 
         val filterF = {
             val queryStr = query.value.orEmpty()
             val chats = if (chats.value == null) Resource.loading(null) else chats.value
 
-            result.value = if(queryStr.isEmpty()) chats as Resource<List<ChatItem>>?
-            else Resource.success(chats?.data?.filter { it.title.contains(queryStr,true) })
+            result.value = if (queryStr.isEmpty()) chats as Resource<List<ChatItem>>?
+            else Resource.success(chats?.data?.filter { it.title.contains(queryStr, true) })
         }
 
-        result.addSource(chats){filterF.invoke()}
-        result.addSource(query){filterF.invoke()}
+        result.addSource(chats) { filterF.invoke() }
+        result.addSource(query) { filterF.invoke() }
 
         return result
     }
@@ -92,7 +104,7 @@ class HomeViewModel @Inject constructor(
         chatsInteractor.updateChat(chat.copy(archived = true))
     }
 
-    fun restoreFromArchive(chatId: String){
+    fun restoreFromArchive(chatId: String) {
         val chat = chatsInteractor.findChatById(chatId)
         chatsInteractor.updateChat(chat.copy(archived = false))
     }
@@ -105,21 +117,21 @@ class HomeViewModel @Inject constructor(
         val count = archived.fold(0) { acc, chat -> acc + chat.unreadMessageCount() }
 
         val lastChat: Chat =
-                if (archived.none { it.unreadMessageCount() != 0 }) archived.last() else
-                    archived.filter { it.unreadMessageCount() != 0 }
-                        .maxByOrNull { it.lastMessageDate()!! }!!
+            if (archived.none { it.unreadMessageCount() != 0 }) archived.last() else
+                archived.filter { it.unreadMessageCount() != 0 }
+                    .maxByOrNull { it.lastMessageDate()!! }!!
 
         return ChatItem(
-                "-1",
-                null,
-                "",
-                "Архив чатов",
-                lastChat.lastMessageShort().first,
-                count,
-                lastChat.lastMessageDate()?.shortFormat(),
-                false,
-                ChatType.ARCHIVE,
-                lastChat.lastMessageShort().second
+            "-1",
+            null,
+            "",
+            "Архив чатов",
+            lastChat.lastMessageShort().first,
+            count,
+            lastChat.lastMessageDate()?.shortFormat(),
+            false,
+            ChatType.ARCHIVE,
+            lastChat.lastMessageShort().second
         )
     }
 
@@ -127,5 +139,4 @@ class HomeViewModel @Inject constructor(
         super.onCleared()
         disposable.clear()
     }
-
 }

@@ -1,16 +1,14 @@
 package com.envyglit.chat.presentation
 
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.envyglit.chat.Application
 import com.envyglit.chat.presentation.activities.main.HomeScreen
 import com.envyglit.chat.presentation.activities.main.HomeViewModel
 
@@ -23,7 +21,6 @@ object MainDestinations {
 @Composable
 fun ChatNavGraph(
     navController: NavHostController = rememberNavController(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
     startDestination: String = MainDestinations.HOME_ROUTE
 ) {
 
@@ -35,37 +32,36 @@ fun ChatNavGraph(
         startDestination = startDestination
     ) {
         composable(MainDestinations.HOME_ROUTE) {
-            val homeViewModel: HomeViewModel by viewModels()
             HomeScreen(
-                homeViewModel = homeViewModel
+                navigateToChat = actions.navigateToChat
             )
         }
-        composable(MainDestinations.INTERESTS_ROUTE) {
-            val interestsViewModel: InterestsViewModel = viewModel(
-                factory = InterestsViewModel.provideFactory(appContainer.interestsRepository)
-            )
-            InterestsScreen(
-                interestsViewModel = interestsViewModel,
-                openDrawer = openDrawer
-            )
+        composable(MainDestinations.USERS_ROUTE) {
+//            val interestsViewModel: InterestsViewModel = viewModel(
+//                factory = InterestsViewModel.provideFactory(appContainer.interestsRepository)
+//            )
+//            InterestsScreen(
+//                interestsViewModel = interestsViewModel,
+//                openDrawer = openDrawer
+//            )
         }
-        composable(
-            route = "${MainDestinations.ARTICLE_ROUTE}/{$ARTICLE_ID_KEY}",
-            arguments = listOf(navArgument(ARTICLE_ID_KEY) { type = NavType.StringType })
-        ) { backStackEntry ->
-            // ArticleVM obtains the articleId via backStackEntry.arguments from SavedStateHandle
-            val articleViewModel: ArticleViewModel = viewModel(
-                factory = ArticleViewModel.provideFactory(
-                    postsRepository = appContainer.postsRepository,
-                    owner = backStackEntry,
-                    defaultArgs = backStackEntry.arguments
-                )
-            )
-            ArticleScreen(
-                articleViewModel = articleViewModel,
-                onBack = actions.upPress
-            )
-        }
+//        composable(
+//            route = "${MainDestinations.ARTICLE_ROUTE}/{$ARTICLE_ID_KEY}",
+//            arguments = listOf(navArgument(ARTICLE_ID_KEY) { type = NavType.StringType })
+//        ) { backStackEntry ->
+//            // ArticleVM obtains the articleId via backStackEntry.arguments from SavedStateHandle
+//            val articleViewModel: ArticleViewModel = viewModel(
+//                factory = ArticleViewModel.provideFactory(
+//                    postsRepository = appContainer.postsRepository,
+//                    owner = backStackEntry,
+//                    defaultArgs = backStackEntry.arguments
+//                )
+//            )
+//            ArticleScreen(
+//                articleViewModel = articleViewModel,
+//                onBack = actions.upPress
+//            )
+//        }
     }
 
 }

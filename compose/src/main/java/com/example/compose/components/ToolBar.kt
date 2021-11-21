@@ -1,40 +1,39 @@
-package com.envyglit.chat.presentation.components
+package com.example.compose.components
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.envyglit.chat.R
-import com.envyglit.chat.presentation.theme.ChatTheme
 
 @Composable
 fun ToolBar(
     modifier: Modifier = Modifier,
     title: String,
     onBackPressed: () -> Unit = { },
-    elevation: Dp = 0.dp
-) {
+    elevation: Dp = 0.dp,
+    navigationIcon: @Composable (() -> Unit)? = null,
+    ) {
     TopAppBar(
         modifier = modifier,
-        navigationIcon = {
-            IconButton(
-                onClick = onBackPressed
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow),
-                    contentDescription = null,
-                    tint = Color.White
-                )
-            }
-        },
+        navigationIcon = navigationIcon,
+//        navigationIcon = {
+//            IconButton(
+//                onClick = onBackPressed
+//            ) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_arrow),
+//                    contentDescription = null,
+//                    tint = Color.White
+//                )
+//            }
+//        }
         title = {
             Text(
                 text = title,
@@ -45,7 +44,7 @@ fun ToolBar(
                 )
             )
         },
-        backgroundColor = colorResource(id = R.color.color_primary),
+        backgroundColor = MaterialTheme.colors.background,
         elevation = elevation
     )
 }
@@ -53,7 +52,7 @@ fun ToolBar(
 @Preview
 @Composable
 fun ToolBarPreview() {
-    ChatTheme {
+    MaterialTheme() {
         ToolBar(title = "Preview!")
     }
 }

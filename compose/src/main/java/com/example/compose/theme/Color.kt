@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.envyglit.chat.presentation.theme
+package com.example.compose.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.material.LocalElevationOverlay
