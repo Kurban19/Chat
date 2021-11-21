@@ -5,6 +5,7 @@ import com.envyglit.chat.data.remote.FireBaseService
 import com.envyglit.chat.data.repository.RepositoryImpl
 import com.envyglit.chat.data.local.Database
 import com.envyglit.chat.domain.repository.Repository
+import com.envyglit.chat.util.MockRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesMainRepository(firebaseService: FireBaseService, database: Database): Repository {
-        return RepositoryImpl(firebaseService, database)
+        return MockRepository()
     }
 
 

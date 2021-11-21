@@ -2,7 +2,6 @@ package com.envyglit.chat.presentation.activities.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import android.view.Menu
 import android.view.MenuItem
@@ -24,8 +23,6 @@ import com.envyglit.chat.presentation.activities.archive.ArchiveActivity
 import com.envyglit.chat.presentation.activities.chat.ChatActivity
 import com.envyglit.chat.presentation.activities.profile.ProfileActivity
 import com.envyglit.chat.presentation.activities.users.UsersActivity
-import com.envyglit.chat.presentation.theme.ChatTheme
-import com.envyglit.chat.util.DataGenerator
 import com.envyglit.chat.util.Status
 import com.envyglit.chat.util.extensions.gone
 import com.envyglit.chat.util.extensions.visible
@@ -37,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var chatAdapter: ChatAdapter
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -47,18 +44,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        initViews()
+//        initViews()
 //        setupObserver()
 
-        val chats = DataGenerator.stabChats
-        chatAdapter.updateData(chats.map { it.toChatItem() })
+//        chatAdapter.updateData(chats.map { it.toChatItem() })
 
-//        setContent{
-//            MaterialTheme {
-//                MainScreen(chats.map { it.toChatItem() })
-//            }
-//        }
-        Log.d("Time-Main", Date().time.toString())
+        setContent{
+            MaterialTheme {
+                MainScreen()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{

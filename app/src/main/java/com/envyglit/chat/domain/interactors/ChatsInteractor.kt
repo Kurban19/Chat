@@ -8,7 +8,7 @@ class ChatsInteractor @Inject constructor(
     private val repository: Repository
 ) {
 
-    fun getChats() = repository.getEngagedChats()
+    fun getChats() = repository.getChats()
 
     fun findChatById(chatId: String): Chat {
         return repository.findChatById(chatId)

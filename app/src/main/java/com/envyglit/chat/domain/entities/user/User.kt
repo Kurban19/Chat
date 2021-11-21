@@ -11,21 +11,21 @@ import java.util.*
 @Entity(tableName = "Users")
 data class User (
     @PrimaryKey
-    var id:String = "",
-    var firstName:String = "",
-    var lastName:String = "",
-    var avatar:String? = null,
+    val id:String = "",
+    val firstName:String = "",
+    val lastName:String = "",
+    val avatar:String? = null,
     @TypeConverters(DateConverter::class)
-    var lastVisit: Date? = null,
-    var isOnline:Boolean = false,
-    var email: String = ""
+    val lastVisit: Date? = null,
+    val isOnline:Boolean = false,
+    val email: String = ""
 ) {
 
     fun toUserItem(): UserItem {
         val lastActivity = when{
             lastVisit == null -> "Еще ниразу не заходил"
             isOnline -> "online"
-            else -> "Последний раз был ${lastVisit!!.humanizeDiff()}"
+            else -> "Последний раз был ${lastVisit.humanizeDiff()}"
         }
 
         return UserItem(

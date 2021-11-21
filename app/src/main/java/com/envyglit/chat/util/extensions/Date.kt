@@ -42,7 +42,7 @@ fun Date.isSameDay(date:Date): Boolean{
 }
 
 
-fun Date.humanizeDiff(date: Date = Date()): String{
+fun Date.humanizeDiff(date: Date = Date()): String {
     var res = ""
     val sdf = SimpleDateFormat("HH:mm:ss dd:MM:yy", Locale("ru"))
     val past:Date? = sdf.parse(this.format())

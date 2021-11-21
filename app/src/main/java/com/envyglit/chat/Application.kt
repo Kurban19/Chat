@@ -12,7 +12,7 @@ import java.util.*
 
 
 @HiltAndroidApp
-class App: Application(), LifecycleObserver {
+class Application: Application(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()

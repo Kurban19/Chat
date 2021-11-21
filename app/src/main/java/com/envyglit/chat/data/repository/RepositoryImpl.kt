@@ -25,18 +25,18 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
             }
     }
 
-    override fun getEngagedChats(): Observable<List<Chat>> {
+    override fun getChats(): Observable<List<Chat>> {
 //        return Observable.concat(
 //            getChatsFromDb(),
 //            getChatsFromApi())
-        return getChatsFromApi()
+        return fetchChatsFromApi()
     }
 
     private fun getChatsFromDb(): Observable<List<Chat>> {
         return database.chatDao().getChats().filter { it.isNotEmpty() }
     }
 
-    private fun getChatsFromApi(): Observable<List<Chat>> {
+    private fun fetchChatsFromApi(): Observable<List<Chat>> {
         return fireBaseService.getEngagedChats()
             .doOnNext() {
 //                storeChatsInDb(it)
