@@ -3,7 +3,7 @@ package com.envyglit.chat.util
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.envyglit.chat.domain.entities.user.User
+import com.envyglit.core.domain.entities.user.User
 import java.util.*
 
 object FireBaseUtils {
@@ -20,7 +20,12 @@ object FireBaseUtils {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 with(FirebaseAuth.getInstance().currentUser){
-                    val newUser = User(this!!.uid, displayName ?: "unknown", "", email = email ?: "")
+                    val newUser = User(
+                        this!!.uid,
+                        displayName ?: "unknown",
+                        "",
+                        email = email ?: ""
+                    )
                     currentUserDocRef.set(newUser)
                 }
             }
@@ -66,7 +71,7 @@ object FireBaseUtils {
     fun getCurrentUser(onComplete: (User) -> Unit) {
         currentUserDocRef.get()
                 .addOnSuccessListener {
-                    onComplete(it.toObject(User::class.java)!!)
+                    it.toObject(User::class.java)?.let { it1 -> onComplete(it1) }
                 }
     }
 

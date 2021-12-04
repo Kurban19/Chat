@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.envyglit.chat.R
-import com.envyglit.chat.domain.entities.chat.ChatItem
-import com.envyglit.chat.domain.entities.data.ChatType
+import com.envyglit.core.domain.entities.chat.ChatType
+import com.envyglit.core.ui.entities.chat.ChatItem
 import com.example.compose.theme.ChatTheme
 
 @Composable

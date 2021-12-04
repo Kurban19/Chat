@@ -1,10 +1,10 @@
 package com.envyglit.chat.presentation.activities.users
 
 import androidx.lifecycle.*
-import com.envyglit.chat.util.extensions.mutableLiveData
-import com.envyglit.chat.domain.entities.user.UserItem
+import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.chat.domain.repository.Repository
-import com.envyglit.chat.util.Resource
+import com.envyglit.core.ui.entities.user.UserItem
+import com.envyglit.core.ui.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

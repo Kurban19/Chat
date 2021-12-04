@@ -12,11 +12,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-
 
     @Provides
     fun providesFireBaseService(): FireBaseService = FireBaseServiceImpl()
@@ -26,6 +24,5 @@ class NetworkModule {
     fun providesMainRepository(firebaseService: FireBaseService, database: Database): Repository {
         return MockRepository()
     }
-
 
 }

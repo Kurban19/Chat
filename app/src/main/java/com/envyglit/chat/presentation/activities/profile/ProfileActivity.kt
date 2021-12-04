@@ -9,12 +9,11 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.envyglit.chat.databinding.ActivityProfileBinding
-import com.envyglit.chat.util.extensions.showToast
-import com.envyglit.chat.presentation.glide.GlideApp
+import com.envyglit.core.ui.extensions.showToast
+import com.envyglit.core.ui.glide.GlideApp
 import com.envyglit.chat.presentation.activities.login.LoginActivity
 import com.envyglit.chat.util.FireBaseUtils
 import com.envyglit.chat.util.StorageUtils
-import com.envyglit.chat.util.Utils
 import java.io.ByteArrayOutputStream
 
 class ProfileActivity: AppCompatActivity() {
@@ -123,7 +122,7 @@ class ProfileActivity: AppCompatActivity() {
             } else if (!pictureJustChanged) {
                 GlideApp.with(this)
                     .clear(binding.ivProfileAvatar)
-                binding.ivProfileAvatar.setInitials(Utils.toInitials(user.firstName, user.lastName))
+                binding.ivProfileAvatar.setInitials(com.envyglit.core.ui.utils.Utils.toInitials(user.firstName, user.lastName))
             }
 
         }

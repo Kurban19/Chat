@@ -5,7 +5,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
 
-object StorageUtils {
+object StorageUtils { //TODO change it to UploadPhotoService or smth
     private val storageInstance: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
 
     private val currentUserRef: StorageReference

@@ -1,9 +1,9 @@
 package com.envyglit.chat.data.remote
 
 import com.google.firebase.firestore.ListenerRegistration
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.user.User
+import com.envyglit.core.domain.entities.message.BaseMessage
+import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.user.User
 import io.reactivex.Observable
 
 interface FireBaseService {

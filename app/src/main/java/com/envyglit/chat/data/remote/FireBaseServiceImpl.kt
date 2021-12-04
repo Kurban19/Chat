@@ -4,13 +4,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.envyglit.chat.util.extensions.toChat
-import com.envyglit.chat.util.extensions.toUser
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.message.ImageMessage
-import com.envyglit.chat.domain.entities.message.TextMessage
-import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.user.User
+import com.envyglit.core.ui.extensions.toChat
+import com.envyglit.core.ui.extensions.toUser
+import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.user.User
 import io.reactivex.Observable
 
 class FireBaseServiceImpl : FireBaseService {
@@ -63,7 +60,7 @@ class FireBaseServiceImpl : FireBaseService {
 
     override fun setChatMessagesListener(
         chatId: String,
-        onListen: (List<BaseMessage>) -> Unit
+        onListen: (List<com.envyglit.core.domain.entities.message.BaseMessage>) -> Unit
     ): ListenerRegistration {
         return messagesCollectionRef.document(chatId).collection(MESSAGES)
             .orderBy(DATE)
@@ -72,13 +69,13 @@ class FireBaseServiceImpl : FireBaseService {
                     return@addSnapshotListener
                 }
 
-                val items = mutableListOf<BaseMessage>()
+                val items = mutableListOf<com.envyglit.core.domain.entities.message.BaseMessage>()
                 querySnapshot?.documents?.forEach { documentSnapshot ->
 
                     val message = if (documentSnapshot[TYPE] == TEXT)
-                        documentSnapshot.toObject(TextMessage::class.java)
+                        documentSnapshot.toObject(com.envyglit.core.domain.entities.message.TextMessage::class.java)
                     else
-                        documentSnapshot.toObject(ImageMessage::class.java)
+                        documentSnapshot.toObject(com.envyglit.core.domain.entities.message.ImageMessage::class.java)
 
                     message?.let {
                         items.add(it)
@@ -146,13 +143,13 @@ class FireBaseServiceImpl : FireBaseService {
             .update(chat.toMap())
     }
 
-    override fun sendMessage(message: BaseMessage, chatId: String) {
+    override fun sendMessage(message: com.envyglit.core.domain.entities.message.BaseMessage, chatId: String) {
         messagesCollectionRef.document(chatId)
             .collection(MESSAGES)
             .apply {
                 when (message) {
-                    is TextMessage -> add(message)
-                    is ImageMessage -> add(message)
+                    is com.envyglit.core.domain.entities.message.TextMessage -> add(message)
+                    is com.envyglit.core.domain.entities.message.ImageMessage -> add(message)
                 }
             }
     }

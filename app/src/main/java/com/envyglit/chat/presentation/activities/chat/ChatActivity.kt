@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
 import com.envyglit.chat.databinding.ActivityChatBinding
-import com.envyglit.chat.util.extensions.toUser
-import com.envyglit.chat.presentation.glide.GlideApp
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.message.ImageMessage
-import com.envyglit.chat.domain.entities.message.TextMessage
-import com.envyglit.chat.domain.entities.data.Chat
+import com.envyglit.core.ui.extensions.toUser
 import com.envyglit.chat.presentation.adapters.MessagesAdapter
 import com.envyglit.chat.presentation.activities.main.MainActivity
+import com.envyglit.core.ui.glide.GlideApp
 import com.envyglit.chat.util.StorageUtils
+import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.message.BaseMessage
+import com.envyglit.core.domain.entities.message.ImageMessage
+import com.envyglit.core.domain.entities.message.TextMessage
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -75,7 +75,7 @@ class ChatActivity : AppCompatActivity() {
                 binding.ivAvatarChat.setInitials(initials)
             } else {
                 GlideApp.with(this@ChatActivity)
-                    .load(StorageUtils.pathToReference(avatar))
+                    .load(StorageUtils.pathToReference(avatar!!))
                     .into(binding.ivAvatarChat)
             }
         }

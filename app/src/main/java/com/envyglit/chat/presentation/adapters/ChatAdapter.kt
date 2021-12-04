@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.envyglit.chat.databinding.*
-import com.envyglit.chat.presentation.glide.GlideApp
-import com.envyglit.chat.domain.entities.chat.ChatItem
-import com.envyglit.chat.domain.entities.data.ChatType
 import com.envyglit.chat.util.StorageUtils
+import com.envyglit.core.domain.entities.chat.ChatType
+import com.envyglit.core.ui.entities.chat.ChatItem
+import com.envyglit.core.ui.glide.GlideApp
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object{
@@ -96,8 +96,7 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
                 binding.ivAvatarSingle.setInitials(item.initials)
             } else {
                 GlideApp.with(itemView)
-//                    .load(StorageUtils.pathToReference(item.avatar))
-                    .load(item.avatar)
+                    .load(StorageUtils.pathToReference(item.avatar!!))
                     .into(binding.ivAvatarSingle)
             }
 

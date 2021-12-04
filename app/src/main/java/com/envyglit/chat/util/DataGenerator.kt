@@ -1,11 +1,7 @@
 package com.envyglit.chat.util
-import android.util.Log
-import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.message.TextMessage
-import com.envyglit.chat.domain.entities.user.User
-import com.envyglit.chat.util.extensions.TimeUnits
-import com.envyglit.chat.util.extensions.add
+import com.envyglit.core.ui.extensions.TimeUnits
+import com.envyglit.core.ui.extensions.add
+import com.envyglit.core.domain.entities.chat.Chat
 import java.util.*
 import kotlin.random.Random
 
@@ -344,13 +340,13 @@ object DataGenerator {
     val stabUsers = generateUsers(200)
     val stabChats = generateStabChats()
 
-    private fun generateUsers(count: Int): List<User> {
-        val list = mutableListOf<User>()
+    private fun generateUsers(count: Int): List<com.envyglit.core.domain.entities.user.User> {
+        val list = mutableListOf<com.envyglit.core.domain.entities.user.User>()
         for (i in 0 until count) {
             val isMale: Boolean = Random.nextBoolean()
             val (lastVisit: Date?, isOnline: Boolean) = randomDateAndOnline()
             list.add(
-                User(
+                com.envyglit.core.domain.entities.user.User(
                     "$i",
                     if (isMale) maleNames.random().orEmpty() else femaleNames.random().orEmpty(),
                     lastNames.random(true).orEmpty(),
@@ -433,13 +429,13 @@ object DataGenerator {
         return list
     }
 
-    private fun generateRandomMessages(chat: Chat, users: List<User>): MutableList<BaseMessage> {
-        val list = mutableListOf<BaseMessage>()
+    private fun generateRandomMessages(chat: Chat, users: List<com.envyglit.core.domain.entities.user.User>): MutableList<com.envyglit.core.domain.entities.message.BaseMessage> {
+        val list = mutableListOf<com.envyglit.core.domain.entities.message.BaseMessage>()
         val rnd = (0..10).random()
         for (i in 0 until rnd) {
             val user = randomUser(users)
             list.add(
-                TextMessage(
+                com.envyglit.core.domain.entities.message.TextMessage(
                     "$i",
                     user,
                     isRead = false,
@@ -463,7 +459,7 @@ object DataGenerator {
         return lorem.randomSublist(phrasesCount).joinToString(" ")
     }
 
-    private fun randomUser(users: List<User>): User {
+    private fun randomUser(users: List<com.envyglit.core.domain.entities.user.User>): com.envyglit.core.domain.entities.user.User {
         val rndInd = (0 until users.size).random()
         return users[rndInd]
     }

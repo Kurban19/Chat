@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ActivityArchiveBinding
-import com.envyglit.chat.util.extensions.showToast
+import com.envyglit.core.ui.extensions.showToast
 import com.envyglit.chat.presentation.adapters.ChatAdapter
 import com.envyglit.chat.presentation.adapters.ChatItemTouchHelperCallback
 import com.envyglit.chat.presentation.activities.chat.ChatActivity
 import com.envyglit.chat.presentation.activities.main.MainActivity
-import com.envyglit.chat.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -89,13 +88,13 @@ class ArchiveActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel.getChatData().observe(this, {
             when(it.status){
-                Status.SUCCESS -> {
+                com.envyglit.core.ui.utils.Status.SUCCESS -> {
                     chatAdapter.updateData(it.data.orEmpty())
                 }
-                Status.LOADING -> {
+                com.envyglit.core.ui.utils.Status.LOADING -> {
                     //TODO
                 }
-                Status.ERROR -> {
+                com.envyglit.core.ui.utils.Status.ERROR -> {
                     showToast("Something went wrong")
                 }
             }

@@ -1,13 +1,11 @@
 package com.envyglit.chat.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.ListenerRegistration
+import com.envyglit.chat.data.local.Database
 import com.envyglit.chat.data.remote.FireBaseService
 import com.envyglit.chat.domain.repository.Repository
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.user.User
-import com.envyglit.chat.data.local.Database
+import com.envyglit.core.domain.entities.chat.Chat
+import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.Observable
 import javax.inject.Singleton
 
@@ -16,9 +14,9 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
     Repository {
 
     val chats = MutableLiveData<List<Chat>>(listOf())
-    val users = MutableLiveData<List<User>>(listOf())
+    val users = MutableLiveData<List<com.envyglit.core.domain.entities.user.User>>(listOf())
 
-    override fun getUsers(): Observable<List<User>> {
+    override fun getUsers(): Observable<List<com.envyglit.core.domain.entities.user.User>> {
         return fireBaseService.getUsers()
             .doOnNext {
                 users.value = it
@@ -48,7 +46,7 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
         database.chatDao().insertAllChats(chats)
     }
 
-    override fun findUserById(userId: String): User {
+    override fun findUserById(userId: String): com.envyglit.core.domain.entities.user.User {
         val user = users.value?.find { it.id == userId }
         user ?: throw KotlinNullPointerException("User not found")
         return user
@@ -61,15 +59,15 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
         return chat
     }
 
-    override fun findUsers(ids: List<String>): MutableList<User> {
+    override fun findUsers(ids: List<String>): MutableList<com.envyglit.core.domain.entities.user.User> {
         return users.value!!.filter { ids.contains(it.id) }.toMutableList()
     }
 
-    override fun createChat(user: User) {
+    override fun createChat(user: com.envyglit.core.domain.entities.user.User) {
         fireBaseService.getOrCreateChat(user)
     }
 
-    override fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
+    override fun createGroupChat(listOfUsers: MutableList<com.envyglit.core.domain.entities.user.User>, titleOfGroup: String) {
         fireBaseService.createGroupChat(listOfUsers, titleOfGroup)
     }
 
@@ -77,13 +75,13 @@ class RepositoryImpl(private val fireBaseService: FireBaseService, private val d
         fireBaseService.updateChat(chat)
     }
 
-    override fun sendMessage(message: BaseMessage, chatId: String) {
+    override fun sendMessage(message: com.envyglit.core.domain.entities.message.BaseMessage, chatId: String) {
         fireBaseService.sendMessage(message, chatId)
     }
 
     override fun addMessagesListener(
         chatId: String,
-        onListen: (List<BaseMessage>) -> Unit
+        onListen: (List<com.envyglit.core.domain.entities.message.BaseMessage>) -> Unit
     ): ListenerRegistration {
         return fireBaseService.setChatMessagesListener(chatId, onListen)
     }

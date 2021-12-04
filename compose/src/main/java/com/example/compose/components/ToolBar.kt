@@ -5,23 +5,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
 fun ToolBar(
     modifier: Modifier = Modifier,
-    title: String,
+    title: String = "Chat",
     onBackPressed: () -> Unit = { },
     elevation: Dp = 0.dp,
     navigationIcon: @Composable (() -> Unit)? = null,
     ) {
     TopAppBar(
-        modifier = modifier,
         navigationIcon = navigationIcon,
 //        navigationIcon = {
 //            IconButton(
@@ -40,12 +42,15 @@ fun ToolBar(
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.Black
                 )
             )
         },
         backgroundColor = MaterialTheme.colors.background,
-        elevation = elevation
+        elevation = elevation,
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding(bottom = false)
     )
 }
 

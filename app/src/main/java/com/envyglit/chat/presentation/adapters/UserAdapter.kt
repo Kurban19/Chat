@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.envyglit.chat.databinding.ItemUserListBinding
-import com.envyglit.chat.presentation.glide.GlideApp
-import com.envyglit.chat.domain.entities.user.UserItem
 import com.envyglit.chat.util.StorageUtils
+import com.envyglit.core.ui.entities.user.UserItem
+import com.envyglit.core.ui.glide.GlideApp
 
 class UserAdapter(private val listener: (UserItem) -> Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private var items: List<UserItem> = listOf()
@@ -47,7 +47,7 @@ class UserAdapter(private val listener: (UserItem) -> Unit): RecyclerView.Adapte
         fun bind(user: UserItem, listener: (UserItem) -> Unit) {
             if (user.avatar != null) {
                 GlideApp.with(itemView)
-                    .load(StorageUtils.pathToReference(user.avatar))
+                    .load(StorageUtils.pathToReference(user.avatar!!))
                     .into(binding.ivAvatarUser)
             } else {
                 GlideApp.with(itemView).clear(binding.ivAvatarUser)

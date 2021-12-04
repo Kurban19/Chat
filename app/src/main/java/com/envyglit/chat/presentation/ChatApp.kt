@@ -1,5 +1,6 @@
 package com.envyglit.chat.presentation
 
+import android.util.Log
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -26,14 +27,12 @@ fun ChatApp() {
             }
 
             val navController = rememberNavController()
-            val coroutineScope = rememberCoroutineScope()
-            // This top level scaffold contains the app drawer, which needs to be accessible
-            // from multiple screens. An event to open the drawer is passed down to each
-            // screen that needs it.
+//            val coroutineScope = rememberCoroutineScope()
             val scaffoldState = rememberScaffoldState()
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route ?: MainDestinations.HOME_ROUTE
+//            val currentRoute = navBackStackEntry?.destination?.route ?: MainDestinations.HOME_ROUTE
+            Log.d("Logger", "got here")
             Scaffold(
                 scaffoldState = scaffoldState,
             ) {

@@ -16,13 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ActivityUsersBinding
-import com.envyglit.chat.util.extensions.showToast
-import com.envyglit.chat.domain.entities.user.UserItem
+import com.envyglit.core.ui.extensions.showToast
 import com.envyglit.chat.presentation.adapters.UserAdapter
 import com.envyglit.chat.presentation.dialogs.GetTitleOfGroupDialog
-import com.envyglit.chat.util.Status
-import com.envyglit.chat.util.extensions.gone
-import com.envyglit.chat.util.extensions.visible
+import com.envyglit.core.ui.entities.user.UserItem
+import com.envyglit.core.ui.extensions.gone
+import com.envyglit.core.ui.extensions.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -109,18 +108,18 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
     private fun setupObserver(){
         viewModel.getUsers().observe(this, {
             when(it.status){
-                Status.SUCCESS -> {
+                com.envyglit.core.ui.utils.Status.SUCCESS -> {
                     it.data?.let { data ->
                         binding.progressBar.gone()
                         binding.rvUserList.visible()
                         usersAdapter.updateData(data)
                     }
                 }
-                Status.LOADING -> {
+                com.envyglit.core.ui.utils.Status.LOADING -> {
                     binding.progressBar.visible()
                     binding.rvUserList.gone()
                 }
-                Status.ERROR -> {
+                com.envyglit.core.ui.utils.Status.ERROR -> {
                     binding.progressBar.gone()
                     showToast("Something went wrong")
                 }

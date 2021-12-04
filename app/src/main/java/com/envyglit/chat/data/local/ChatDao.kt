@@ -5,7 +5,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Observable
 import androidx.room.Dao
-import com.envyglit.chat.domain.entities.data.Chat
+import com.envyglit.core.domain.entities.chat.Chat
 
 @Dao
 interface ChatDao {

@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.envyglit.chat.util.extensions.mutableLiveData
-import com.envyglit.chat.util.extensions.shortFormat
-import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.chat.ChatItem
-import com.envyglit.chat.domain.entities.data.ChatType
+import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.chat.domain.interactors.ChatsInteractor
-import com.envyglit.chat.util.Resource
+import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.chat.ChatType
+import com.envyglit.core.ui.entities.chat.ChatItem
+import com.envyglit.core.ui.extensions.shortFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -35,7 +33,7 @@ class HomeViewModel @Inject constructor(
 
     private val query = mutableLiveData("")
 
-    private val chats by lazy { MutableLiveData<Resource<List<ChatItem>>>() }
+    private val chats by lazy { MutableLiveData<com.envyglit.core.ui.utils.Resource<List<ChatItem>>>() }
 
     private val _uiState = MutableStateFlow(HomeUiState(loading = true))
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
@@ -54,6 +52,7 @@ class HomeViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data ->
+                    Log.d("Logger", data.toString())
                     val archived = data.filter { it.archived }
                     if (archived.isEmpty()) {
                         _uiState.update {
@@ -78,15 +77,15 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun getChatData(): MutableLiveData<Resource<List<ChatItem>>> {
-        val result = MediatorLiveData<Resource<List<ChatItem>>>()
+    fun getChatData(): MutableLiveData<com.envyglit.core.ui.utils.Resource<List<ChatItem>>> {
+        val result = MediatorLiveData<com.envyglit.core.ui.utils.Resource<List<ChatItem>>>()
 
         val filterF = {
             val queryStr = query.value.orEmpty()
-            val chats = if (chats.value == null) Resource.loading(null) else chats.value
+            val chats = if (chats.value == null) com.envyglit.core.ui.utils.Resource.loading(null) else chats.value
 
-            result.value = if (queryStr.isEmpty()) chats as Resource<List<ChatItem>>?
-            else Resource.success(chats?.data?.filter { it.title.contains(queryStr, true) })
+            result.value = if (queryStr.isEmpty()) chats as com.envyglit.core.ui.utils.Resource<List<ChatItem>>?
+            else com.envyglit.core.ui.utils.Resource.success(chats?.data?.filter { it.title.contains(queryStr, true) })
         }
 
         result.addSource(chats) { filterF.invoke() }

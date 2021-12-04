@@ -1,8 +1,7 @@
 package com.envyglit.chat.domain.interactors
 
-import android.util.Log
-import com.envyglit.chat.domain.entities.data.Chat
 import com.envyglit.chat.domain.repository.Repository
+import com.envyglit.core.domain.entities.chat.Chat
 import io.reactivex.Observable
 import javax.inject.Inject
 

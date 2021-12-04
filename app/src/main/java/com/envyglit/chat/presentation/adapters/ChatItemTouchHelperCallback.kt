@@ -8,7 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.envyglit.chat.R
-import com.envyglit.chat.domain.entities.chat.ChatItem
+import com.envyglit.core.ui.entities.chat.ChatItem
 
 class ChatItemTouchHelperCallback(
     private val adapter: ChatAdapter,

@@ -1,3 +1,4 @@
 rootProject.name='Chat'
 include ':app'
 include ':compose'
+include ':core'

@@ -1,9 +1,9 @@
 package com.envyglit.chat.util
 
-import com.envyglit.chat.domain.entities.data.Chat
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.user.User
+import com.envyglit.core.domain.entities.message.BaseMessage
+import com.envyglit.core.domain.entities.user.User
 import com.envyglit.chat.domain.repository.Repository
+import com.envyglit.core.domain.entities.chat.Chat
 import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.Observable
 
@@ -13,7 +13,7 @@ class MockRepository : Repository {
     }
 
     override fun findChatById(chatId: String): Chat? {
-        return DataGenerator.stabChats.find { it.id == chatId }
+        return DataGenerator.stabChats.find { it?.id == chatId }
     }
 
     override fun createChat(user: User) {
@@ -41,15 +41,13 @@ class MockRepository : Repository {
     }
 
     override fun sendMessage(message: BaseMessage, chatId: String) {
-        TODO("Not yet implemented")
+        TODO("Nothing")
     }
 
     override fun addMessagesListener(
         chatId: String,
         onListen: (List<BaseMessage>) -> Unit
     ): ListenerRegistration {
-        TODO("Not yet implemented")
+        TODO("Nothing")
     }
-
-
 }

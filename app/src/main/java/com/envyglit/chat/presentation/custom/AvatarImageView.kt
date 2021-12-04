@@ -17,7 +17,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.envyglit.chat.R
-import com.envyglit.chat.util.extensions.dpToPx
+import com.envyglit.core.ui.extensions.dpToPx
 import kotlin.math.max
 
 class AvatarImageView @JvmOverloads constructor(

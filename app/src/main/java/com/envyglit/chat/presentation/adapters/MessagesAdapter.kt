@@ -12,14 +12,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ItemGroupMessageBinding
 import com.envyglit.chat.databinding.ItemMessageBinding
-import com.envyglit.chat.domain.entities.message.BaseMessage
-import com.envyglit.chat.domain.entities.message.ImageMessage
-import com.envyglit.chat.domain.entities.message.TextMessage
-import com.envyglit.chat.util.extensions.shortFormat
-import com.envyglit.chat.presentation.glide.GlideApp
+import com.envyglit.core.ui.glide.GlideApp
 import com.envyglit.chat.util.StorageUtils
-import com.envyglit.chat.util.extensions.gone
-import com.envyglit.chat.util.extensions.visible
+import com.envyglit.core.ui.extensions.gone
+import com.envyglit.core.ui.extensions.shortFormat
+import com.envyglit.core.ui.extensions.visible
 
 class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>()  {
 
@@ -33,7 +30,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
         true -> GROUP_TYPE
     }
 
-    private var items: List<BaseMessage> = listOf()
+    private var items: List<com.envyglit.core.domain.entities.message.BaseMessage> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         return when (viewType) {
@@ -60,7 +57,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
         holder.bind(items[position], holder)
     }
 
-    fun updateData(data: List<BaseMessage>){
+    fun updateData(data: List<com.envyglit.core.domain.entities.message.BaseMessage>){
 
         val diffCallback = object : DiffUtil.Callback(){
             override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].id == data[newPos].id
@@ -80,14 +77,14 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
     abstract inner class AbstractViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        abstract fun bind(item: BaseMessage, holder: AbstractViewHolder)
+        abstract fun bind(item: com.envyglit.core.domain.entities.message.BaseMessage, holder: AbstractViewHolder)
 
     }
 
     inner class MessagesViewHolder(private val binding: ItemMessageBinding) :
         AbstractViewHolder(binding) {
 
-        override fun bind(item: BaseMessage, holder: AbstractViewHolder) {
+        override fun bind(item: com.envyglit.core.domain.entities.message.BaseMessage, holder: AbstractViewHolder) {
 
             if (item.from.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
                 binding.messageRoot.apply {
@@ -111,12 +108,12 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
                 }
            }
 
-           if(item is TextMessage) {
+           if(item is com.envyglit.core.domain.entities.message.TextMessage) {
                binding.tvMessageText.visible()
                binding.ivMessageImage.gone()
                binding.tvMessageText.text = item.text
            }
-           else if(item is ImageMessage) {
+           else if(item is com.envyglit.core.domain.entities.message.ImageMessage) {
                binding.tvMessageText.gone()
                binding.ivMessageImage.visible()
                GlideApp.with(itemView)
@@ -131,7 +128,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
     inner class GroupMessagesViewHolder(private val binding: ItemGroupMessageBinding) :
         AbstractViewHolder(binding) {
 
-        override fun bind(item: BaseMessage, holder: AbstractViewHolder) {
+        override fun bind(item: com.envyglit.core.domain.entities.message.BaseMessage, holder: AbstractViewHolder) {
 
             if (item.from.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
                 binding.groupMessageRoot.apply {
@@ -160,12 +157,12 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
                 }
             }
 
-            if(item is TextMessage) {
+            if(item is com.envyglit.core.domain.entities.message.TextMessage) {
                 binding.tvGroupMessageText.visible()
                 binding.ivGroupMessageImage.gone()
                 binding.tvGroupMessageText.text = item.text
             }
-            else if(item is ImageMessage) {
+            else if(item is com.envyglit.core.domain.entities.message.ImageMessage) {
                 binding.tvGroupMessageText.gone()
                 binding.ivGroupMessageImage.visible()
                 GlideApp.with(itemView)
