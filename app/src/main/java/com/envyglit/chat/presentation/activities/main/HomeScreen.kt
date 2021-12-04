@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.envyglit.chat.presentation.components.ToolBar
+import com.example.compose.components.ToolBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

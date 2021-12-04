@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
@@ -20,7 +18,7 @@ import coil.compose.rememberImagePainter
 import com.envyglit.chat.R
 import com.envyglit.chat.domain.entities.chat.ChatItem
 import com.envyglit.chat.domain.entities.data.ChatType
-import com.envyglit.chat.presentation.theme.ChatTheme
+import com.example.compose.theme.ChatTheme
 
 @Composable
 fun ComposeChatItem(chatItem: ChatItem) {

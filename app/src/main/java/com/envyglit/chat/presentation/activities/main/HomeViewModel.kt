@@ -43,8 +43,6 @@ class HomeViewModel @Inject constructor(
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     init {
-        Log.d("ViewModel- Log", "got here")
-
         fetchChats()
     }
 
@@ -56,8 +54,6 @@ class HomeViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data ->
-                    Log.d("ViewModel- Log", data.toString())
-
                     val archived = data.filter { it.archived }
                     if (archived.isEmpty()) {
                         _uiState.update {
