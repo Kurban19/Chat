@@ -22,9 +22,7 @@ fun HomeScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            ToolBar()
-        }
+        topBar = { ToolBar() }
     ) {
         LazyColumn() {
             items(state.value.chatItems.size) { index ->

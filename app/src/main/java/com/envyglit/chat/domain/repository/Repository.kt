@@ -1,6 +1,7 @@
 package com.envyglit.chat.domain.repository
 
 import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.user.User
 import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.Observable
@@ -16,6 +17,6 @@ interface Repository {
     fun findUserById(userId: String): User?
     fun findUsers(ids: List<String>): MutableList<User>?
 
-    fun sendMessage(message: com.envyglit.core.domain.entities.message.BaseMessage, chatId: String)
-    fun addMessagesListener(chatId: String, onListen: (List<com.envyglit.core.domain.entities.message.BaseMessage>) -> Unit): ListenerRegistration
+    fun sendMessage(message: BaseMessage, chatId: String)
+    fun addMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration
 }

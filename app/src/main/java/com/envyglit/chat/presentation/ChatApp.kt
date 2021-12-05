@@ -1,6 +1,5 @@
 package com.envyglit.chat.presentation
 
-import android.util.Log
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -32,7 +31,6 @@ fun ChatApp() {
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 //            val currentRoute = navBackStackEntry?.destination?.route ?: MainDestinations.HOME_ROUTE
-            Log.d("Logger", "got here")
             Scaffold(
                 scaffoldState = scaffoldState,
             ) {

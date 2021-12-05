@@ -7,6 +7,9 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.envyglit.core.ui.extensions.toChat
 import com.envyglit.core.ui.extensions.toUser
 import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.message.BaseMessage
+import com.envyglit.core.domain.entities.message.ImageMessage
+import com.envyglit.core.domain.entities.message.TextMessage
 import com.envyglit.core.domain.entities.user.User
 import io.reactivex.Observable
 
@@ -60,7 +63,7 @@ class FireBaseServiceImpl : FireBaseService {
 
     override fun setChatMessagesListener(
         chatId: String,
-        onListen: (List<com.envyglit.core.domain.entities.message.BaseMessage>) -> Unit
+        onListen: (List<BaseMessage>) -> Unit
     ): ListenerRegistration {
         return messagesCollectionRef.document(chatId).collection(MESSAGES)
             .orderBy(DATE)
@@ -69,13 +72,13 @@ class FireBaseServiceImpl : FireBaseService {
                     return@addSnapshotListener
                 }
 
-                val items = mutableListOf<com.envyglit.core.domain.entities.message.BaseMessage>()
+                val items = mutableListOf<BaseMessage>()
                 querySnapshot?.documents?.forEach { documentSnapshot ->
 
                     val message = if (documentSnapshot[TYPE] == TEXT)
-                        documentSnapshot.toObject(com.envyglit.core.domain.entities.message.TextMessage::class.java)
+                        documentSnapshot.toObject(TextMessage::class.java)
                     else
-                        documentSnapshot.toObject(com.envyglit.core.domain.entities.message.ImageMessage::class.java)
+                        documentSnapshot.toObject(ImageMessage::class.java)
 
                     message?.let {
                         items.add(it)
@@ -143,13 +146,13 @@ class FireBaseServiceImpl : FireBaseService {
             .update(chat.toMap())
     }
 
-    override fun sendMessage(message: com.envyglit.core.domain.entities.message.BaseMessage, chatId: String) {
+    override fun sendMessage(message: BaseMessage, chatId: String) {
         messagesCollectionRef.document(chatId)
             .collection(MESSAGES)
             .apply {
                 when (message) {
-                    is com.envyglit.core.domain.entities.message.TextMessage -> add(message)
-                    is com.envyglit.core.domain.entities.message.ImageMessage -> add(message)
+                    is TextMessage -> add(message)
+                    is ImageMessage -> add(message)
                 }
             }
     }
