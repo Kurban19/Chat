@@ -1,20 +1,33 @@
 package com.envyglit.chat.presentation.activities.users
 
 import androidx.lifecycle.*
-import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.chat.domain.repository.Repository
 import com.envyglit.core.ui.entities.user.UserItem
+import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.core.ui.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+
+data class UsersUiState(
+    val userItems: List<UserItem> = emptyList(),
+    val loading: Boolean = false,
+    val errorMessage: String? = null
+)
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
         private val repository: Repository
         ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(UsersUiState(loading = true))
+    val uiState: StateFlow<UsersUiState> = _uiState.asStateFlow()
 
     private val query = mutableLiveData("")
     private val userItems by lazy { MutableLiveData<Resource<List<UserItem>>>() }
@@ -33,10 +46,12 @@ class UsersViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { listOfUsers -> listOfUsers.map { it.toUserItem() } }
-                .subscribe ({
-                    userItems.postValue(Resource.success(it))
+                .subscribe ({ listOfUser ->
+                    _uiState.update { it.copy(userItems = listOfUser, loading = false) }
+//                    userItems.postValue(Resource.success(it))
                             },{
-                    userItems.postValue(Resource.error(it.printStackTrace().toString(),null))
+                    _uiState.update { it.copy(errorMessage = it.errorMessage) }
+//                    userItems.postValue(Resource.error(it.printStackTrace().toString(),null))
                 })
         )
     }

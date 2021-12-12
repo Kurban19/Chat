@@ -1,11 +1,14 @@
-package com.envyglit.chat.presentation.activities.main
+package com.envyglit.chat.presentation.activities.users
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -13,12 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.components.ToolBar
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeScreen(
-    navigateToChat: (String) -> Unit,
-    navigateToUsers: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+fun UsersScreen(
+    navigateHome: () -> Unit,
+    viewModel: UsersViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState.collectAsState()
 
@@ -29,21 +30,17 @@ fun HomeScreen(
         topBar = { ToolBar() },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToUsers
+                onClick = {  }
             ) {
                 Icon(Icons.Filled.Add, "")
             }
         }
     ) {
-        LazyColumn(contentPadding = PaddingValues(end = 120.dp)) {
-            items(state.value.chatItems.size) { index ->
-                ChatListItem(
-                    state.value.chatItems[index],
-                    navigateToChat
-                )
+        LazyColumn(contentPadding = PaddingValues(end = 20.dp)) {
+            items(state.value.userItems.size) { index ->
+                UserListItem(state.value.userItems[index])
             }
         }
     }
 
 }
-
