@@ -3,6 +3,8 @@ package com.envyglit.chat.presentation.activities.main
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -13,16 +15,23 @@ import com.example.compose.components.ToolBar
 @Composable
 fun HomeScreen(
     navigateToChat: (String) -> Unit,
+    navigateToAddChat: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-
     val state = viewModel.uiState.collectAsState()
 
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(),
-        topBar = { ToolBar() }
+        topBar = { ToolBar() },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navigateToAddChat }
+            ) {
+                Icon(Icons.Filled.Add, "")
+            }
+        }
     ) {
         LazyColumn() {
             items(state.value.chatItems.size) { index ->
@@ -32,3 +41,4 @@ fun HomeScreen(
     }
 
 }
+

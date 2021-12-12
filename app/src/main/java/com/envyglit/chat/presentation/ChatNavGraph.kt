@@ -33,7 +33,8 @@ fun ChatNavGraph(
     ) {
         composable(MainDestinations.HOME_ROUTE) {
             HomeScreen(
-                navigateToChat = actions.navigateToChat
+                navigateToChat = actions.navigateToChat,
+                navigateToAddChat = { navController.navigate(MainDestinations.USERS_ROUTE) }
             )
         }
         composable(MainDestinations.USERS_ROUTE) {
