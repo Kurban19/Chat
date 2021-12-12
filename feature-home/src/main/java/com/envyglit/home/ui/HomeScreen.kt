@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.activities.main
+package com.envyglit.home.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.compose.components.ToolBar
+import com.envyglit.compose.components.ToolBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

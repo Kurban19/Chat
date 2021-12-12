@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.theme
+package com.envyglit.compose.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

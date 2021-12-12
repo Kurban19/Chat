@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.activities.main
+package com.envyglit.home.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -16,10 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
-import com.envyglit.chat.R
 import com.envyglit.core.domain.entities.chat.ChatType
 import com.envyglit.core.ui.entities.chat.ChatItem
-import com.example.compose.theme.ChatTheme
+import com.envyglit.compose.theme.ChatTheme
+import com.envyglit.core.R
 
 @Composable
 fun ChatListItem(item: ChatItem, navigateToChat: (String) -> Unit) {

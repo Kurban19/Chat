@@ -1,4 +1,4 @@
-package com.envyglit.chat.util
+package com.envyglit.core.utils
 import com.envyglit.core.ui.extensions.TimeUnits
 import com.envyglit.core.ui.extensions.add
 import com.envyglit.core.domain.entities.chat.Chat

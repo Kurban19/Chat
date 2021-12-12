@@ -14,7 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.compose.components.ToolBar
+import com.envyglit.compose.components.ToolBar
 
 @Composable
 fun UsersScreen(

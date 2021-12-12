@@ -1,20 +1,18 @@
-package com.envyglit.chat.presentation.activities.main
+package com.envyglit.home.ui
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.envyglit.core.ui.extensions.mutableLiveData
-import com.envyglit.chat.domain.interactors.ChatsInteractor
-import com.envyglit.chat.util.DataGenerator
 import com.envyglit.core.domain.entities.chat.Chat
 import com.envyglit.core.domain.entities.chat.ChatType
 import com.envyglit.core.ui.entities.chat.ChatItem
+import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.core.ui.extensions.shortFormat
 import com.envyglit.core.ui.utils.Resource
+import com.envyglit.core.utils.DataGenerator
+import com.envyglit.home.domain.HomeInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +27,7 @@ data class HomeUiState(
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val chatsInteractor: ChatsInteractor
+    private val interactor: HomeInteractor
 ) : ViewModel() {
 
     private val query = mutableLiveData("")
@@ -95,13 +93,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun addToArchive(chatId: String) {
-        val chat = chatsInteractor.findChatById(chatId)
-        chatsInteractor.updateChat(chat.copy(archived = true))
+        val chat = interactor.findChatById(chatId)
+        interactor.updateChat(chat.copy(archived = true))
     }
 
     fun restoreFromArchive(chatId: String) {
-        val chat = chatsInteractor.findChatById(chatId)
-        chatsInteractor.updateChat(chat.copy(archived = false))
+        val chat = interactor.findChatById(chatId)
+        interactor.updateChat(chat.copy(archived = false))
     }
 
     fun handleSearchQuery(text: String?) {
