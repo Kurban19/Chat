@@ -14,7 +14,8 @@ class ChatViewModel @Inject constructor(
 
 
     fun getChat(chatId: String): Chat {
-        return repository.findChatById(chatId)!! //TODO change to nullable
+//        return repository.findChatById(chatId)!! //TODO change to nullable
+        return Chat()
     }
 
     fun addChatMessagesListener(chatId: String, onListen: (List<com.envyglit.core.domain.entities.message.BaseMessage>) -> Unit): ListenerRegistration {
@@ -26,7 +27,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun update(chat: Chat){
-        repository.updateChat(chat)
+//        repository.updateChat(chat)
     }
 
     fun findUserById(userId: String): com.envyglit.core.domain.entities.user.User {

@@ -1,4 +1,4 @@
-package com.envyglit.chat.util
+package com.envyglit.chat.util.mock
 
 import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.user.User
@@ -9,23 +9,12 @@ import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.Observable
 
 class MockRepository : Repository {
-    override fun getChats(): Observable<List<Chat>> {
-        return Observable.create{ DataGenerator.stabChats}
-    }
-
-    override fun findChatById(chatId: String): Chat? {
-        return DataGenerator.stabChats.find { it?.id == chatId }
-    }
 
     override fun createChat(user: User) {
         TODO("Not yet implemented")
     }
 
     override fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateChat(chat: Chat) {
         TODO("Not yet implemented")
     }
 

@@ -7,11 +7,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.Observable
 
 interface Repository {
-    fun getChats(): Observable<List<Chat>>
-    fun findChatById(chatId: String): Chat?
     fun createChat(user: User)
     fun createGroupChat(listOfUsers: MutableList<User>, titleOfGroup: String)
-    fun updateChat(chat: Chat)
 
     fun getUsers(): Observable<List<User>>
     fun findUserById(userId: String): User?

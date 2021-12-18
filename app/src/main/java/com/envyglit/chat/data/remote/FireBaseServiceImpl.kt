@@ -1,5 +1,6 @@
 package com.envyglit.chat.data.remote
 
+import com.envyglit.core.data.remote.FireBaseService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore

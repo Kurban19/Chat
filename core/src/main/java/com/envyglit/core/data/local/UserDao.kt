@@ -1,4 +1,4 @@
-package com.envyglit.chat.data.local
+package com.envyglit.core.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert

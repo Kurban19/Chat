@@ -10,15 +10,17 @@ class ChatsInteractor @Inject constructor(
 ) {
 
     fun getChats(): Observable<List<Chat>> {
-        return repository.getChats()
+//        return repository.getChats()
+        return Observable.create{emptyList<Chat>()}
     }
 
     fun findChatById(chatId: String): Chat {
-        return repository.findChatById(chatId)!!
+//        return repository.findChatById(chatId)!!
+        return Chat()
     }
 
     fun updateChat(chat: Chat) {
-        repository.updateChat(chat)
+//        repository.updateChat(chat)
     }
 
 }

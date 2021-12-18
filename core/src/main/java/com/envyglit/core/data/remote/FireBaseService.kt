@@ -1,4 +1,4 @@
-package com.envyglit.chat.data.remote
+package com.envyglit.core.data.remote
 
 import com.google.firebase.firestore.ListenerRegistration
 import com.envyglit.core.domain.entities.message.BaseMessage
