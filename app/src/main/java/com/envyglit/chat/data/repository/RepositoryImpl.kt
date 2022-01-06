@@ -1,10 +1,8 @@
 package com.envyglit.chat.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.envyglit.core.data.local.Database
-import com.envyglit.core.data.remote.FireBaseService
 import com.envyglit.chat.domain.repository.Repository
-import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.data.remote.FireBaseService
 import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.user.User
 import com.google.firebase.firestore.ListenerRegistration
@@ -12,8 +10,7 @@ import io.reactivex.Observable
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl(private val fireBaseService: FireBaseService, private val database: Database) :
-    Repository {
+class RepositoryImpl(private val fireBaseService: FireBaseService) : Repository {
 
     val users = MutableLiveData<List<User>>(listOf())
 

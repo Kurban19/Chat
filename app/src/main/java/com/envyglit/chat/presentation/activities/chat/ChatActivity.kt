@@ -15,8 +15,8 @@ import com.envyglit.chat.databinding.ActivityChatBinding
 import com.envyglit.core.ui.extensions.toUser
 import com.envyglit.chat.presentation.adapters.MessagesAdapter
 import com.envyglit.chat.presentation.activities.main.MainActivity
-import com.envyglit.core.ui.glide.GlideApp
-import com.envyglit.chat.util.StorageUtils
+//import com.envyglit.core.ui.glide.GlideApp
+import com.envyglit.core.utils.StorageUtils
 import com.envyglit.core.domain.entities.chat.Chat
 import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.message.ImageMessage
@@ -70,13 +70,13 @@ class ChatActivity : AppCompatActivity() {
             binding.tvTitleChat.text = title
 
             if (avatar == null) {
-                GlideApp.with(this@ChatActivity)
-                    .clear(binding.ivAvatarChat)
+//                GlideApp.with(this@ChatActivity)
+//                    .clear(binding.ivAvatarChat)
                 binding.ivAvatarChat.setInitials(initials)
             } else {
-                GlideApp.with(this@ChatActivity)
-                    .load(StorageUtils.pathToReference(avatar!!))
-                    .into(binding.ivAvatarChat)
+//                GlideApp.with(this@ChatActivity)
+//                    .load(StorageUtils.pathToReference(avatar!!))
+//                    .into(binding.ivAvatarChat)
             }
         }
 

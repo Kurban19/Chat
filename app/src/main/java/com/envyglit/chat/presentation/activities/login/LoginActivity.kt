@@ -1,8 +1,11 @@
 package com.envyglit.chat.presentation.activities.login
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI

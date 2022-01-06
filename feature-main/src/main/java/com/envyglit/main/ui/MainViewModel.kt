@@ -9,10 +9,11 @@ import com.envyglit.core.ui.entities.chat.ChatItem
 import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.core.ui.extensions.shortFormat
 import com.envyglit.core.ui.utils.Resource
-import com.envyglit.core.utils.DataGenerator
 import com.envyglit.main.domain.MainInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,35 +45,31 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchChats() {
-//        chats.postValue(Resource.loading(null))
-        _uiState.update { it.copy(chatItems = DataGenerator.stabChats.map { it.toChatItem() }) }
-//        disposable.add(
-//            chatsInteractor.getChats()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ data ->
-//                    val archived = data.filter { it.archived }
-//                    if (archived.isEmpty()) {
-//                        _uiState.update {
-//                            it.copy(
-//                                chatItems = data.map { chat -> chat.toChatItem() },
-//                                loading = false
-//                            )
-//                        }
-//                        //chats.postValue(Resource.success(data.map { chat -> chat.toChatItem() }))
-//                    } else {
-//                        val listWithArchive = mutableListOf<ChatItem>()
-//                        listWithArchive.add(0, makeArchiveItem(archived))
-//                        listWithArchive.addAll((data.filter { !it.archived }
-//                            .map { chat -> chat.toChatItem() }))
-//                        _uiState.update { it.copy(chatItems = listWithArchive, loading = false) }
-////                        chats.postValue(Resource.success(listWithArchive))
-//                    }
-//                }, { throwable ->
-//                    _uiState.update { it.copy(errorMessage = throwable.message, loading = false) }
-////                    chats.postValue(Resource.error(it.printStackTrace().toString(), null))
-//                })
-//        )
+        _uiState.update { it.copy(loading = true) }
+        disposable.add(
+            interactor.getChats()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ data ->
+                    val archived = data.filter { it.archived }
+                    if (archived.isEmpty()) {
+                        _uiState.update {
+                            it.copy(
+                                chatItems = data.map { chat -> chat.toChatItem() },
+                                loading = false
+                            )
+                        }
+                    } else {
+                        val listWithArchive = mutableListOf<ChatItem>()
+                        listWithArchive.add(0, makeArchiveItem(archived))
+                        listWithArchive.addAll((data.filter { !it.archived }
+                            .map { chat -> chat.toChatItem() }))
+                        _uiState.update { it.copy(chatItems = listWithArchive, loading = false) }
+                    }
+                }, { throwable ->
+                    _uiState.update { it.copy(errorMessage = throwable.message, loading = false) }
+                })
+        )
     }
 
     fun getChatData(): MutableLiveData<Resource<List<ChatItem>>> {

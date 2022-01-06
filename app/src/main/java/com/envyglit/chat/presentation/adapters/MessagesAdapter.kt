@@ -12,8 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ItemGroupMessageBinding
 import com.envyglit.chat.databinding.ItemMessageBinding
-import com.envyglit.core.ui.glide.GlideApp
-import com.envyglit.chat.util.StorageUtils
+//import com.envyglit.core.ui.glide.GlideApp
+import com.envyglit.core.utils.StorageUtils
 import com.envyglit.core.ui.extensions.gone
 import com.envyglit.core.ui.extensions.shortFormat
 import com.envyglit.core.ui.extensions.visible
@@ -116,9 +116,9 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
            else if(item is com.envyglit.core.domain.entities.message.ImageMessage) {
                binding.tvMessageText.gone()
                binding.ivMessageImage.visible()
-               GlideApp.with(itemView)
-                   .load(StorageUtils.pathToReference(item.image))
-                   .into(binding.ivMessageImage)
+//               GlideApp.with(itemView)
+//                   .load(StorageUtils.pathToReference(item.image))
+//                   .into(binding.ivMessageImage)
            }
 
             binding.tvMessageTime.text = item.date.shortFormat()
@@ -165,9 +165,9 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
             else if(item is com.envyglit.core.domain.entities.message.ImageMessage) {
                 binding.tvGroupMessageText.gone()
                 binding.ivGroupMessageImage.visible()
-                GlideApp.with(itemView)
-                    .load(StorageUtils.pathToReference(item.image))
-                    .into(binding.ivGroupMessageImage)
+//                GlideApp.with(itemView)
+//                    .load(StorageUtils.pathToReference(item.image))
+//                    .into(binding.ivGroupMessageImage)
             }
 
             binding.tvGroupMessageTime.text = item.date.shortFormat()

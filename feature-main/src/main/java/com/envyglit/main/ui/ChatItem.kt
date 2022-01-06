@@ -1,5 +1,6 @@
 package com.envyglit.main.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,7 @@ import com.envyglit.core.domain.entities.chat.ChatType
 import com.envyglit.core.ui.entities.chat.ChatItem
 import com.envyglit.compose.theme.ChatTheme
 import com.envyglit.core.R
+import com.envyglit.core.utils.StorageUtils
 
 @Composable
 fun ChatListItem(item: ChatItem, navigateToChat: (String) -> Unit) {
@@ -30,8 +32,9 @@ fun ChatListItem(item: ChatItem, navigateToChat: (String) -> Unit) {
             .padding(16.dp)
             .clickable(onClick = { navigateToChat(item.id) })
     ) {
+        Log.d("Logger", item.toString())
         Image(
-            painter = rememberImagePainter(item.avatar),
+            painter = rememberImagePainter(StorageUtils.pathToReference(item.avatar.orEmpty())),
             contentDescription = null,
             modifier = Modifier
                 .width(dimensionResource(R.dimen.avatar_item_size))

@@ -1,30 +1,23 @@
 package com.envyglit.core.domain.entities.chat
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.envyglit.core.ui.extensions.shortFormat
-import com.envyglit.core.ui.utils.Utils
-import com.envyglit.core.data.local.converters.MembersConverter
-import com.envyglit.core.data.local.converters.MessageConverter
+import android.util.Log
 import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.message.ImageMessage
 import com.envyglit.core.domain.entities.message.TextMessage
 import com.envyglit.core.domain.entities.user.User
 import com.envyglit.core.ui.entities.chat.ChatItem
+import com.envyglit.core.ui.extensions.shortFormat
+import com.envyglit.core.ui.utils.Utils
+import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
-@Entity(tableName = "Chats")
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Chat(
-    @PrimaryKey
     val id: String = "",
     var title: String = "",
-    @TypeConverters(MembersConverter::class)
     val members: List<User> = listOf(),
-    @TypeConverters(MessageConverter::class)
     var lastMessage: BaseMessage? = null,
     var archived: Boolean = false,
+    val single: Boolean = false,
     val avatar: String? = null
 ) {
 
@@ -52,20 +45,21 @@ data class Chat(
         else -> "Сообщений еще нет" to "undefine"
     }
 
-    fun isSingle(): Boolean = members.size == 1
+    fun isSingle(): Boolean = single
 
     fun toChatItem(): ChatItem { //TODO mapper to ui layer
 
         return if (isSingle()) {
 
-//            val user = members.find {  FirebaseAuth.getInstance().currentUser!!.uid != it.id } ?: User()
-            val user = User("3452354", "John", "Doe")
+            val user = members.find {  FirebaseAuth.getInstance().currentUser?.uid != it.id } ?: User() //TODO delete FirebaseAuth
+
+            Log.d("Logger", user.toString())
 
             ChatItem(
                 id,
-                avatar,
+                user.avatar,
                 Utils.toInitials(user.firstName, user.lastName),
-                title = "${members[0].firstName} ${members[0].lastName}",
+                title = "${user.firstName} ${user.lastName}",
                 lastMessageShort().first,
                 unreadMessageCount(),
                 lastMessageDate = lastMessageDate()?.shortFormat() ?: "",

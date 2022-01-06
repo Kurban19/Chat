@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.envyglit.chat.databinding.*
-import com.envyglit.chat.util.StorageUtils
+import com.envyglit.core.utils.StorageUtils
 import com.envyglit.core.domain.entities.chat.ChatType
 import com.envyglit.core.ui.entities.chat.ChatItem
-import com.envyglit.core.ui.glide.GlideApp
+//import com.envyglit.core.ui.glide.GlideApp
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object{
@@ -91,13 +91,13 @@ class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             if (item.avatar == null) {
-                GlideApp.with(itemView)
-                    .clear(binding.ivAvatarSingle)
+//                GlideApp.with(itemView)
+//                    .clear(binding.ivAvatarSingle)
                 binding.ivAvatarSingle.setInitials(item.initials)
             } else {
-                GlideApp.with(itemView)
-                    .load(StorageUtils.pathToReference(item.avatar!!))
-                    .into(binding.ivAvatarSingle)
+//                GlideApp.with(itemView)
+//                    .load(StorageUtils.pathToReference(item.avatar!!))
+//                    .into(binding.ivAvatarSingle)
             }
 
             binding.svIndicator.visibility = if (item.isOnline) View.VISIBLE else View.GONE

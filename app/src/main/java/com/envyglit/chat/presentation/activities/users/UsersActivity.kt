@@ -43,15 +43,15 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
         setupObserver()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean{
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
+        val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
         searchView.isIconifiedByDefault = true
         searchView.isFocusable = true
         searchView.isIconified = false
         searchView.requestFocusFromTouch()
-        searchView.queryHint ="Введите имя пользователя"
+        searchView.queryHint = "Введите имя пользователя"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.handleSearchQuery(query)
@@ -65,14 +65,13 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
 
         })
         return super.onCreateOptionsMenu(menu)
-        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if(item.itemId == android.R.id.home){
+        return if (item.itemId == android.R.id.home) {
             finish()
             true
-            }
-        else {
+        } else {
             return super.onOptionsItemSelected(item)
         }
     }
@@ -105,9 +104,9 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
 
     }
 
-    private fun setupObserver(){
+    private fun setupObserver() {
         viewModel.getUsers().observe(this, {
-            when(it.status){
+            when (it.status) {
                 com.envyglit.core.ui.utils.Status.SUCCESS -> {
                     it.data?.let { data ->
                         binding.progressBar.gone()
@@ -157,18 +156,18 @@ class UsersActivity : AppCompatActivity(), GetTitleOfGroupDialog.GetTitleDialogL
         binding.chipGroup.addView(chip)
     }
 
-    private fun updateChips(listUsers: List<UserItem>){
+    private fun updateChips(listUsers: List<UserItem>) {
         binding.chipGroup.visibility = if (listUsers.isEmpty()) View.GONE else View.VISIBLE
         val users = listUsers.associateBy { user -> user.id }
             .toMutableMap()
 
         val views = binding.chipGroup.children.associateBy { view -> view.tag }
 
-        for((k, v) in views){
+        for ((k, v) in views) {
             if (users.containsKey(k)) binding.chipGroup.removeView(v)
             else users.remove(k)
         }
-        users.forEach{ (_, v) ->addChipToGroup(v)}
+        users.forEach { (_, v) -> addChipToGroup(v) }
     }
 
     private fun openDialog() {

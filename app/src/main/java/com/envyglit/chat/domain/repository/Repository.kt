@@ -1,6 +1,5 @@
 package com.envyglit.chat.domain.repository
 
-import com.envyglit.core.domain.entities.chat.Chat
 import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.user.User
 import com.google.firebase.firestore.ListenerRegistration

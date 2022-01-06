@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.envyglit.core.ui.extensions.toChat
+import com.envyglit.core.data.extensions.toChat
 import com.envyglit.core.ui.extensions.toUser
 import com.envyglit.core.domain.entities.chat.Chat
 import com.envyglit.core.domain.entities.message.BaseMessage

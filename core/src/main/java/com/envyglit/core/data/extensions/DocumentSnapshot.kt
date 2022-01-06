@@ -1,10 +1,13 @@
-package com.envyglit.core.ui.extensions
+package com.envyglit.core.data.extensions
 
+import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.message.ImageMessage
+import com.envyglit.core.domain.entities.message.TextMessage
+import com.envyglit.core.domain.entities.user.User
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
-import com.envyglit.core.domain.entities.chat.Chat
 import org.json.JSONObject
 
 fun DocumentSnapshot.toChat(): Chat {
@@ -22,8 +25,9 @@ fun DocumentSnapshot.toChat(): Chat {
 
     val id = this["id"].toString()
     val title = this["title"].toString()
-    val members = mutableListOf<com.envyglit.core.domain.entities.user.User>()
+    val members = mutableListOf<User>()
     val archived = this["archived"].toString() == "true"
+    val single = this["single"].toString() == "true"
 
     val jsonMembers = this["members"]?.let { jsonMember ->
         jsonMember as ArrayList<*>
@@ -31,7 +35,7 @@ fun DocumentSnapshot.toChat(): Chat {
     }
 
     jsonMembers?.forEach {
-        members.add(gson.fromJson(it.toString(), com.envyglit.core.domain.entities.user.User::class.java))
+        members.add(gson.fromJson(it.toString(), User::class.java))
     }
 
     val jsonMessage = this.get("lastMessage")?.let {
@@ -40,11 +44,11 @@ fun DocumentSnapshot.toChat(): Chat {
 
 
     val message = if(jsonMessage?.get("type")  == "text"){
-        gson.fromJson(jsonMessage.toString(), com.envyglit.core.domain.entities.message.TextMessage::class.java)
+        gson.fromJson(jsonMessage.toString(), TextMessage::class.java)
     }
     else {
-        gson.fromJson(jsonMessage.toString(), com.envyglit.core.domain.entities.message.ImageMessage::class.java)
+        gson.fromJson(jsonMessage.toString(), ImageMessage::class.java)
     }
 
-    return Chat(id, title, members, message, archived)
+    return Chat(id, title, members, message, archived, single)
 }

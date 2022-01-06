@@ -1,4 +1,4 @@
-package com.envyglit.chat.util
+package com.envyglit.core.utils
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
