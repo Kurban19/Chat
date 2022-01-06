@@ -3,6 +3,8 @@ package com.envyglit.chat.presentation.activities.chat
 import androidx.lifecycle.ViewModel
 import com.envyglit.chat.domain.repository.Repository
 import com.envyglit.core.domain.entities.chat.Chat
+import com.envyglit.core.domain.entities.message.BaseMessage
+import com.envyglit.core.domain.entities.user.User
 import com.google.firebase.firestore.ListenerRegistration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,11 +20,11 @@ class ChatViewModel @Inject constructor(
         return Chat()
     }
 
-    fun addChatMessagesListener(chatId: String, onListen: (List<com.envyglit.core.domain.entities.message.BaseMessage>) -> Unit): ListenerRegistration {
+    fun addChatMessagesListener(chatId: String, onListen: (List<BaseMessage>) -> Unit): ListenerRegistration {
         return repository.addMessagesListener(chatId, onListen)
     }
 
-    fun sendMessage(message: com.envyglit.core.domain.entities.message.BaseMessage, chatId: String){
+    fun sendMessage(message: BaseMessage, chatId: String){
         repository.sendMessage(message, chatId)
     }
 
@@ -30,7 +32,7 @@ class ChatViewModel @Inject constructor(
 //        repository.updateChat(chat)
     }
 
-    fun findUserById(userId: String): com.envyglit.core.domain.entities.user.User {
+    fun findUserById(userId: String): User {
         return repository.findUserById(userId)!!
     }
 

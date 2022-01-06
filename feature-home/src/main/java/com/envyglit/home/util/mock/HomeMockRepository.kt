@@ -1,4 +1,4 @@
-package com.envyglit.chat.util.mock
+package com.envyglit.home.util.mock
 
 import com.envyglit.core.domain.entities.chat.Chat
 import com.envyglit.core.utils.DataGenerator
