@@ -48,7 +48,7 @@ android {
 dependencies {
     implementation project(':compose')
     implementation project(':core')
-    implementation project(':feature-home')
+    implementation project(':feature-main')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
