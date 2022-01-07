@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.activities.users
+package com.envyglit.users.ui
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -10,18 +10,15 @@ import android.view.View
 import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ActivityUsersBinding
+import com.envyglit.chat.presentation.activities.users.UsersViewModel
 import com.envyglit.core.ui.extensions.showToast
 import com.envyglit.chat.presentation.adapters.UserAdapter
 import com.envyglit.chat.presentation.dialogs.GetTitleOfGroupDialog
 import com.envyglit.core.ui.entities.user.UserItem
-import com.envyglit.core.ui.extensions.gone
-import com.envyglit.core.ui.extensions.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

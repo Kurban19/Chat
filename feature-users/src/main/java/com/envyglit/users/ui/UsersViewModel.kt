@@ -1,10 +1,10 @@
 package com.envyglit.chat.presentation.activities.users
 
 import androidx.lifecycle.*
-import com.envyglit.chat.domain.repository.Repository
 import com.envyglit.core.ui.entities.user.UserItem
 import com.envyglit.core.ui.extensions.mutableLiveData
 import com.envyglit.core.ui.utils.Resource
+import com.envyglit.users.domain.UsersInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -23,7 +23,7 @@ data class UsersUiState(
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
-        private val repository: Repository
+        private val interactor: UsersInteractor
         ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UsersUiState(loading = true))
@@ -42,7 +42,7 @@ class UsersViewModel @Inject constructor(
     private fun fetchUsers(){
         userItems.postValue(Resource.loading(null))
         disposable.add(
-            repository.getUsers()
+            interactor.fetchUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { listOfUsers -> listOfUsers.map { it.toUserItem() } }
@@ -95,11 +95,11 @@ class UsersViewModel @Inject constructor(
 
 
     fun handleCreatedChat() {
-        repository.createChat(repository.findUserById(selectedItems.value!!.first().id)!!)
+        interactor.createChat(interactor.findUserById(selectedItems.value!!.first().id))
     }
 
     fun handleCreatedGroupChat(titleOfGroup: String){
-        repository.createGroupChat(repository.findUsers(selectedItems.value!!.map { it.id }.toMutableList())!!, titleOfGroup)
+        interactor.createGroupChat(interactor.findUsers(selectedItems.value!!.map { it.id }.toMutableList()), titleOfGroup)
     }
 
     fun getSizeOfSelectedItems(): Int {

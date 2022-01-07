@@ -1,33 +1,13 @@
 package com.envyglit.chat.presentation.activities.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.SearchView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.envyglit.chat.R
 import com.envyglit.chat.databinding.ActivityMainBinding
-import com.envyglit.core.ui.extensions.showToast
 import com.envyglit.chat.presentation.ChatApp
 import com.envyglit.chat.presentation.adapters.ChatAdapter
-import com.envyglit.chat.presentation.adapters.ChatItemTouchHelperCallback
-import com.envyglit.chat.presentation.activities.archive.ArchiveActivity
-import com.envyglit.chat.presentation.activities.chat.ChatActivity
-import com.envyglit.chat.presentation.activities.profile.ProfileActivity
-import com.envyglit.chat.presentation.activities.users.UsersActivity
-import com.envyglit.core.domain.entities.chat.ChatType
-import com.envyglit.core.ui.extensions.gone
-import com.envyglit.core.ui.extensions.visible
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
