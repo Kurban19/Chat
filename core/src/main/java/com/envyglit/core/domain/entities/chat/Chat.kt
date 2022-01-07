@@ -53,8 +53,6 @@ data class Chat(
 
             val user = members.find {  FirebaseAuth.getInstance().currentUser?.uid != it.id } ?: User() //TODO delete FirebaseAuth
 
-            Log.d("Logger", user.toString())
-
             ChatItem(
                 id,
                 user.avatar,

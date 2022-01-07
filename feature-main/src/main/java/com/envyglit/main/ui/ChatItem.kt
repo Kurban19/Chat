@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
@@ -29,13 +30,23 @@ fun ChatListItem(item: ChatItem, navigateToChat: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(79.dp)
-            .padding(16.dp)
+            .padding(8.dp)
             .clickable(onClick = { navigateToChat(item.id) })
     ) {
-        Log.d("Logger", item.toString())
         Image(
-            painter = rememberImagePainter(StorageUtils.pathToReference(item.avatar.orEmpty())),
+            painter = rememberImagePainter(
+                data = if (!item.avatar.isNullOrBlank()) {
+                    Log.d("Logger", item.avatar.toString())
+                    StorageUtils.pathToReference(item.avatar!!)
+                } else null,
+                builder = {
+                    crossfade(false)
+//                    placeholder(R.drawable.placeholder) //TODO Add placeholder
+                }
+            ),
+//            painter = rememberImagePainter("https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .width(dimensionResource(R.dimen.avatar_item_size))
                 .height(dimensionResource(R.dimen.avatar_item_size))

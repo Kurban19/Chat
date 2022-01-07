@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.envyglit.compose.components.FullScreenLoading
 import com.envyglit.compose.components.ToolBar
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -28,19 +29,21 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = { ToolBar() },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToUsers
-            ) {
+            FloatingActionButton(onClick = navigateToUsers) {
                 Icon(Icons.Filled.Add, "")
             }
         }
     ) {
-        LazyColumn(contentPadding = PaddingValues(end = 120.dp)) {
-            items(state.value.chatItems.size) { index ->
-                ChatListItem(
-                    state.value.chatItems[index],
-                    navigateToChat
-                )
+        if (state.value.loading) {
+            FullScreenLoading()
+        } else {
+            LazyColumn(contentPadding = PaddingValues(bottom = 79.dp)) {
+                items(state.value.chatItems.size) { index ->
+                    ChatListItem(
+                        state.value.chatItems[index],
+                        navigateToChat
+                    )
+                }
             }
         }
     }

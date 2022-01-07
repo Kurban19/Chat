@@ -46,7 +46,7 @@ fun ToolBar(
         },
         backgroundColor = MaterialTheme.colors.background,
         elevation = elevation,
-        modifier = Modifier
+        modifier = modifier
             .statusBarsPadding()
             .navigationBarsPadding(bottom = false)
     )

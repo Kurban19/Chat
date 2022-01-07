@@ -12,6 +12,8 @@ import com.envyglit.chat.databinding.*
 import com.envyglit.core.utils.StorageUtils
 import com.envyglit.core.domain.entities.chat.ChatType
 import com.envyglit.core.ui.entities.chat.ChatItem
+import com.envyglit.core.ui.glide.GlideApp
+
 //import com.envyglit.core.ui.glide.GlideApp
 
 class ChatAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {

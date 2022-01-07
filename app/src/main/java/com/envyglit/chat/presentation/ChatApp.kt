@@ -17,7 +17,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun ChatApp() {
 
     ChatTheme {
-        ProvideWindowInsets {
+        ProvideWindowInsets(consumeWindowInsets = false) {
             val systemUiController = rememberSystemUiController()
             val darkIcons = MaterialTheme.colors.isLight
             SideEffect {
@@ -25,7 +25,6 @@ fun ChatApp() {
             }
 
             val navController = rememberNavController()
-//            val coroutineScope = rememberCoroutineScope()
             val scaffoldState = rememberScaffoldState()
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
