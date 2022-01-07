@@ -1,12 +1,10 @@
 package com.envyglit.core.domain.entities.user
 
-import androidx.room.Entity
 import com.envyglit.core.ui.entities.user.UserItem
 import com.envyglit.core.ui.extensions.humanizeDiff
 import com.envyglit.core.ui.utils.Utils
 import java.util.*
 
-@Entity(tableName = "Users")
 data class User (
     val id:String = "",
     val firstName:String = "",

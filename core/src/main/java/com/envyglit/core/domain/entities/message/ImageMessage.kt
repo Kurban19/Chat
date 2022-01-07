@@ -6,21 +6,21 @@ import java.util.*
 
 class ImageMessage(
     id: String = "",
-    from: User = User(), //TODO set from to nullable
+    from: User? = null,
     isIncoming: Boolean = false,
     isRead: Boolean = false,
     group: Boolean = false,
     date: Date = Date(),
     override val type: String = "image",
     var image: String = ""
-) : com.envyglit.core.domain.entities.message.BaseMessage(id, from, isIncoming, isRead, group, date, type){
+) : BaseMessage(id, from, isIncoming, isRead, group, date, type){
 
-    override fun formatMessage(): String = "id $id ${from.firstName} " +
+    override fun formatMessage(): String = "id $id ${from?.firstName.orEmpty()} " +
             "${if(isIncoming) "получил" else " отправил"} сообщение \"$image\" ${date.humanizeDiff()}"
 
     companion object Factory {
         private var lastId : Int = -1
-        fun makeMessage(imagePath: String, from: User, group: Boolean) : com.envyglit.core.domain.entities.message.BaseMessage {
+        fun makeMessage(imagePath: String, from: User, group: Boolean) : BaseMessage {
             lastId++
             return ImageMessage(
                     id = "$lastId",

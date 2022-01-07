@@ -14,7 +14,6 @@ class ChatViewModel @Inject constructor(
         private val repository: Repository
         ) : ViewModel(){
 
-
     fun getChat(chatId: String): Chat {
 //        return repository.findChatById(chatId)!! //TODO change to nullable
         return Chat()

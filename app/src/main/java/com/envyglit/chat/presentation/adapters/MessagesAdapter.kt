@@ -86,7 +86,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
 
         override fun bind(item: com.envyglit.core.domain.entities.message.BaseMessage, holder: AbstractViewHolder) {
 
-            if (item.from.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
+            if (item.from?.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
                 binding.messageRoot.apply {
                     setBackgroundResource(R.drawable.rect_round_blue)
                     val lParams = FrameLayout.LayoutParams(
@@ -130,7 +130,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
 
         override fun bind(item: com.envyglit.core.domain.entities.message.BaseMessage, holder: AbstractViewHolder) {
 
-            if (item.from.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
+            if (item.from?.id == FirebaseAuth.getInstance().currentUser?.uid.orEmpty()) {
                 binding.groupMessageRoot.apply {
                     setBackgroundResource(R.drawable.rect_round_blue)
                     val lParams = FrameLayout.LayoutParams(
@@ -152,7 +152,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.AbstractViewHolder>
                     this.layoutParams = lParams
                     binding.tvGroupMessageAuthor.apply {
                         visibility = View.VISIBLE
-                        text = item.from.firstName
+                        text = item.from?.firstName
                     }
                 }
             }

@@ -5,7 +5,7 @@ import java.util.*
 
 abstract class BaseMessage(
     val id: String = "",
-    val from: User = User(), //TODO set from to nullable
+    val from: User? = null,
     val isIncoming: Boolean = false,
     var read: Boolean = false,
     var group: Boolean = false,

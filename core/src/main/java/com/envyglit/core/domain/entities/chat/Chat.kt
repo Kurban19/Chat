@@ -40,8 +40,8 @@ data class Chat(
     }
 
     fun lastMessageShort(): Pair<String, String> = when (val lastMessage = lastMessage) {
-        is TextMessage -> lastMessage.text to lastMessage.from.firstName
-        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to lastMessage.from.firstName
+        is TextMessage -> lastMessage.text to lastMessage.from?.firstName.orEmpty()
+        is ImageMessage -> "${lastMessage.from?.firstName.orEmpty()} - отправил фото" to lastMessage.from?.firstName.orEmpty()
         else -> "Сообщений еще нет" to "undefine"
     }
 
