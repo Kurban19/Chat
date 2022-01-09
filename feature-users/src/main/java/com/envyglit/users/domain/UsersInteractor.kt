@@ -16,8 +16,8 @@ class UsersInteractor @Inject constructor(
         repository.createChat(user)
     }
 
-    fun createGroupChat(findUsers: List<User>, titleOfGroup: String) {
-
+    fun createGroupChat(users: List<User>, titleOfGroup: String) {
+        repository.createGroupChat(users, titleOfGroup)
     }
 
     fun findUserById(userId: String): User {

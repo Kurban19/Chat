@@ -15,12 +15,12 @@ import dagger.hilt.components.SingletonComponent
 class MainModule {
 
     @Provides
-    fun providesHomeRepository(firebaseService: FireBaseService): MainRepository {
+    fun providesMainRepository(firebaseService: FireBaseService): MainRepository {
         return MainRepositoryImpl(firebaseService)
     }
 
     @Provides
-    fun providesHomeInteractor(repository: MainRepository): MainInteractor {
+    fun providesMainInteractor(repository: MainRepository): MainInteractor {
         return MainInteractorImpl(repository)
     }
 

@@ -125,14 +125,15 @@ class FireBaseServiceImpl : FireBaseService {
             }
     }
 
-    override fun createGroupChat(listOfUsers: MutableList<User>, titleOfChat: String) {
+    override fun createGroupChat(listOfUsers: List<User>, titleOfChat: String) {
         val currentUser = FirebaseAuth.getInstance().currentUser?.toUser()
         currentUser ?: throw KotlinNullPointerException("Current user is null")
         val newChat = chatsCollectionRef.document()
-        listOfUsers.add(currentUser)
+        val mutableListOfUsers = listOfUsers.toMutableList()
+        mutableListOfUsers.add(currentUser)
         newChat.set(Chat(newChat.id, titleOfChat, listOfUsers, null, false))
 
-        listOfUsers.forEach {
+        mutableListOfUsers.forEach {
             fireStoreInstance.collection(USERS).document(it.id)
                 .collection(ENGAGED_CHATS)
                 .document(newChat.id)

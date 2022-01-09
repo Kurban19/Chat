@@ -14,7 +14,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.envyglit.chat.presentation.activities.users.UserListItem
 import com.envyglit.chat.presentation.activities.users.UsersViewModel
 import com.envyglit.compose.components.ToolBar
 
