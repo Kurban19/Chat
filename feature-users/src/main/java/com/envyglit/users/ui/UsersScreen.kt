@@ -28,14 +28,7 @@ fun UsersScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(),
-        topBar = { ToolBar() },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {  }
-            ) {
-                Icon(Icons.Filled.Add, "")
-            }
-        }
+        topBar = { ToolBar() }
     ) {
         LazyColumn(contentPadding = PaddingValues(end = 20.dp)) {
             items(state.value.userItems.size) { index ->

@@ -16,7 +16,7 @@ import com.envyglit.compose.components.ToolBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeScreen(
+fun MainScreen(
     navigateToChat: (String) -> Unit,
     navigateToUsers: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
@@ -49,4 +49,3 @@ fun HomeScreen(
     }
 
 }
-

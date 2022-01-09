@@ -6,15 +6,19 @@ import com.envyglit.core.data.remote.FireBaseService
 import com.envyglit.core.domain.entities.message.BaseMessage
 import com.envyglit.core.domain.entities.user.User
 import com.google.firebase.firestore.ListenerRegistration
-import javax.inject.Singleton
 
-@Singleton
 class RepositoryImpl(private val fireBaseService: FireBaseService) : Repository {
 
     val users = MutableLiveData<List<User>>(listOf())
 
     override fun sendMessage(message: BaseMessage, chatId: String) {
         fireBaseService.sendMessage(message, chatId)
+    }
+
+    override fun findUserById(userId: String): User {
+        val user = users.value?.find { it.id == userId }
+        user ?: throw KotlinNullPointerException("User not found")
+        return user
     }
 
     override fun addMessagesListener(

@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -31,19 +30,19 @@ fun UserListItem(item: UserItem) {
     ) {
         if (item.isSelected) {
             Image(
-                painter = painterResource(id = R.drawable.ic_done_black_24dp),
+                painter = painterResource(id = com.envyglit.users.R.drawable.ic_done_black_24dp),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(dimensionResource(R.dimen.icon_size))
-                    .height(dimensionResource(R.dimen.icon_size))
+                    .width(dimensionResource(com.envyglit.core.R.dimen.icon_size))
+                    .height(dimensionResource(com.envyglit.core.R.dimen.icon_size))
             )
         }
         Image(
             painter = rememberImagePainter(item.avatar),
             contentDescription = null,
             modifier = Modifier
-                .width(dimensionResource(R.dimen.avatar_item_size))
-                .height(dimensionResource(R.dimen.avatar_item_size))
+                .width(dimensionResource(com.envyglit.core.R.dimen.avatar_item_size))
+                .height(dimensionResource(com.envyglit.core.R.dimen.avatar_item_size))
                 .clip(RoundedCornerShape(20.dp))
         )
 
@@ -56,7 +55,7 @@ fun UserListItem(item: UserItem) {
             Text(
                 item.fullName,
                 style = TextStyle(
-                    colorResource(R.color.color_primary),
+                    MaterialTheme.colors.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -66,7 +65,7 @@ fun UserListItem(item: UserItem) {
             Text(
                 lastActivity,
                 style = TextStyle(
-                    colorResource(R.color.color_gray_dark),
+                    MaterialTheme.colors.onPrimary,
                     fontSize = 14.sp,
                 )
             )

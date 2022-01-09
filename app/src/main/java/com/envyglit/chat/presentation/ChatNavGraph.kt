@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.envyglit.main.ui.HomeScreen
+import com.envyglit.main.ui.MainScreen
 import com.envyglit.users.ui.UsersScreen
 
 object MainDestinations {
@@ -30,7 +30,7 @@ fun ChatNavGraph(
         startDestination = startDestination
     ) {
         composable(MainDestinations.HOME_ROUTE) {
-            HomeScreen(
+            MainScreen(
                 navigateToChat = actions.navigateToChat,
                 navigateToUsers = actions.navigateToUsers
             )

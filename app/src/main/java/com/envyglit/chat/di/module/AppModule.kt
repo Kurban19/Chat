@@ -1,7 +1,7 @@
 package com.envyglit.chat.di.module
 
+import com.envyglit.chat.data.repository.RepositoryImpl
 import com.envyglit.chat.domain.repository.Repository
-import com.envyglit.chat.util.mock.MockRepository
 import com.envyglit.core.data.remote.FireBaseService
 import dagger.Module
 import dagger.Provides
@@ -14,7 +14,7 @@ class AppModule {
 
     @Provides
     fun providesMainRepository(firebaseService: FireBaseService): Repository {
-        return MockRepository()
+        return RepositoryImpl(firebaseService)
     }
 
 }
