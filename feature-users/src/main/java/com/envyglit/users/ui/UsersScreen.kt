@@ -1,4 +1,4 @@
-package com.envyglit.chat.presentation.activities.users
+package com.envyglit.users.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +14,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.envyglit.chat.presentation.activities.users.UserListItem
+import com.envyglit.chat.presentation.activities.users.UsersViewModel
 import com.envyglit.compose.components.ToolBar
 
 @Composable

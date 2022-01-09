@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.envyglit.main.ui.HomeScreen
-import com.envyglit.chat.presentation.activities.users.UsersScreen
+import com.envyglit.users.ui.UsersScreen
 
 object MainDestinations {
     const val HOME_ROUTE = "home"

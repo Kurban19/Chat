@@ -22,6 +22,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
 private val Yellow400 = Color(0xFFF6E547)
@@ -74,10 +75,13 @@ fun ChatTheme(
 ) {
     val myColors = colors ?: if (isDarkTheme) JetchatDarkPalette else JetchatLightPalette
 
-    MaterialTheme(
-        colors = JetchatLightPalette,
-        content = content,
-        typography = Typography,
-        shapes = Shapes
-    )
+    CompositionLocalProvider(LocalSpacing provides Spacing()) {
+        MaterialTheme(
+            colors = JetchatLightPalette,
+            content = content,
+            typography = Typography,
+            shapes = Shapes
+        )
+    }
+
 }
